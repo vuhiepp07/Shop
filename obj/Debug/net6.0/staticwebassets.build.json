@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "BEbCwakifMumMGdzmLcnVCeKvQXpoOtdw8bMuDG4ck0=",
+  "Source": "Shop",
+  "BasePath": "_content/Shop",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Shop\\wwwroot",
+      "Source": "Shop",
+      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
+      "BasePath": "_content/Shop",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
