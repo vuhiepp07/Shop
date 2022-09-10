@@ -3,7 +3,7 @@ using Shop.Models;
 
 namespace Shop.Controllers{
     public class HomeController: BaseController{
-        public HomeController(SiteProvider provider, AppDbContext dbContext) : base(provider, dbContext)
+        public HomeController(SiteProvider provider) : base(provider)
         {
         }
 

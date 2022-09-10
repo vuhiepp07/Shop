@@ -12,8 +12,8 @@ using Shop.Models;
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220906164332_InitDB")]
-    partial class InitDB
+    [Migration("20220910165341_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,17 +34,18 @@ namespace Shop.Migrations
 
                     b.Property<string>("BrandName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BrandId");
+
+                    b.HasIndex("BrandName")
+                        .IsUnique();
 
                     b.ToTable("Brand", (string)null);
                 });
@@ -58,7 +59,9 @@ namespace Shop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("NumOfProducts")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("BrandId", "CategoryId");
 
@@ -80,7 +83,9 @@ namespace Shop.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"), 1L, 1);
 
                     b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -102,7 +107,9 @@ namespace Shop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.HasKey("CartId", "ProductId");
 
@@ -127,10 +134,12 @@ namespace Shop.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("CategoryName")
+                        .IsUnique();
 
                     b.ToTable("Category", (string)null);
                 });
@@ -145,7 +154,7 @@ namespace Shop.Migrations
 
                     b.Property<string>("DiscountName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("DiscountPercentage")
                         .HasColumnType("float");
@@ -163,6 +172,9 @@ namespace Shop.Migrations
 
                     b.HasKey("DiscountId");
 
+                    b.HasIndex("DiscountName")
+                        .IsUnique();
+
                     b.ToTable("Discount", (string)null);
                 });
 
@@ -179,14 +191,15 @@ namespace Shop.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DiscountId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("ReceiveAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -197,7 +210,6 @@ namespace Shop.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserNote")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderId");
@@ -233,7 +245,9 @@ namespace Shop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductDiscountId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -257,14 +271,13 @@ namespace Shop.Migrations
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("DateOfBirth")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Gender")

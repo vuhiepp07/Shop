@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Shop.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,9 +15,9 @@ namespace Shop.Migrations
                 {
                     BrandId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrandName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,7 +31,7 @@ namespace Shop.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,7 @@ namespace Shop.Migrations
                 {
                     DiscountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DiscountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiscountName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StartDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EndDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DiscountPercentage = table.Column<double>(type: "float", nullable: false),
@@ -59,13 +59,13 @@ namespace Shop.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<bool>(type: "bit", nullable: false),
-                    DateOfBirth = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DateOfBirth = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,7 +78,7 @@ namespace Shop.Migrations
                 {
                     BrandId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    NumOfProducts = table.Column<int>(type: "int", nullable: false)
+                    NumOfProducts = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -106,10 +106,10 @@ namespace Shop.Migrations
                     ReceiveAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalPrice = table.Column<int>(type: "int", nullable: false),
-                    UserNote = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserNote = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DiscountId = table.Column<int>(type: "int", nullable: false)
+                    DiscountId = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -135,7 +135,7 @@ namespace Shop.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ProductDiscountId = table.Column<int>(type: "int", nullable: false)
+                    ProductDiscountId = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -166,7 +166,7 @@ namespace Shop.Migrations
                 {
                     CartId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalPrice = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -186,7 +186,7 @@ namespace Shop.Migrations
                 {
                     CartId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
                 {
@@ -204,6 +204,12 @@ namespace Shop.Migrations
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Brand_BrandName",
+                table: "Brand",
+                column: "BrandName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrandCategory_BrandId",
@@ -233,6 +239,18 @@ namespace Shop.Migrations
                 name: "IX_CartDetail_ProductId",
                 table: "CartDetail",
                 column: "ProductId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Category_CategoryName",
+                table: "Category",
+                column: "CategoryName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Discount_DiscountName",
+                table: "Discount",
+                column: "DiscountName",
                 unique: true);
 
             migrationBuilder.CreateIndex(

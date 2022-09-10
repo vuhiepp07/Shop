@@ -26,11 +26,19 @@ namespace Shop.Models{
                 entity.ToTable("Category");
                 entity.HasKey(p=> p.CategoryId);
                 entity.Property(p => p.CategoryName).IsRequired(true);
+                entity.Property(p => p.Description).IsRequired(false);
+                entity.Property(p => p.CategoryId).ValueGeneratedOnAdd();
+                entity.HasIndex(p => p.CategoryName).IsUnique(true);
             });
 
             builder.Entity<Brand>(entity => {
                 entity.ToTable("Brand");
                 entity.HasKey(p => p.BrandId);
+                entity.Property(p => p.Description).IsRequired(false);
+                entity.Property(p => p.ImageUrl).IsRequired(false);
+                entity.Property(p => p.BrandId).ValueGeneratedOnAdd();
+                entity.HasIndex(p => p.BrandName).IsUnique(true);
+
             });
 
             builder.Entity<BrandCategory>(entity => {
@@ -42,13 +50,16 @@ namespace Shop.Models{
                 entity.HasOne(p => p.Category)
                     .WithOne(p => p.BrandCategory)
                     .HasForeignKey<BrandCategory>(p => p.CategoryId);
+                entity.Property(p => p.NumOfProducts).HasDefaultValue(0);
             });
 
             builder.Entity<User>(entity => {
                 entity.ToTable("User");
                 entity.HasKey(p => p.UserId);
-                entity.Property(p => p.Username).IsRequired(true);
-                entity.Property(p => p.Password);
+                entity.Property(p => p.Email).IsRequired(false);
+                entity.Property(p => p.DateOfBirth).IsRequired(false);
+                entity.Property(p => p.UserId).HasDefaultValueSql("NEWID()");
+
             });
 
             builder.Entity<Cart>(entity => {
@@ -58,6 +69,8 @@ namespace Shop.Models{
                 entity.HasOne(p => p.User)
                     .WithOne( p => p.Cart)
                     .HasForeignKey<Cart>(p => p.UserId);
+                entity.Property(p => p.TotalPrice).HasDefaultValue(0);
+                entity.Property(p => p.CartId).ValueGeneratedOnAdd();
             });
 
             builder.Entity<CartDetail>(entity => {
@@ -69,11 +82,15 @@ namespace Shop.Models{
                 entity.HasOne(p => p.Product)
                     .WithOne(p => p.CartDetail)
                     .HasForeignKey<CartDetail>(p => p.ProductId);
+                entity.Property(p => p.Quantity).HasDefaultValue(1);
+
             });
 
             builder.Entity<Discount>(entity =>{
                 entity.ToTable("Discount");
                 entity.HasKey(p => p.DiscountId);
+                entity.Property(p => p.DiscountId).ValueGeneratedOnAdd();
+                entity.HasIndex(p => p.DiscountName).IsUnique(true);
             });
 
             builder.Entity<Order>(entity =>{
@@ -82,6 +99,10 @@ namespace Shop.Models{
                 entity.HasOne(p => p.Discount)
                     .WithMany(p => p.OrderDiscounts)
                     .HasForeignKey(p => p.DiscountId);
+                entity.Property(p => p.UserNote).IsRequired(false);
+                entity.Property(p => p.ReceiverName).IsRequired(false);
+                entity.Property(p => p.DiscountId).HasDefaultValue(0);
+                entity.Property(p => p.OrderId).ValueGeneratedOnAdd();
             });
 
             builder.Entity<Product>(entity => {
@@ -96,6 +117,8 @@ namespace Shop.Models{
                 entity.HasOne(p => p.Discount)
                     .WithMany(p => p.DiscountProducts)
                     .HasForeignKey(p => p.ProductDiscountId);
+                entity.Property(p => p.ProductDiscountId).HasDefaultValue(0);
+                entity.Property(p => p.ProductId).ValueGeneratedOnAdd();
             });
         }
     }

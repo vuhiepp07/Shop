@@ -7,7 +7,6 @@ namespace Shop.Models{
         public string Phone {get; set;}
         public bool Gender {get; set;}
         public string DateOfBirth {get; set;}
-
         public virtual Cart Cart {get; set;}
     }
 }

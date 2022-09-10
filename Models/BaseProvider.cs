@@ -5,8 +5,11 @@ namespace Shop.Models{
     public class BaseProvider : IDisposable
     {
         IDbConnection connection;
+        protected AppDbContext dbContext;
+
         protected IConfiguration configuration;
-        public BaseProvider(IConfiguration configuration){
+        public BaseProvider(IConfiguration configuration, AppDbContext dbContext){
+            this.dbContext = dbContext;
             this.configuration = configuration;
         }
         protected IDbConnection Connection{

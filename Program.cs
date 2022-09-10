@@ -8,7 +8,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     string connectionString = builder.Configuration.GetConnectionString("Shop");
     options.UseSqlServer(connectionString);
 });
-builder.Services.AddScoped(p => new SiteProvider(builder.Configuration));
+builder.Services.AddScoped(p => new SiteProvider(builder.Configuration, p.GetRequiredService<AppDbContext>()));
 var app = builder.Build();
 
 //app.MapGet("/", () => "Hello World!");

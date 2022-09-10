@@ -4,7 +4,7 @@ using Shop.Models;
 namespace Shop.Controllers{
     public class ProductController : BaseController
     {
-        public ProductController(SiteProvider provider, AppDbContext dbContext) : base(provider, dbContext)
+        public ProductController(SiteProvider provider) : base(provider)
         {
         }
 
