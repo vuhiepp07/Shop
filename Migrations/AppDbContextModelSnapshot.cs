@@ -63,11 +63,9 @@ namespace Shop.Migrations
 
                     b.HasKey("BrandId", "CategoryId");
 
-                    b.HasIndex("BrandId")
-                        .IsUnique();
+                    b.HasIndex("BrandId");
 
-                    b.HasIndex("CategoryId")
-                        .IsUnique();
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("BrandCategory", (string)null);
                 });
@@ -128,8 +126,9 @@ namespace Shop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
 
-                    b.Property<int>("CategoryName")
-                        .HasColumnType("int");
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -149,6 +148,9 @@ namespace Shop.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountId"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DiscountName")
                         .IsRequired()
@@ -245,7 +247,7 @@ namespace Shop.Migrations
                     b.Property<int>("ProductDiscountId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasDefaultValue(11);
 
                     b.Property<string>("ProductName")
                         .IsRequired()

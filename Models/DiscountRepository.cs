@@ -14,7 +14,7 @@ namespace Shop.Models{
 
         public int Create(Discount obj){
             return connection.Execute("insert into Discount(DiscountName, DiscountPercentage, StartDate, EndDate, Quantity) values" +
-            "(@DiscountName, @StartDate, @EndDate, @DiscountPercentage, @Quantity)", obj);
+            "(@DiscountName, @DiscountPercentage, @StartDate, @EndDate, @Quantity)", obj);
         }
 
         public Discount GetDiscountById(int id){

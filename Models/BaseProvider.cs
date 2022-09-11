@@ -6,7 +6,6 @@ namespace Shop.Models{
     {
         IDbConnection connection;
         protected AppDbContext dbContext;
-
         protected IConfiguration configuration;
         public BaseProvider(IConfiguration configuration, AppDbContext dbContext){
             this.dbContext = dbContext;
@@ -22,8 +21,11 @@ namespace Shop.Models{
         }
         public void Dispose()
         {
-            if(connection is null){
+            if(connection != null){
                 connection.Dispose();
+            }
+            if(dbContext != null){
+                dbContext.Dispose();
             }
         }
     }

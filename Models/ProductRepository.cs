@@ -43,8 +43,8 @@ namespace Shop.Models{
         }
 
         public int CreateProduct(Product obj){
-            string sql = "Insert into Product(Productname, Quantity, Price, Description, ImageUrl, CategoryId, BrandId, ProductDiscountId)" + 
-                "values(@ProductName, @Quantity, @Price, @Description, @ImageUrl, @CategoryId, @BrandId, @ProductDiscountId)";
+            string sql = "Insert into Product(Productname, Quantity, Price, Description, ImageUrl, CategoryId, BrandId)" + 
+                "values(@ProductName, @Quantity, @Price, @Description, @ImageUrl, @CategoryId, @BrandId)";
                 
             return connection.Execute(sql, new{
                     ProductName = obj.ProductName,
@@ -53,8 +53,7 @@ namespace Shop.Models{
                     Description = obj.Description,
                     ImageUrl = obj.ImageUrl,
                     CategoryId = obj.CategoryId,
-                    BrandId = obj.BrandId,
-                    ProductDiscountId = obj.ProductDiscountId
+                    BrandId = obj.BrandId
                  });
         }
         

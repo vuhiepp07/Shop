@@ -1,0 +1,42 @@
+@model Discount
+
+<form action="/Admin/Discount/Create" method="post">
+    <div>
+        <label>Discount Name: </label>
+        <div>
+            <input type="text" name="DiscountName">
+        </div>
+    </div>
+
+    <div>
+        <label>Start date:</label>
+        <div>
+            <input type="date" name="StartDate">
+        </div>
+    </div>
+
+    <div>
+        <label>End date:</label>
+        <div>
+            <input type="date" name="EndDate">
+        </div>
+    </div>
+
+    <div>
+        <label>Discount percent:</label>
+        <div>
+            <input type="decimal" step="any" min="0" max="99" name="DiscountPercentage">
+        </div>
+    </div>
+
+    
+    <div>
+        <label>Quantity</label>
+        <div>
+            <input type="number" name="Quantity">
+        </div>
+    </div>
+    <div>
+        <button>Save changes</button>
+    </div>
+</form>

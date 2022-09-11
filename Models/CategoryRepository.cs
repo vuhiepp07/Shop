@@ -9,9 +9,7 @@ namespace Shop.Models{
         }
 
         public IEnumerable<Category> GetCategories(){
-            using(dbContext){
-                return dbContext.Category;
-            }
+            return dbContext.Category;
         }
 
         public Category GetCategoryById(int id){

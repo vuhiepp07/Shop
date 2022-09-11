@@ -1,0 +1,63 @@
+@model Product
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<form method="post">
+    <div>
+        <label>Brand</label>
+        <div>
+            <select name="BrandId" style="width: 100px">
+                @foreach(Brand item in ViewBag.brands)
+                {
+                    <option value="@item.BrandId">@item.BrandName</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <label>Category</label>
+        <div>
+            <select name="CategoryId">
+                @foreach(Category item in ViewBag.categories)
+                {
+                    <option value="@item.CategoryId">@item.CategoryName</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <label>Name</label>
+        <input type="text" asp-for="ProductName"/>
+    </div>
+
+    <div>
+        <label>Description</label>
+        <textarea asp-for="Description"></textarea>
+    </div>
+
+    <div>
+        <label>Price</label>
+        <div>
+            <input type="number" asp-for="Price" />
+        </div>
+    </div>
+
+        <div>
+        <label>Quantity</label>
+        <div>
+            <input type="number" asp-for="Quantity" />
+        </div>
+    </div>
+
+    <div>
+        <label>Image</label>
+        <div>
+            <input type="text" asp-for="ImageUrl"/>
+        </div>
+    </div>
+
+    <div>
+        <button name="btnSaveChanges">Save changes</button>
+    </div>
+</form>

@@ -22,6 +22,8 @@ namespace Shop.Models{
         //[Column(TypeName ="float")]
         public double DiscountPercentage {get; set;}
 
+        public string Description {get; set;}
+
         //[Required]
         public int Quantity {get; set;}
 

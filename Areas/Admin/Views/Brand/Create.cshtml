@@ -1,0 +1,29 @@
+@model Brand
+
+<form action="/Admin/brand/create" method="post" enctype="multipart/form-data">
+    <div>
+        <label>Brand Name: </label>
+        <div>
+            <input type="text" name="BrandName">
+        </div>
+    </div>
+
+    <div>
+        <label>Description: </label>
+        <div>
+            <textarea name="description" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+
+    
+    <div>
+        <label>Image: </label>
+        <div>
+            <input type="file" name="f">
+        </div>
+    </div>
+
+    <div>
+        <button>Save changes</button>
+    </div>
+</form>

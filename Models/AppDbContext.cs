@@ -51,6 +51,8 @@ namespace Shop.Models{
                     .WithOne(p => p.BrandCategory)
                     .HasForeignKey<BrandCategory>(p => p.CategoryId);
                 entity.Property(p => p.NumOfProducts).HasDefaultValue(0);
+                entity.HasIndex(p => p.BrandId).IsUnique(false);
+                entity.HasIndex(p => p.CategoryId).IsUnique(false);
             });
 
             builder.Entity<User>(entity => {
@@ -91,6 +93,7 @@ namespace Shop.Models{
                 entity.HasKey(p => p.DiscountId);
                 entity.Property(p => p.DiscountId).ValueGeneratedOnAdd();
                 entity.HasIndex(p => p.DiscountName).IsUnique(true);
+                entity.Property(p => p.Description).IsRequired(false);
             });
 
             builder.Entity<Order>(entity =>{
@@ -117,7 +120,7 @@ namespace Shop.Models{
                 entity.HasOne(p => p.Discount)
                     .WithMany(p => p.DiscountProducts)
                     .HasForeignKey(p => p.ProductDiscountId);
-                entity.Property(p => p.ProductDiscountId).HasDefaultValue(0);
+                entity.Property(p => p.ProductDiscountId).HasDefaultValue(11);
                 entity.Property(p => p.ProductId).ValueGeneratedOnAdd();
             });
         }

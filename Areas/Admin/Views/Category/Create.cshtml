@@ -1,0 +1,22 @@
+@model Category
+
+<form action="/Admin/Category/Create" method="post">
+    <div>
+        <label>Category Name: </label>
+        <div>
+            <input type="text" name="CategoryName">
+        </div>
+    </div>
+
+    <div>
+        <label>Description: </label>
+        <div>
+            <textarea name="Description" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+
+
+    <div>
+        <button>Save changes</button>
+    </div>
+</form>

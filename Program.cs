@@ -16,4 +16,5 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapDefaultControllerRoute();
+app.MapControllerRoute(name: "Admin", pattern: "{area:exists}/{controller=home}/{action=index}/{id?}");
 app.Run();
