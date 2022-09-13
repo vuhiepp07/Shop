@@ -25,5 +25,13 @@ namespace Shop.Areas.Admin.Controllers{
             }
             else return Redirect("/Admin/Discount/Error");
         }
+
+        [HttpPost]
+        public IActionResult Delete(int discountId){
+            if(provider.Discount.Delete(discountId) > 0){
+                return Redirect("/Admin/Discount");
+            }
+            else return Redirect("/Admin/Discount/Error");
+        }
     }
 }

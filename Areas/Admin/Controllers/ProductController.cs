@@ -59,5 +59,13 @@ namespace Shop.Areas.Admin.Controllers{
             }
             else return Redirect("/Admin/Product/Error");
         }
+
+        [HttpPost]
+        public IActionResult Delete(int productId){
+            if(provider.Product.Delete(productId) > 0){
+                return Redirect("/Admin/Product");
+            }
+            else return Redirect("/Admin/Product/Error");
+        }
     }
 }

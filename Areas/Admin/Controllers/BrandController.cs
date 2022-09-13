@@ -20,7 +20,7 @@ namespace Shop.Areas.Admin.Controllers{
 
         [HttpPost]
         public IActionResult Create(Brand obj, IFormFile f){
-            string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "brands");
             if(f != null){
                 string extension = Path.GetExtension(f.FileName);
                 string filename = Helper.RandomString(128 - extension.Length) + extension;

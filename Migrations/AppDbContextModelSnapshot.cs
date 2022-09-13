@@ -247,7 +247,7 @@ namespace Shop.Migrations
                     b.Property<int>("ProductDiscountId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(11);
+                        .HasDefaultValue(1);
 
                     b.Property<string>("ProductName")
                         .IsRequired()

@@ -56,6 +56,15 @@ namespace Shop.Models{
                     BrandId = obj.BrandId
                  });
         }
+
+        public int Delete(int productId){
+            var prod = dbContext.Product.FirstOrDefault<Product>(p => (p.ProductId == productId));
+            if(prod != null){
+                dbContext.Product.Remove((Product)prod);
+                return dbContext.SaveChanges();
+            }
+            return 0;
+        }
         
     }
 }

@@ -28,10 +28,11 @@ namespace Shop.Models{
 
         public int Delete(int id){
             Discount dis = GetDiscountById(id);
-            using(dbContext){
+            if(dis != null){
                 dbContext.Discount.Remove((Discount)dis);
                 return dbContext.SaveChanges();
             }
+            return 0;
         }
 
         public int Edit(Discount obj){

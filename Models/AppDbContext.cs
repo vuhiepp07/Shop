@@ -120,7 +120,7 @@ namespace Shop.Models{
                 entity.HasOne(p => p.Discount)
                     .WithMany(p => p.DiscountProducts)
                     .HasForeignKey(p => p.ProductDiscountId);
-                entity.Property(p => p.ProductDiscountId).HasDefaultValue(11);
+                entity.Property(p => p.ProductDiscountId).HasDefaultValue(1);
                 entity.Property(p => p.ProductId).ValueGeneratedOnAdd();
             });
         }

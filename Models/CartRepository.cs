@@ -6,5 +6,6 @@ namespace Shop.Models{
         public CartRepository(IDbConnection connection, AppDbContext dbContext) : base(connection, dbContext)
         {
         }
+
     }
 }
