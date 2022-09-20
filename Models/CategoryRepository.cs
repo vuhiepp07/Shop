@@ -8,8 +8,8 @@ namespace Shop.Models{
         {
         }
 
-        public IEnumerable<Category> GetCategories(){
-            return dbContext.Category;
+        public List<Category> GetCategories(){
+            return dbContext.Category.ToList();
         }
 
         public Category GetCategoryById(int id){

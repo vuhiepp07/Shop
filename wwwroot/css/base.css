@@ -1,5 +1,9 @@
 :root{
     --text-color: #333 ;
+    --primary-color: rgb(121, 121, 241);
+    --header-height: 120px;
+    --navbar-height: 48px;
+    --searchbar-height: calc(var(--header-height) - var(--navbar-height) - 10px);
 }
 
 *{

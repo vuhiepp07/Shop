@@ -13,12 +13,10 @@ namespace Shop.Models{
         }
 
         public Brand GetBrandById(int id){
-            using(dbContext){
-                var result = from brand in dbContext.Brand
-                                where brand.BrandId == id
-                                select brand;
-                return (Brand)result;
-            }
+            var result = from brand in dbContext.Brand
+                            where brand.BrandId == id
+                            select brand;
+            return result.First();
         }
 
         public int Create(Brand obj){

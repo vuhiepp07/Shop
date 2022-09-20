@@ -14,9 +14,64 @@
 <body>
     <div class="app">
         <header class="header">
-            <nav class="header__navbar">
+            <div class="grid">
+                <nav class="header__navbar">
+                    @foreach (Category item in ViewBag.Categories)
+                    {
+                        <div class="navbar__category">
+                            <div class="navbar__category-label">
+                                <span navbar__category-name>@item.CategoryName</span>
+                                <i class="navbar__category-icon fa-solid fa-angle-down"></i>
+                            </div>
+                            <div class="navbar__category-subnav">
+                                <ul class="navbar__category-subnav-brandList">
+                                @foreach (KeyValuePair<int, List<Brand>> pair in ViewBag.BrandOfCategories)
+                                {
+                                    if(pair.Key == item.CategoryId){
+                                        foreach(Brand brand in pair.Value){
+                                            <li value="@brand.BrandId">@brand.BrandName</li>
+                                        }
+                                    }
+                                }
+                                </ul>
+                            </div>
+                        </div>                        
+                    }
+                </nav>
+                <div class="header__barWithSearch">
+                    <div class="barWithSearch__logo">
+                        <img class="barWithSearch__logo-img" src="./images/logo/shoplogo.png" alt="Shop logo">
+                    </div>
+                    <div class="header__searchField">
+                        <form action="" method="post" class="searchField__form" enctype="text/plain">
+                            <input placeholder="Tìm kiếm sản phẩm" class="searchField__form-input">
+                                
+                            </input>
+                            <button class="searchField__form-searchBtn">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                        
+                    </div>  
+                    <ul class="barWithSearch__link">
+                        <li class="barWithSearch__cart">
+                            <i class="barWithSearch__cart-logo fa-solid fa-cart-shopping"></i>
+                            <span class="barWithSearch__cart-numofProd">3</span>
+                        </li>
+                        <li class="barWithSearch__account">
+                            <div class="account__login">
+                                <a class="account_login-link"  href="">Đăng nhập</a>
+                            </div>
+                            <div class="account__register">
+                                <a class="account_register-link" href="">Đăng ký</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-            </nav>
+
+
+            </div>
         </header>
 
         @RenderBody()

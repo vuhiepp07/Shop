@@ -10,6 +10,10 @@ namespace Shop.Models{
         {
         }
 
+        public IEnumerable<BrandCategory> GetBrandCategories(){
+            return connection.Query<BrandCategory>("Select * from BrandCategory");
+        }
+
         public IEnumerable<int> GetBrandCategoriesId(int brandId){
             List<int> CategoryIdList = new List<int>();
 
@@ -34,10 +38,11 @@ namespace Shop.Models{
             }, commandType: CommandType.StoredProcedure);
         }
 
-        public List<int> GetBrandsByCategoryId (int CategoryId){
-            return (List<int>)connection.Query("getBrandsByCategoryId", new{
+        public IEnumerable<int> GetBrandsByCategoryId (int CategoryId){
+            return connection.Query<int>("getBrandsByCategoryId", new{
                 CategoryId = CategoryId
             }, commandType: CommandType.StoredProcedure);
+           
         }
     }
 }
