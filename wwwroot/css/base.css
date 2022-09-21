@@ -37,6 +37,10 @@ html{
     width: 16.6667%;
 }
 
+.grid__column-3{
+    width: 33%;
+}
+
 .grid__column-10{
     width: 83.3334%;
     padding-left: 5px;

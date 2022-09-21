@@ -305,3 +305,54 @@
 .productFilter__brandFilter:hover{
     cursor: pointer;
 }
+
+/* footer css  */
+.footer{
+    border-top: 4px solid var(--primary-color);
+    margin-top: 50px;
+    background-color: var(--primary-color);
+}
+
+.footer__information{
+    padding: 20px;
+    text-align: left;
+}
+
+.footer__information-describe{
+    font-size: 1.3rem;
+    line-height: 1.8rem;
+}
+
+.footer__heading{
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.footer__detailList{
+    list-style-type: none;
+    color: black;
+    padding: 0;
+}
+
+.footer__item{
+    text-align: center;
+    margin: 20px;
+}
+
+.footer__item-logo{
+    font-size: 1.4rem;
+    margin-right: 8px;
+}
+
+.footer__item-link{
+    text-decoration: none;
+    font-size: 1.3rem;
+    color: black;
+}
+
+.footer__copyright{
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 20px 0;
+}
+
