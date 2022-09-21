@@ -19,8 +19,14 @@ namespace Shop.Controllers{
                 }
                 myDict.Add(category.CategoryId, brandList);
             }
+            IEnumerable<Product> products = provider.Product.GetProducts();
+            IEnumerable<Discount> discounts = provider.Discount.GetDiscounts();
+            IEnumerable<Brand> brands = provider.Brand.GetBrands();
             ViewBag.Categories = categories;
             ViewBag.BrandOfCategories = myDict;
+            ViewBag.Products = products;
+            ViewBag.Discounts = discounts;
+            ViewBag.Brands = brands;
             return View();
         }
     }

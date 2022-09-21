@@ -1,6 +1,9 @@
 .header{
     background-color: var(--primary-color);
     height: var(--header-height);
+    width: 100%;
+    z-index: 1;
+    position: fixed;
 }
 
 .header__navbar{
@@ -186,4 +189,119 @@
     opacity: 0.7;
 }
 
+/* Product css  */
 
+.productList{
+    margin-top: var(--header-height);
+}
+
+.productList__item{
+    margin-top: 15px;
+    position: relative;
+}
+
+.productList__item:hover{
+    transform: translateY(-1.5px);
+    box-shadow: 0 1px 20px 0 rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.productList__item-img{
+    padding-top: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.productList__item-SaleOf{
+    color: white;
+    background-color: var(--saleOfFlag-color);
+    text-align: center;
+    font-size: 1.2rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    font-weight: 500;
+}
+
+.productList__item-SaleOf::after{
+    content: "";
+    position: absolute;
+    border-width: 0 18px 4px;
+    left: 0;
+    top: 36px;
+    border-style: solid;
+    border-color: transparent var(--saleOfFlag-color) transparent var(--saleOfFlag-color) ;
+}
+
+/* Product item name css */
+
+.productList__item-name{
+    margin-top: -10px;
+    font-size: 1.4rem;
+    text-align: center;
+    line-height: 1.8rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+/* Product item price css */
+.productList__item-Price{
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.productList__item-Newprice{
+    margin: 8px 0;
+    font-size: 1.5rem;
+    color: red;
+}
+
+.productList__item-Oldprice{
+    font-size: 1.3rem;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/* Price Filter css */
+.productFilter{
+    position: fixed;
+    margin-top: calc(var(--header-height) + 20px);
+}
+
+.productFilter__heading{
+    font-size: 1.7rem;
+}
+
+.productFilter__priceFilter{
+
+}
+
+.productFilter__priceFilter-item{
+    margin: 8px;
+}
+
+.productFilter__priceFilter-item > label{
+    font-size: 1.5rem;
+    padding:0 4px;
+}
+
+.productFilter__priceFilter-item > label:hover{
+    cursor: pointer;
+    color: red;
+}
+
+/* brandFilter css  */
+.productFilter__brandFilter{
+    width: 90%;
+    height: 30px;
+    font-size: 1.3rem;
+}
+
+.productFilter__brandFilter:hover{
+    cursor: pointer;
+}
