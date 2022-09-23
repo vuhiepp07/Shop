@@ -11,6 +11,7 @@ namespace Shop{
                 arr[i]= pattern[rand.Next(pattern.Length)];
             }
             return string.Join(string.Empty, arr);
+            
         }
     }
 }

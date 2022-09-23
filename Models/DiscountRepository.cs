@@ -18,12 +18,19 @@ namespace Shop.Models{
         }
 
         public Discount GetDiscountById(int id){
-            using(dbContext){
             var dis = from discount in dbContext.Discount
                             where discount.DiscountId == id
                             select discount;
-            return (Discount)dis;
+            return dis.First();
+        }
+
+        public IEnumerable<Discount> GetDiscountsByIdList(HashSet<int> DiscountIdList){
+            List<Discount> result = new List<Discount>();
+            foreach (int id in DiscountIdList)
+            {
+                result.Add(GetDiscountById(id));
             }
+            return result;
         }
 
         public int Delete(int id){
@@ -37,14 +44,12 @@ namespace Shop.Models{
 
         public int Edit(Discount obj){
             Discount dis = GetDiscountById(obj.DiscountId);
-            using(dbContext){
-                dis.DiscountName = obj.DiscountName;
-                dis.DiscountPercentage = obj.DiscountPercentage;
-                dis.StartDate = obj.StartDate;
-                dis.EndDate = obj.EndDate;
-                dis.Quantity = obj.Quantity;
-                return dbContext.SaveChanges();
-            }
+            dis.DiscountName = obj.DiscountName;
+            dis.DiscountPercentage = obj.DiscountPercentage;
+            dis.StartDate = obj.StartDate;
+            dis.EndDate = obj.EndDate;
+            dis.Quantity = obj.Quantity;
+            return dbContext.SaveChanges();
         }
     }
 }

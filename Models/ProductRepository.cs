@@ -18,13 +18,18 @@ namespace Shop.Models{
             });
         }
 
+        public IEnumerable<Product> GetProductsByCategoryIdAndBrandId(int categoryId, int brandId){
+            var result = from product in dbContext.Product
+                            where product.BrandId == brandId && product.CategoryId == categoryId
+                            select product;
+            return result;
+        }
+
         public IEnumerable<Product> GetProductsByCategoryId(int id){
-            using(dbContext){
-                var result = from product in dbContext.Product
-                                where product.CategoryId == id
-                                select product;
-                return result.ToList<Product>();
-            }
+            var result = from product in dbContext.Product
+                            where product.CategoryId == id
+                            select product;
+            return result.ToList<Product>();
         }
 
         public IEnumerable<Product> GetProductByBrandId(int id){
@@ -34,12 +39,10 @@ namespace Shop.Models{
         }
 
         public IEnumerable<Product> GetProductsByDiscountId(int id){
-            using(dbContext){
-                var result = from product in dbContext.Product
-                                where product.ProductDiscountId == id
-                                select product;
-                return result.ToList<Product>();
-            }
+            var result = from product in dbContext.Product
+                            where product.ProductDiscountId == id
+                            select product;
+            return result.ToList<Product>();
         }
 
         public int CreateProduct(Product obj){

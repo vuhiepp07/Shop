@@ -12,6 +12,12 @@ namespace Shop.Models{
             return connection.Query<Brand>("Select * from Brand");
         }
 
+        public Brand GetBrandByName(string brandName){
+            return connection.QuerySingleOrDefault<Brand>("select * from Brand where BrandName = @Name", new{
+                Name = brandName
+            });
+        }
+
         public Brand GetBrandById(int id){
             var result = from brand in dbContext.Brand
                             where brand.BrandId == id
@@ -19,11 +25,18 @@ namespace Shop.Models{
             return result.First();
         }
 
-        public int Create(Brand obj){
-            using(dbContext){
-                dbContext.Brand.Add(obj);
-                return dbContext.SaveChanges();
+        public IEnumerable<Brand> GetBrandsByIdList(HashSet<int> BrandIdList){
+            List<Brand> result = new List<Brand>();
+            foreach (int BrandId in BrandIdList)
+            {
+                result.Add(GetBrandById(BrandId));
             }
+            return result;
+        }
+
+        public int Create(Brand obj){
+            dbContext.Brand.Add(obj);
+            return dbContext.SaveChanges();
         }
 
         public int Edit(Brand obj){
@@ -32,10 +45,8 @@ namespace Shop.Models{
 
         public int Delete(int id){
             Brand temp = GetBrandById(id);
-            using(dbContext){
-                dbContext.Brand.Remove(temp);
-                return dbContext.SaveChanges();
-            }
+            dbContext.Brand.Remove(temp);
+            return dbContext.SaveChanges();
         }
 
         public IEnumerable<Category> GetBrandCategories(List<int> categoryIds){

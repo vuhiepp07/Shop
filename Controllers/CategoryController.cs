@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Shop.Filters;
 using Shop.Models;
 
 namespace Shop.Controllers{

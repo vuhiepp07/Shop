@@ -17,18 +17,16 @@ namespace Shop.Models{
         public IEnumerable<int> GetBrandCategoriesId(int brandId){
             List<int> CategoryIdList = new List<int>();
 
-            using(dbContext){
-                var kq = from brandCategory in dbContext.BrandCategory
-                            group brandCategory by brandCategory.BrandId;
-                foreach (var group in kq){
-                    if(group.Key == brandId){
-                        foreach(var category in group){
-                            CategoryIdList.Add(category.CategoryId);
-                        }
+            var kq = from brandCategory in dbContext.BrandCategory
+                        group brandCategory by brandCategory.BrandId;
+            foreach (var group in kq){
+                if(group.Key == brandId){
+                    foreach(var category in group){
+                        CategoryIdList.Add(category.CategoryId);
                     }
                 }
-                return CategoryIdList;
             }
+            return CategoryIdList;
         }
 
         public int Create(int brandId, int CategoryId){

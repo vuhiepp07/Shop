@@ -28,6 +28,11 @@
     padding: 0 16px;
 }
 
+.navbar__category-link{
+    text-decoration: none;
+    color: white;
+}
+
 .navbar__category-name{
     font-size: 1.6rem;
 }
@@ -54,6 +59,11 @@
 
 .navbar__category-subnav-brandList li{
     padding: 0px 28px;
+}
+
+.navbar__category-subnav-brandLink{
+    text-decoration: none;
+    color: white;
 }
 
 

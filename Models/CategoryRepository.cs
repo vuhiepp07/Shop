@@ -12,15 +12,20 @@ namespace Shop.Models{
             return dbContext.Category.ToList();
         }
 
+        public Category GetCategoryByName(string name){
+            var result = from category in dbContext.Category
+                            where category.CategoryName.Equals(name)
+                            select category;
+            return result.First(); 
+        }
+
         public Category GetCategoryById(int id){
             return connection.QueryFirstOrDefault<Category>("Select * from Category where CategoryId = @Id", new {Id = id});
         }
 
         public int Create(Category obj){
-            using(dbContext){
-                dbContext.Category.Add(obj);
-                return dbContext.SaveChanges();
-            }
+            dbContext.Category.Add(obj);
+            return dbContext.SaveChanges();
         }
 
         public int Delete(int id){
@@ -32,12 +37,10 @@ namespace Shop.Models{
         }
 
         public IEnumerable<Brand> GetBrandsProvideCategory(List<int> BrandIds){
-            using(dbContext){
-                var result = from brand in dbContext.Brand
-                                where BrandIds.Contains(brand.BrandId)
-                                select brand;
-                return result.ToList<Brand>();
-            }
+            var result = from brand in dbContext.Brand
+                            where BrandIds.Contains(brand.BrandId)
+                            select brand;
+            return result.ToList<Brand>();
         }
     }
 }
