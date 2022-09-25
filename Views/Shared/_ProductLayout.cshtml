@@ -49,17 +49,35 @@
                         </div>
                     </div>
 
-                    <h3 class="productFilter__heading">Lọc theo hãng</h3>
+                    <h3 class="productFilter__heading" style="margin-top: 50px;">Sắp xếp theo giá</h3>
+                    <div class="productFilter__sortProduct">
+                        <div class="productFilter__sortProduct-item">
+                            <input id="sort1" type="radio" name="sortType" value="1">
+                            <label for="sort1"> Tăng dần </label><br>
+                        </div>
+                        <div class="productFilter__sortProduct-item">
+                            <input id="sort2" type="radio" name="sortType" value="2">
+                            <label for="sort2"> Giảm dần </label><br>
+                        </div>
+                        <div class="productFilter__sortProduct-item">
+                            <input id="sort3" checked="true" type="radio" name="sortType" value="3">
+                            <label for="sort3"> Mặc định </label><br>
+                        </div>
+                    </div>
+
+                    <h3 class="productFilter__heading" style="margin-top: 50px;">Lọc theo hãng</h3>
                     <select class="productFilter__brandFilter" name="brandSelection" id="brandSelection">
-                        <option value="0">Tất cả</option>
+                        <option name="brandOption" value="0">Tất cả</option>
                         @foreach(Brand brand in ViewBag.Brands){
-                            <option value="@brand.BrandId">@brand.BrandName</option>
+                            <option name="brandOption" value="@brand.BrandId">@brand.BrandName</option>
                         }
                     </select>
+
                 </div>
             </div>
             <div class="grid__column-10">
                 <div class="grid__row productList">
+                    <input type="hidden" value="@ViewBag.Products" id="prodList">
                     @foreach (Product item in ViewBag.Products)
                     {
                         <div class="grid__column-TwoOfTen productList__item">
@@ -116,6 +134,24 @@
     var controllerName = '@ViewContext.RouteData.Values["controller"]'
     var actionname = '@ViewContext.RouteData.Values["action"]'
     var categoryname = '@ViewContext.RouteData.Values["categoryname"]'
+    var productField = document.querySelector('.productList')
+
+    @* get ProductData from viewbag to help sort product by price function *@
+    var productList = @Html.Raw(Json.Serialize(@ViewBag.Products))
+
+    @* Handling when user access to URL:home/Asus/Keyboard, user can not change brandFilter
+        value (From Asus to Apple or something else) in the brandFilter anymore *@
+    if(actionname != "Index" && actionname != "Category"){
+        let brandOptions = document.querySelectorAll('[name="brandOption"]')
+        for(let i = 0; i < brandOptions.length; i++){
+            if(brandOptions[i].value == productList[0]['brandId']){
+                brandOptions[i].setAttribute('selected', 'true')
+            }
+            else{
+                brandOptions[i].setAttribute('disabled', 'true')
+            }
+        }
+    }
 
     function normalizePrice(price){
         for(var i = price.length -1, x = 0 ; i> 0; i--, x++){
@@ -128,8 +164,22 @@
         return price;
     }
 
-    function UpDateProductList(responseText, productField){
-        let object = JSON.parse(responseText)
+
+    function UpDateProductList(object, productField){
+        productField.innerHTML = "";
+        let sortType = document.querySelector('input[name="sortType"]:checked').value
+        if(sortType == 1){
+            object.sort((a,b) => {
+                return a['price'] - b['price']
+            })
+        }
+        else if(sortType == 2){
+            object.sort((a,b) => {
+                return b['price'] - a['price']
+            })
+        }
+        
+
         for(let i in object){
             let productPrice = String(object[i]['price'])
             let productPriceInString = normalizePrice(productPrice)
@@ -159,7 +209,6 @@
             newHtml += `</div>`
 
             let productDiscountPercentage = ((object[i]['price'] - object[i]['price'])/object[i]['price'])*10
-            console.log(productDiscountPercentage)
             if(productDiscountPercentage == 0){
                 newHtml += `
                     <div class="productList__item-SaleOf">
@@ -179,9 +228,9 @@
         let request = new XMLHttpRequest();
         request.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                let productField = document.querySelector('.productList')
-                productField.innerHTML = "";
-                UpDateProductList(this.responseText, productField)
+                productList = JSON.parse(this.responseText)
+                console.log(productList)
+                UpDateProductList(productList, productField)
             }
         }
         request.open("POST", url, true)
@@ -203,17 +252,25 @@
 
     @* Filter product by brand in all page  *@
 
-    var brandFilter = document.getElementById('brandSelection')
+    let brandFilter = document.getElementById('brandSelection')
     brandFilter.addEventListener('change', function(e){
         sendRequestUpdateProductList(customizeUrlForFilter())
     })
 
     @* Filter product by price in all page  *@
 
-    var priceFilter = document.querySelectorAll('[name="priceRange"]') 
+    let priceFilter = document.querySelectorAll('[name="priceRange"]') 
     for(let i = 0; i < priceFilter.length; i++){
         priceFilter[i].addEventListener('change', function(e){
             sendRequestUpdateProductList(customizeUrlForFilter())
+        })
+    }
+
+    @* Sort product by price in all page *@
+    let sortOptions = document.querySelectorAll('[name="sortType"]') 
+    for(let i = 0; i < sortOptions.length; i++){
+        sortOptions[i].addEventListener('change', function(e){
+            UpDateProductList(productList, productField)
         })
     }
 </script>

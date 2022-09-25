@@ -295,16 +295,19 @@
 
 }
 
-.productFilter__priceFilter-item{
+.productFilter__priceFilter-item,
+.productFilter__sortProduct-item{
     margin: 8px;
 }
 
-.productFilter__priceFilter-item > label{
+.productFilter__priceFilter-item > label,
+.productFilter__sortProduct-item > label{
     font-size: 1.5rem;
     padding:0 4px;
 }
 
-.productFilter__priceFilter-item > label:hover{
+.productFilter__priceFilter-item > label:hover,
+.productFilter__sortProduct-item > label:hover{
     cursor: pointer;
     color: red;
 }
