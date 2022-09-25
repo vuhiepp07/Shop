@@ -121,5 +121,13 @@ namespace Shop.Controllers{
             IEnumerable<Product> tempProducts = FilterProductByBrandIdAndCategoryName(brandid, categoryname);
             return Json(FilterProductByPriceRange(tempProducts, pricerangeid));
         }
+
+        [ServiceFilter(typeof(NavbarFilter))]
+        [HttpPost]
+        public IActionResult searchProduct(string productName){
+            IEnumerable<Product> products = provider.Product.SearchProductByName(productName);
+            FillDataToViewBag(products);
+            return View();
+        }
     }
 }

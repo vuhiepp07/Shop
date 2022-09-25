@@ -140,8 +140,9 @@
     var productList = @Html.Raw(Json.Serialize(@ViewBag.Products))
 
     @* Handling when user access to URL:home/Asus/Keyboard, user can not change brandFilter
-        value (From Asus to Apple or something else) in the brandFilter anymore *@
-    if(actionname != "Index" && actionname != "Category"){
+        value (From Asus to Apple or something else) in the brandFilter anymore because the brand
+        can only be Asus *@
+    if(actionname != "Index" && actionname != "Category" && actionname != "searchProduct"){
         let brandOptions = document.querySelectorAll('[name="brandOption"]')
         for(let i = 0; i < brandOptions.length; i++){
             if(brandOptions[i].value == productList[0]['brandId']){
@@ -224,6 +225,53 @@
         }
     }
 
+    function filterProductByBrandAndPrice(){
+        let priceRangeId = document.querySelector('input[name="priceRange"]:checked').value
+        let brandId = document.getElementById('brandSelection').value
+        let productsWillShow = new Array()
+        let min = 0
+        let max = 0
+        switch(priceRangeId){
+            case '1':
+                min = 0
+                max = 1000000
+                break
+            case '2':
+                min = 1000000
+                max = 5000000
+                break
+            case '3':
+                min = 5000000
+                max = 10000000
+                break
+            case '4':
+                min = 10000000
+                max = 20000000
+                break
+            case '5':
+                min = 20000000
+                max = 2147483647
+                break
+            default:
+                min = 0
+                max = 2147483647
+        }
+        for(let i =0;i < productList.length; i++){
+            if(brandId == 0){
+                if(productList[i]['price'] > min && productList[i]['price'] < max){
+                    productsWillShow.push(productList[i])
+                }
+            }
+            else{
+                if(productList[i]['brandId'] == brandId && productList[i]['price'] > min && productList[i]['price'] < max){
+                    productsWillShow.push(productList[i])
+                }
+            }
+            
+        }
+        UpDateProductList(productsWillShow, productField)
+    }
+
     function sendRequestUpdateProductList(url){
         let request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -254,7 +302,7 @@
 
     let brandFilter = document.getElementById('brandSelection')
     brandFilter.addEventListener('change', function(e){
-        sendRequestUpdateProductList(customizeUrlForFilter())
+        filterProductByBrandAndPrice()
     })
 
     @* Filter product by price in all page  *@
@@ -262,7 +310,7 @@
     let priceFilter = document.querySelectorAll('[name="priceRange"]') 
     for(let i = 0; i < priceFilter.length; i++){
         priceFilter[i].addEventListener('change', function(e){
-            sendRequestUpdateProductList(customizeUrlForFilter())
+            filterProductByBrandAndPrice()
         })
     }
 
@@ -270,7 +318,7 @@
     let sortOptions = document.querySelectorAll('[name="sortType"]') 
     for(let i = 0; i < sortOptions.length; i++){
         sortOptions[i].addEventListener('change', function(e){
-            UpDateProductList(productList, productField)
+            filterProductByBrandAndPrice()
         })
     }
 </script>

@@ -18,6 +18,16 @@ namespace Shop.Models{
             });
         }
 
+        public IEnumerable<Product> SearchProductByName(string name){
+            // var result = from product in dbContext.Product
+            //                     where product.ProductName.ToLower().Contains(name.ToLower())
+            //                     select product;
+            // return result;
+            return connection.Query<Product>("select * from Product where Lower(ProductName) like '%' + @Name + '%'", new{
+                Name = name.ToLower()
+            });
+        }
+
         public IEnumerable<Product> GetProductsByCategoryIdAndBrandId(int categoryId, int brandId){
             /*var result = from product in dbContext.Product
                             where product.BrandId == brandId && product.CategoryId == categoryId

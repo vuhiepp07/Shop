@@ -16348,6 +16348,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\Code\\Shop\\Views\\Home\\searchProduct.cshtml",
+      "TargetPath": "Views\\Home\\searchProduct.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\Code\\Shop\\Views\\Home\\Category.cshtml",
       "TargetPath": "Views\\Home\\Category.cshtml",
       "FileKind": "mvc"

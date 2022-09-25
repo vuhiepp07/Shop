@@ -49,11 +49,10 @@
                         </a>
                     </div>
                     <div class="header__searchField">
-                        <form action="" method="post" class="searchField__form" enctype="text/plain">
-                            <input placeholder="Tìm kiếm sản phẩm" class="searchField__form-input">
-                                
+                        <form action="/home/searchProduct" method="post" class="searchField__form" enctype="application/x-www-form-urlencoded">
+                            <input placeholder="Tìm kiếm sản phẩm" class="searchField__form-input" name="productName">
                             </input>
-                            <button class="searchField__form-searchBtn">
+                            <button class="searchField__form-searchBtn" type="submit">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </form>
@@ -130,5 +129,13 @@
         </footer>
 
     </div>
+
+    <script>
+        @* var searchbtn = document.querySelector('.searchField__form-searchBtn')
+        searchbtn.addEventListener('click', function(e){
+            let inputField = document.querySelector('.searchField__form-input');
+            let inputText = inputField.text
+        }) *@
+    </script>
 </body>
 </html>
