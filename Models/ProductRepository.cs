@@ -19,21 +19,26 @@ namespace Shop.Models{
         }
 
         public IEnumerable<Product> GetProductsByCategoryIdAndBrandId(int categoryId, int brandId){
-            var result = from product in dbContext.Product
+            /*var result = from product in dbContext.Product
                             where product.BrandId == brandId && product.CategoryId == categoryId
                             select product;
-            return result;
+            return result.ToList();*/
+            string sql = "SELECT * FROM Product where Product.CategoryId = @CategoryId and Product.BrandId = @BrandId";
+            return connection.Query<Product>(sql, new {CategoryId = categoryId, BrandId = brandId});
         }
 
         public IEnumerable<Product> GetProductsByCategoryId(int id){
-            var result = from product in dbContext.Product
-                            where product.CategoryId == id
-                            select product;
-            return result.ToList<Product>();
+            // var result = from product in dbContext.Product
+            //                 where product.CategoryId == id
+            //                 select product;
+            // return result.ToList<Product>();
+            return connection.Query<Product>("Select * from Product where CategoryId = @Id", new{
+                Id = id
+            });
         }
 
         public IEnumerable<Product> GetProductByBrandId(int id){
-            return connection.Query<Product>("Select * form Product where Product.BrandId = @Id", new{
+            return connection.Query<Product>("Select * from Product where Product.BrandId = @Id", new{
                 Id = id
             });
         }

@@ -3,6 +3,18 @@
     
 }
 @RenderBody();
+@functions{
+    public string normalizePrice(string price){
+        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
+            if(x == 2){
+                price = price.Insert(i, ",");
+                i++;
+                x=-2;
+            }
+        }
+        return price;
+    }
+}
 
 <div class="content">
     <div class="grid">
@@ -32,7 +44,7 @@
                             <label for="price5"> >20tr </label><br>
                         </div>
                         <div class="productFilter__priceFilter-item">
-                            <input id="price6" type="radio" name="priceRange" value="6">
+                            <input id="price6" type="radio" name="priceRange" checked = "true" value="6">
                             <label for="price6"> Tất cả giá </label><br>
                         </div>
                     </div>
@@ -56,18 +68,7 @@
                             <div class="productList__item-name">
                                 <span>@item.ProductName</span>
                             </div>
-                            @functions{
-                                public string normalizePrice(string price){
-                                    for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
-                                        if(x == 2){
-                                            price = price.Insert(i, ",");
-                                            i++;
-                                            x=-2;
-                                        }
-                                    }
-                                    return price;
-                                }
-                            }
+                            
                             <div class="productList__item-Price">
                                 <div class="productList__item-Newprice">
                                     @{
@@ -92,7 +93,7 @@
                                         discountPercent = discount.DiscountPercentage.ToString();
                                         @* if(discount.DiscountPercentage != 0){
                                             <div class="productList__item-SaleOf">
-                                                <span>GIẢM</span><br>
+                                                <span style="line-height: 20px;" >GIẢM</span><br>
                                                 <span>@discountPercent%</span>
                                             </div>
                                         }  *@
@@ -110,3 +111,109 @@
         </div>
     </div>
 </div>
+
+<script>
+    var controllerName = '@ViewContext.RouteData.Values["controller"]'
+    var actionname = '@ViewContext.RouteData.Values["action"]'
+    var categoryname = '@ViewContext.RouteData.Values["categoryname"]'
+
+    function normalizePrice(price){
+        for(var i = price.length -1, x = 0 ; i> 0; i--, x++){
+            if(x == 2){
+                price = price.slice(0, i) + "," + price.slice(i)
+                i++;
+                x=-2;
+            }
+        }
+        return price;
+    }
+
+    function UpDateProductList(responseText, productField){
+        let object = JSON.parse(responseText)
+        for(let i in object){
+            let productPrice = String(object[i]['price'])
+            let productPriceInString = normalizePrice(productPrice)
+            let productOldPrice = String(object[i]['price'])
+            let productOldPriceInString = normalizePrice(productPrice)
+
+            let newHtml = `
+                <div class="grid__column-TwoOfTen productList__item">
+                    <div class="productList__item-img" style="background-image: url(/images/products/${object[i]['imageUrl']});">
+                    </div>
+                    <div class="productList__item-name">
+                        <span>${object[i]['productName']}</span>
+                    </div>
+                    
+                    <div class="productList__item-Price">
+                        <div class="productList__item-Newprice">
+                            <span>${productPriceInString}₫</span>
+                        </div>
+            `
+            if(productPrice == productOldPrice){
+                newHtml += `
+                <div class="productList__item-Oldprice">
+                    <span>${productOldPriceInString}₫</span>
+                </div>
+                `
+            }
+            newHtml += `</div>`
+
+            let productDiscountPercentage = ((object[i]['price'] - object[i]['price'])/object[i]['price'])*10
+            console.log(productDiscountPercentage)
+            if(productDiscountPercentage == 0){
+                newHtml += `
+                    <div class="productList__item-SaleOf">
+                        <span style="line-height: 20px;" >GIẢM</span><br>
+                        <span>${productDiscountPercentage}%</span>
+                    </div>
+                `
+            }
+            
+            newHtml += `</div>`
+
+            productField.innerHTML += newHtml
+        }
+    }
+
+    function sendRequestUpdateProductList(url){
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let productField = document.querySelector('.productList')
+                productField.innerHTML = "";
+                UpDateProductList(this.responseText, productField)
+            }
+        }
+        request.open("POST", url, true)
+        request.send()
+    }
+
+    function customizeUrlForFilter(){
+        let brandid = brandFilter.options[brandFilter.selectedIndex].value
+        let priceRangeId = document.querySelector('input[name="priceRange"]:checked').value
+        let url = ''
+        if(controllerName == 'Home' && actionname =='Index'){
+            url = `home/filter/${brandid}`
+        }
+        else{
+            url = `/home/filter/${brandid}/${categoryname}`
+        }
+        return url += `/${priceRangeId}`
+    }
+
+    @* Filter product by brand in all page  *@
+
+    var brandFilter = document.getElementById('brandSelection')
+    brandFilter.addEventListener('change', function(e){
+        sendRequestUpdateProductList(customizeUrlForFilter())
+    })
+
+    @* Filter product by price in all page  *@
+
+    var priceFilter = document.querySelectorAll('[name="priceRange"]') 
+    for(let i = 0; i < priceFilter.length; i++){
+        priceFilter[i].addEventListener('change', function(e){
+            sendRequestUpdateProductList(customizeUrlForFilter())
+        })
+    }
+</script>

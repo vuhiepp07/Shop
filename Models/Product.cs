@@ -20,7 +20,7 @@ namespace Shop.Models{
         //[StringLength(1000)]
         //[Column(TypeName = "nvarchar")]
         public string Description {get; set;}
-
+        
         //[Required]
         public string ImageUrl {get; set;}
 
@@ -29,14 +29,14 @@ namespace Shop.Models{
         public int ProductDiscountId {get; set;}
 
         //[ForeignKey("BrandId")]
-        public virtual Brand Brand {get; set;}
+        public virtual Brand? Brand {get; set;}
 
         //[ForeignKey("CategoryId")]
-        public virtual Category Category {get; set;}
+        public virtual Category? Category {get; set;}
 
         //[ForeignKey("DiscountId")]
-        public virtual Discount Discount {get; set;}
+        public virtual Discount? Discount {get; set;}
 
-        public virtual CartDetail CartDetail {get; set;}
+        public virtual CartDetail? CartDetail {get; set;}
     }
 }
