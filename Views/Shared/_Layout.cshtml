@@ -1,3 +1,4 @@
+@model LoginModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,10 +66,10 @@
                         </li>
                         <li class="barWithSearch__account">
                             <div class="account__login">
-                                <a class="account_login-link"  href="">Đăng nhập</a>
+                                <a class="account_login-link" href="#">Đăng nhập</a>
                             </div>
                             <div class="account__register">
-                                <a class="account_register-link" href="">Đăng ký</a>
+                                <a class="account_register-link" href="#">Đăng ký</a>
                             </div>
                         </li>
                     </ul>
@@ -78,6 +79,72 @@
 
             </div>
         </header>
+        <div class="modal login__modal">
+            <div class="auth__modal-login modal__body">
+                <div class ="auth__modal-heading">
+                    Đăng nhập
+                </div>
+                <div class="auth__modal-inputField">
+                    <div class="auth__modal-account">
+                        <i class="auth__modal-Logo fa-solid fa-user"></i>
+                        <input class="auth__modal-input" type="text" placeholder="Nhập tài khoản/email">
+                    </div>
+                    <div class="auth__modal-password">
+                        <i class="auth__modal-Logo fa-solid fa-lock"></i>
+                        <input class="auth__modal-input" type="password" placeholder="Nhập mật khẩu">
+                    </div>
+                </div>
+                <div class="auth__modal-footer">
+                    <div class="auth__modal-loginOptions">
+                        <div class="auth__modal-rememberOption">
+                            <input id="rememberCheckbox" type="checkbox">
+                            <label class="auth__modal-rememberLabel" for="rememberCheckbox">Ghi nhớ đăng nhập</label>
+                        </div>
+                        <div class="auth__modal-forgetPasswordOption">
+                            <div>Quên mật khẩu?</div>
+                        </div>
+                    </div>
+                    <div class="auth__modal-proceed">
+                        <div class="auth__modal-btnProceed">Đăng nhập</div>
+                    </div>
+                    <div class="auth__modal-switch">
+                        <span>Bạn chưa có tài khoản?</span>
+                        <span class="auth__modal-switchLinkToRegister">Đăng ký</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal register__modal">
+            <div class="auth__modal-register modal__body">
+                <div class = "auth__modal-heading">
+                    Đăng ký
+                </div>
+                <div class="auth__modal-inputField">
+                    <div class="auth__modal-account">
+                        <i class="auth__modal-Logo fa-solid fa-user"></i>
+                        <input class="auth__modal-input" type="text" placeholder="Nhập tài khoản/email">
+                    </div>
+                    <div class="auth__modal-password">
+                        <i class="auth__modal-Logo fa-solid fa-lock"></i>
+                        <input class="auth__modal-input" type="password" placeholder="Nhập mật khẩu">
+                    </div>
+                    <div class="auth__modal-password">
+                        <i class="auth__modal-Logo fa-solid fa-lock"></i>
+                        <input class="auth__modal-input" type="password" placeholder="Nhập lại mật khẩu">
+                    </div>
+                </div>
+                <div class="auth__modal-footer">
+                    <div class="auth__modal-proceed">
+                        <div class="auth__modal-btnProceed">Đăng ký</div>
+                    </div>
+                    <div class="auth__modal-switch">
+                        <span>Bạn đã có tài khoản?</span>
+                        <span class="auth__modal-switchLinkToLogin">Đăng nhập</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         @RenderBody()
 
@@ -131,11 +198,44 @@
     </div>
 
     <script>
-        @* var searchbtn = document.querySelector('.searchField__form-searchBtn')
-        searchbtn.addEventListener('click', function(e){
-            let inputField = document.querySelector('.searchField__form-input');
-            let inputText = inputField.text
-        }) *@
+        var loginBtn = document.querySelector(".account_login-link")
+        var registerBtn = document.querySelector(".account_register-link")
+        var allModal = document.querySelectorAll(".modal")
+        var modalBody = document.querySelectorAll(".modal__body")
+        var loginModal = document.querySelector('.login__modal')
+        var registerModal = document.querySelector('.register__modal')
+        var switchToRegisterModalLink = document.querySelector('.auth__modal-switchLinkToRegister')
+        var switchToLoginModalLink = document.querySelector('.auth__modal-switchLinkToLogin')
+
+        loginBtn.addEventListener('click', function(e){
+            loginModal.classList.add('modal-active')
+        })
+
+        registerBtn.addEventListener('click', function(e){
+            registerModal.classList.add('modal-active')
+        })
+
+        for(let i = 0; i< modalBody.length; i++){
+            modalBody[i].addEventListener('click', function(e){
+                e.stopPropagation()
+            })
+        }
+
+        for(let i = 0; i < allModal.length; i++){
+            allModal[i].addEventListener('click', function(e){
+                allModal[i].classList.remove('modal-active')
+            })
+        }
+
+        switchToLoginModalLink.addEventListener('click', function(e){
+            registerModal.classList.remove('modal-active')
+            loginModal.classList.add('modal-active')
+        })
+
+        switchToRegisterModalLink.addEventListener('click', function(e){
+            loginModal.classList.remove('modal-active')
+            registerModal.classList.add('modal-active')
+        })
     </script>
 </body>
 </html>

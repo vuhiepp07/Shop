@@ -327,4 +327,14 @@
             filterProductByBrandAndPrice()
         })
     }
+
+    @* Handling when user click on button Add to cart at some productItem in productList  *@
+    let addToCartBtns = document.querySelectorAll('.productList__item-addToCartbtn')
+    for(let i = 0; i<addToCartBtns.length; i++){
+        addToCartBtns[i].addEventListener('click', function(e){
+            e.stopPropagation()
+            alert("add to cart")
+        })
+    }
+    
 </script>

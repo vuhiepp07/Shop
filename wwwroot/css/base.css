@@ -53,4 +53,23 @@ html{
     padding-right: 5px;
 }
 
+.modal{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    display: none;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-active{
+    display: flex;
+}
+
+.modal__body{
+    margin: auto;
+}
+
 

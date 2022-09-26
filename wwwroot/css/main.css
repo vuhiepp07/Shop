@@ -397,3 +397,97 @@
     padding: 20px 0;
 }
 
+/* Login modal and SignUp modal css  */
+
+.auth__modal-login,
+.auth__modal-register{
+    background-color: var(--primary-color);
+    width: 400px;
+    min-height: 280px;  
+    display: block;
+    border-radius: 4px;
+}
+
+.auth__modal-heading{
+    padding: 20px 0;
+    font-size: 2.0rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.auth__modal-inputField{
+    font-size: 1.5rem;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.auth__modal-footer{
+    padding: 10px 0;
+}
+
+.auth__modal-password{
+    margin-top: 15px;
+}
+
+.auth__modal-input{
+    margin-left: 4px;
+    padding-left: 8px;
+    border: none;
+    height: 28px;
+    border-radius: 4px;
+}
+
+.auth__modal-loginOptions{
+    display: flex;
+    font-size: 1.5rem;
+    align-items: baseline;
+    justify-content: space-around;
+}
+
+.auth__modal-rememberOption{
+    display: flex;
+    align-items: baseline;
+}
+
+.auth__modal-rememberLabel{
+    margin-left: 4px;
+}
+
+.auth__modal-forgetPasswordOption:hover,
+.auth__modal-rememberLabel:hover,
+.auth__modal-switchLinkToLogin:hover,
+.auth__modal-switchLinkToRegister:hover,
+.auth__modal-btnProceed:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.auth__modal-proceed{
+    margin: 15px 0;
+    text-align: center;
+    font-size: 1.4rem;
+    color: white;
+}
+
+.auth__modal-btnProceed{
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: black;
+    border-radius: 4px;
+}
+
+
+.auth__modal-switch{
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.auth__modal-switchLinkToRegister,
+.auth__modal-switchLinkToLogin{
+    padding-left: 4px;
+}
+
+
+
+
+
