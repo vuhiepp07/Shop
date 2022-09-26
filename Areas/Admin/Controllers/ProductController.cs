@@ -67,5 +67,24 @@ namespace Shop.Areas.Admin.Controllers{
             }
             else return Redirect("/Admin/Product/Error");
         }
+
+        public IActionResult ApplyDiscount(){
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ApplyDiscount(string productName, string DiscountId){
+            Discount discount = provider.Discount.GetDiscountById(int.Parse(DiscountId));
+            Product product = provider.Product.SearchProductByName(productName);
+            if(product == null){
+                return Redirect ("/Admin/Product/ApplyDiscount");
+            }
+            product.ProductDiscountId = int.Parse(DiscountId);
+            product.DiscountPrice = (int)(product.Price - ((product.Price / 100.0) * discount.DiscountPercentage));
+            if(provider.Product.UpdateProductPrice(product) > 1){
+                return Redirect ("/Admin/Product/ApplyDiscount");
+            }
+            else return Redirect("/Admin/Product/Error");
+        }
     }
 }

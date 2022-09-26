@@ -16,6 +16,8 @@ namespace Shop.Models{
         public int Quantity {get; set;}
         public int Price {get; set;}
 
+        public int DiscountPrice {get; set;}
+
         //[Required]
         //[StringLength(1000)]
         //[Column(TypeName = "nvarchar")]

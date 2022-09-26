@@ -82,46 +82,45 @@
                     {
                         <div class="grid__column-TwoOfTen productList__item">
                             <div class="productList__item-img" style="background-image: url(/images/products/@item.ImageUrl);">
+                                <div class="productList__item-addToCartbtn">
+                                    Add to cart
+                                </div>
                             </div>
                             <div class="productList__item-name">
                                 <span>@item.ProductName</span>
                             </div>
                             
                             <div class="productList__item-Price">
-                                <div class="productList__item-Newprice">
-                                    @{
-                                        string Price = normalizePrice(item.Price.ToString());
-                                    }
-                                    <span>@Price₫</span>
-                                </div>
-                            @if(item.Price == item.Price){
-                                <div class="productList__item-Oldprice">
-                                    @{
-                                        string OldPrice = normalizePrice(item.Price.ToString());
-                                    }
-                                    <span>@OldPrice₫</span>
-                                </div>
-                            }
-                            </div>
-                            @{
-                                foreach (Discount discount in ViewBag.Discounts)
-                                {
-                                    string discountPercent;
-                                    if(discount.DiscountId == item.ProductDiscountId){
-                                        discountPercent = discount.DiscountPercentage.ToString();
-                                        @* if(discount.DiscountPercentage != 0){
-                                            <div class="productList__item-SaleOf">
-                                                <span style="line-height: 20px;" >GIẢM</span><br>
-                                                <span>@discountPercent%</span>
-                                            </div>
-                                        }  *@
+                                @{
+                                    if(item.Price != item.DiscountPrice && item.DiscountPrice != 0){
+                                        <div class="productList__item-Newprice">
+                                            @{
+                                                string Price = normalizePrice(item.DiscountPrice.ToString());
+                                            }
+                                            <span>@Price₫</span>
+                                        </div>
+                                        <div class="productList__item-Oldprice">
+                                            @{
+                                                string OldPrice = normalizePrice(item.Price.ToString());
+                                            }
+                                            <span>@OldPrice₫</span>
+                                        </div>
+                                        float discountPercent = (item.Price - item.DiscountPrice) / (item.Price/100);
                                         <div class="productList__item-SaleOf">
-                                                <span style="line-height: 20px;" >GIẢM</span><br>
-                                                <span>@discountPercent%</span>
+                                                    <span style="line-height: 20px;" >GIẢM</span><br>
+                                                    <span>@discountPercent%</span>
+                                        </div>
+                                    }
+                                    else{
+                                        <div class="productList__item-Newprice">
+                                            @{
+                                                string Price = normalizePrice(item.Price.ToString());
+                                            }
+                                            <span>@Price₫</span>
                                         </div>
                                     }
                                 }
-                            }
+                            </div>
                         </div>
                     }
                 </div>
@@ -184,41 +183,48 @@
         for(let i in object){
             let productPrice = String(object[i]['price'])
             let productPriceInString = normalizePrice(productPrice)
-            let productOldPrice = String(object[i]['price'])
-            let productOldPriceInString = normalizePrice(productPrice)
+            let productDiscountPrice = String(object[i]['discountPrice'])
+            let productDiscountPriceInString = normalizePrice(productDiscountPrice)
 
             let newHtml = `
                 <div class="grid__column-TwoOfTen productList__item">
                     <div class="productList__item-img" style="background-image: url(/images/products/${object[i]['imageUrl']});">
+                        <div class="productList__item-addToCartbtn">
+                            Add to cart
+                        </div>
                     </div>
                     <div class="productList__item-name">
                         <span>${object[i]['productName']}</span>
                     </div>
                     
                     <div class="productList__item-Price">
-                        <div class="productList__item-Newprice">
-                            <span>${productPriceInString}₫</span>
-                        </div>
             `
-            if(productPrice == productOldPrice){
+            if(productPrice != productDiscountPrice && productDiscountPrice != 0){
                 newHtml += `
+                <div class="productList__item-Newprice">
+                    <span>${productDiscountPriceInString}₫</span>
+                </div>
                 <div class="productList__item-Oldprice">
-                    <span>${productOldPriceInString}₫</span>
+                    <span>${productPriceInString}₫</span>
                 </div>
                 `
+            let productDiscountPercentage = ((object[i]['price'] - object[i]['discountPrice'])/object[i]['price'])*100
+            newHtml += `
+                <div class="productList__item-SaleOf">
+                    <span style="line-height: 20px;" >GIẢM</span><br>
+                    <span>${productDiscountPercentage}%</span>
+                </div>
+            `
             }
-            newHtml += `</div>`
-
-            let productDiscountPercentage = ((object[i]['price'] - object[i]['price'])/object[i]['price'])*10
-            if(productDiscountPercentage == 0){
+            else{
                 newHtml += `
-                    <div class="productList__item-SaleOf">
-                        <span style="line-height: 20px;" >GIẢM</span><br>
-                        <span>${productDiscountPercentage}%</span>
+                    <div class="productList__item-Newprice">
+                        <span>${productPriceInString}₫</span>
                     </div>
                 `
             }
             
+            newHtml += `</div>`
             newHtml += `</div>`
 
             productField.innerHTML += newHtml

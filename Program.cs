@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Shop.Filters;
 using Shop.Models;
@@ -10,6 +11,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 builder.Services.AddScoped(p => new SiteProvider(builder.Configuration, p.GetRequiredService<AppDbContext>()));
 builder.Services.AddScoped(p => new NavbarFilter(p.GetRequiredService<SiteProvider>()));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(p => {
+    p.LoginPath = "/auth/login";
+});
 var app = builder.Build();
 
 //app.MapGet("/", () => "Hello World!");

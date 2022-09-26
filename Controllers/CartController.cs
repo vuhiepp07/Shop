@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Shop.Models;
 
 namespace Shop.Controllers{
@@ -5,6 +6,10 @@ namespace Shop.Controllers{
     {
         public CartController(SiteProvider provider) : base(provider)
         {
+        }
+
+        public IActionResult Index(){
+            return View();
         }
     }
 }

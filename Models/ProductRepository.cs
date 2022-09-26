@@ -18,7 +18,7 @@ namespace Shop.Models{
             });
         }
 
-        public IEnumerable<Product> SearchProductByName(string name){
+        public IEnumerable<Product> SearchProductsByName(string name){
             // var result = from product in dbContext.Product
             //                     where product.ProductName.ToLower().Contains(name.ToLower())
             //                     select product;
@@ -26,6 +26,25 @@ namespace Shop.Models{
             return connection.Query<Product>("select * from Product where Lower(ProductName) like '%' + @Name + '%'", new{
                 Name = name.ToLower()
             });
+        }
+
+        public Product SearchProductByName(string name){
+            // var result = from product in dbContext.Product
+            //                     where product.ProductName.ToLower().Contains(name.ToLower())
+            //                     select product;
+            // return result;
+            return connection.QuerySingleOrDefault<Product>("select * from Product where Lower(ProductName) like '%' + @Name + '%'", new{
+                Name = name.ToLower()
+            });
+        }
+
+        public int UpdateProductPrice(Product obj){
+            return connection.Execute("Update Product set DiscountPrice = @DiscountPrice, ProductDiscountId = @DiscountId where ProductId = @Id", new{
+                Id = obj.ProductId,
+                DiscountId = obj.ProductDiscountId,
+                DiscountPrice = obj.DiscountPrice
+            });
+
         }
 
         public IEnumerable<Product> GetProductsByCategoryIdAndBrandId(int categoryId, int brandId){

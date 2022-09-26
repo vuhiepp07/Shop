@@ -46,6 +46,7 @@ namespace Shop.Controllers{
             return products;
         }
 
+        // Filter product function in the server-size, this is not more used, filter will be handled in the front end
         private IEnumerable<Product> FilterProductByPriceRange(IEnumerable<Product> tempProducts, int pricerangeid){
             int min = 0;
             int max = 0;
@@ -110,12 +111,14 @@ namespace Shop.Controllers{
             return View();
         }
 
+        // Filter product function in the server-size, this is not more used, filter will be handled in the front end
         [HttpPost("home/filter/{brandid:int}/{pricerangeid:int}")]
         public IActionResult FilterProductByBrandAndPrice(int brandid, int pricerangeid){
             IEnumerable<Product> tempProducts = FilterProductByBrandId(brandid);
             return Json(FilterProductByPriceRange(tempProducts, pricerangeid));
         }
 
+        // Filter product function in the server-size, this is not more used, filter will be handled in the front end
         [HttpPost("/home/filter/{brandid:int}/{categoryname:alpha}/{pricerangeid:int}")]
         public IActionResult FilterProductByCategoryBrandPrice(int brandid, string categoryname, int pricerangeid){
             IEnumerable<Product> tempProducts = FilterProductByBrandIdAndCategoryName(brandid, categoryname);
@@ -125,7 +128,7 @@ namespace Shop.Controllers{
         [ServiceFilter(typeof(NavbarFilter))]
         [HttpPost]
         public IActionResult searchProduct(string productName){
-            IEnumerable<Product> products = provider.Product.SearchProductByName(productName);
+            IEnumerable<Product> products = provider.Product.SearchProductsByName(productName);
             FillDataToViewBag(products);
             return View();
         }

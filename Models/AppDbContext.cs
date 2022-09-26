@@ -122,6 +122,7 @@ namespace Shop.Models{
                     .HasForeignKey(p => p.ProductDiscountId);
                 entity.Property(p => p.ProductDiscountId).HasDefaultValue(1);
                 entity.Property(p => p.ProductId).ValueGeneratedOnAdd();
+                entity.Property(p => p.DiscountPrice).HasDefaultValue(0);
             });
         }
     }

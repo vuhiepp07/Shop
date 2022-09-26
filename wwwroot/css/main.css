@@ -221,9 +221,33 @@
 }
 
 .productList__item-img{
+    position: relative;
     padding-top: 100%;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+.productList__item-addToCartbtn{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    font-size: 1.4rem;
+    height: 40px;
+    display: none;
+    background-color: black;
+    opacity: 0.65;
+}
+
+.productList__item-img:hover .productList__item-addToCartbtn{
+    display: block;
+}
+
+.productList__item-addToCartbtn:hover{
+    opacity: 0.9;
 }
 
 .productList__item-SaleOf{
@@ -252,7 +276,7 @@
 /* Product item name css */
 
 .productList__item-name{
-    margin-top: -10px;
+    margin-top: 5px;
     font-size: 1.4rem;
     text-align: center;
     line-height: 1.8rem;
