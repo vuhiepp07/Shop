@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Models;
 
@@ -11,9 +12,10 @@ using Shop.Models;
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220928023006_dropForeignKeysFromCartAndCartDetail")]
+    partial class dropForeignKeysFromCartAndCartDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +74,32 @@ namespace Shop.Migrations
 
             modelBuilder.Entity("Shop.Models.Cart", b =>
                 {
-                    b.Property<string>("CartId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"), 1L, 1);
+
+                    b.Property<int>("TotalPrice")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Cart", (string)null);
+                });
+
+            modelBuilder.Entity("Shop.Models.CartDetail", b =>
+                {
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -83,11 +109,13 @@ namespace Shop.Migrations
 
                     b.HasKey("CartId", "ProductId");
 
-                    b.HasIndex("CartId");
+                    b.HasIndex("CartId")
+                        .IsUnique();
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
-                    b.ToTable("Cart", (string)null);
+                    b.ToTable("CartDetail", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Models.Category", b =>
@@ -165,7 +193,7 @@ namespace Shop.Migrations
                     b.Property<int>("DiscountId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasDefaultValue(0);
 
                     b.Property<string>("ReceiveAddress")
                         .IsRequired()
@@ -257,20 +285,15 @@ namespace Shop.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
@@ -303,11 +326,30 @@ namespace Shop.Migrations
 
             modelBuilder.Entity("Shop.Models.Cart", b =>
                 {
-                    b.HasOne("Shop.Models.Product", "Product")
+                    b.HasOne("Shop.Models.User", "User")
                         .WithOne("Cart")
-                        .HasForeignKey("Shop.Models.Cart", "ProductId")
+                        .HasForeignKey("Shop.Models.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Shop.Models.CartDetail", b =>
+                {
+                    b.HasOne("Shop.Models.Cart", "Cart")
+                        .WithOne("CartDetail")
+                        .HasForeignKey("Shop.Models.CartDetail", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Shop.Models.Product", "Product")
+                        .WithOne("CartDetail")
+                        .HasForeignKey("Shop.Models.CartDetail", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
 
                     b.Navigation("Product");
                 });
@@ -358,6 +400,12 @@ namespace Shop.Migrations
                     b.Navigation("BrandProducts");
                 });
 
+            modelBuilder.Entity("Shop.Models.Cart", b =>
+                {
+                    b.Navigation("CartDetail")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Shop.Models.Category", b =>
                 {
                     b.Navigation("BrandCategory")
@@ -375,7 +423,13 @@ namespace Shop.Migrations
 
             modelBuilder.Entity("Shop.Models.Product", b =>
                 {
-                    b.Navigation("Cart");
+                    b.Navigation("CartDetail");
+                });
+
+            modelBuilder.Entity("Shop.Models.User", b =>
+                {
+                    b.Navigation("Cart")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

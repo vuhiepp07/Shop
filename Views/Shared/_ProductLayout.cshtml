@@ -170,12 +170,12 @@
         let sortType = document.querySelector('input[name="sortType"]:checked').value
         if(sortType == 1){
             object.sort((a,b) => {
-                return a['price'] - b['price']
+                return a['discountPrice'] - b['discountPrice']
             })
         }
         else if(sortType == 2){
             object.sort((a,b) => {
-                return b['price'] - a['price']
+                return b['discountPrice'] - a['discountPrice']
             })
         }
         
@@ -264,12 +264,12 @@
         }
         for(let i =0;i < productList.length; i++){
             if(brandId == 0){
-                if(productList[i]['price'] > min && productList[i]['price'] < max){
+                if(productList[i]['discountPrice'] > min && productList[i]['discountPrice'] < max){
                     productsWillShow.push(productList[i])
                 }
             }
             else{
-                if(productList[i]['brandId'] == brandId && productList[i]['price'] > min && productList[i]['price'] < max){
+                if(productList[i]['brandId'] == brandId && productList[i]['discountPrice'] > min && productList[i]['discountPrice'] < max){
                     productsWillShow.push(productList[i])
                 }
             }

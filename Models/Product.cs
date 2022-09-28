@@ -39,6 +39,6 @@ namespace Shop.Models{
         //[ForeignKey("DiscountId")]
         public virtual Discount? Discount {get; set;}
 
-        public virtual CartDetail? CartDetail {get; set;}
+        public virtual Cart? Cart {get; set;}
     }
 }

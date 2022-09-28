@@ -34,16 +34,6 @@ namespace Shop.Models{
             }
         }
 
-        CartDetailRepository cartDetail;
-        public CartDetailRepository CartDetail{
-            get{
-                if(cartDetail is null){
-                    cartDetail = new CartDetailRepository(Connection, dbContext);
-                }
-                return cartDetail;
-            }
-        }
-
         CategoryRepository category;
         public CategoryRepository Category{
             get{

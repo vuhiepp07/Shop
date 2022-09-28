@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Models;
 
@@ -11,9 +12,10 @@ using Shop.Models;
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220928031301_dropTableCartDetail")]
+    partial class dropTableCartDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,26 +70,6 @@ namespace Shop.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("BrandCategory", (string)null);
-                });
-
-            modelBuilder.Entity("Shop.Models.Cart", b =>
-                {
-                    b.Property<string>("CartId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartId", "ProductId");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Cart", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Models.Category", b =>
@@ -301,17 +283,6 @@ namespace Shop.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Shop.Models.Cart", b =>
-                {
-                    b.HasOne("Shop.Models.Product", "Product")
-                        .WithOne("Cart")
-                        .HasForeignKey("Shop.Models.Cart", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Shop.Models.Order", b =>
                 {
                     b.HasOne("Shop.Models.Discount", "Discount")
@@ -371,11 +342,6 @@ namespace Shop.Migrations
                     b.Navigation("DiscountProducts");
 
                     b.Navigation("OrderDiscounts");
-                });
-
-            modelBuilder.Entity("Shop.Models.Product", b =>
-                {
-                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

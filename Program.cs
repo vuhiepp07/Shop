@@ -13,6 +13,7 @@ builder.Services.AddScoped(p => new SiteProvider(builder.Configuration, p.GetReq
 builder.Services.AddScoped(p => new NavbarFilter(p.GetRequiredService<SiteProvider>()));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(p => {
     p.LoginPath = "/auth/login";
+    p.ExpireTimeSpan = TimeSpan.FromDays(7);
 });
 var app = builder.Build();
 

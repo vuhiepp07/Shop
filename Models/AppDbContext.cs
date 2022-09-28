@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Shop.Models{
     public class AppDbContext:DbContext{
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options){
-
         }
         public DbSet<Brand> Brand {get; set;}
         public DbSet<BrandCategory> BrandCategory {get; set;}
         public DbSet<Cart> Cart {get; set;}
-        public DbSet<CartDetail> CartDetail {get; set;}
         public DbSet<Category> Category {get; set;}
         public DbSet<Discount> Discount {get; set;}
         public DbSet<Order> Order {get; set;}
@@ -58,34 +56,22 @@ namespace Shop.Models{
             builder.Entity<User>(entity => {
                 entity.ToTable("User");
                 entity.HasKey(p => p.UserId);
+                entity.Property(p => p.FullName).IsRequired(false);
                 entity.Property(p => p.Email).IsRequired(false);
                 entity.Property(p => p.DateOfBirth).IsRequired(false);
                 entity.Property(p => p.UserId).HasDefaultValueSql("NEWID()");
-
+                entity.Property(p => p.ImageUrl).IsRequired(false);
+                entity.Property(p => p.Phone).IsRequired(false);
             });
 
             builder.Entity<Cart>(entity => {
                 entity.ToTable("Cart");
-                entity.HasKey(p => p.CartId);
-                entity.Property(p=> p.UserId);
-                entity.HasOne(p => p.User)
-                    .WithOne( p => p.Cart)
-                    .HasForeignKey<Cart>(p => p.UserId);
-                entity.Property(p => p.TotalPrice).HasDefaultValue(0);
-                entity.Property(p => p.CartId).ValueGeneratedOnAdd();
-            });
-
-            builder.Entity<CartDetail>(entity => {
-                entity.ToTable("CartDetail");
                 entity.HasKey(p => new {p.CartId, p.ProductId});
-                entity.HasOne(p => p .Cart)
-                    .WithOne(p => p.CartDetail)
-                    .HasForeignKey<CartDetail>(p => p.CartId);
+                entity.HasIndex(p => p.CartId).IsUnique(false);
+                entity.HasIndex(p => p.ProductId).IsUnique(false);
                 entity.HasOne(p => p.Product)
-                    .WithOne(p => p.CartDetail)
-                    .HasForeignKey<CartDetail>(p => p.ProductId);
-                entity.Property(p => p.Quantity).HasDefaultValue(1);
-
+                                .WithOne(p => p.Cart)
+                                .HasForeignKey<Cart>(p => p.ProductId);
             });
 
             builder.Entity<Discount>(entity =>{
@@ -104,7 +90,7 @@ namespace Shop.Models{
                     .HasForeignKey(p => p.DiscountId);
                 entity.Property(p => p.UserNote).IsRequired(false);
                 entity.Property(p => p.ReceiverName).IsRequired(false);
-                entity.Property(p => p.DiscountId).HasDefaultValue(0);
+                entity.Property(p => p.DiscountId).HasDefaultValue(1);
                 entity.Property(p => p.OrderId).ValueGeneratedOnAdd();
             });
 
