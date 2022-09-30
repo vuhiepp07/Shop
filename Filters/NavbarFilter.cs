@@ -6,6 +6,8 @@ namespace Shop.Filters{
     public class NavbarFilter : Attribute, IActionFilter
     {
         SiteProvider provider;
+        private const string cartCode = "CartId";
+
         public NavbarFilter(SiteProvider provider){
             this.provider = provider;
         }
@@ -23,6 +25,12 @@ namespace Shop.Filters{
                     }
                     myDict.Add(category.CategoryId, brandList);
                 }
+                string? cartId = con.Request.Cookies[cartCode];
+                if(string.IsNullOrEmpty(cartId)){
+                    cartId = Helper.RandomString(64);
+                    con.Response.Cookies.Append(cartCode, cartId);
+                }
+                con.ViewBag.CartProductsNum = provider.Cart.CountProducts(cartId); 
                 con.ViewBag.Categories = categories;
                 con.ViewBag.BrandOfCategories = myDict;
             }

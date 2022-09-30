@@ -3,6 +3,7 @@
     height: var(--header-height);
     width: 100%;
     z-index: 1;
+    top:0;
     position: fixed;
 }
 
@@ -156,6 +157,7 @@
 .barWithSearch__cart-logo{
     font-size: 3rem;
     padding: 3px;
+    color: black;
     position: relative;
 }
 
@@ -205,8 +207,9 @@
 
 /* Product css  */
 
-.productList{
-    margin-top: var(--header-height);
+.productList,
+.cartProducts{
+    margin-top: calc(var(--header-height) + 20px);
 }
 
 .productList__item{
@@ -268,7 +271,7 @@
     position: absolute;
     border-width: 0 18px 4px;
     left: 0;
-    top: 36px;
+    top: 35px;
     border-style: solid;
     border-color: transparent var(--saleOfFlag-color) transparent var(--saleOfFlag-color) ;
 }
@@ -429,7 +432,8 @@
     margin-top: 15px;
 }
 
-.auth__modal-input{
+.auth__modal-inputUsername,
+.auth__modal-inputPassword{
     margin-left: 4px;
     padding-left: 8px;
     border: none;
@@ -457,7 +461,8 @@
 .auth__modal-rememberLabel:hover,
 .auth__modal-switchLinkToLogin:hover,
 .auth__modal-switchLinkToRegister:hover,
-.auth__modal-btnProceed:hover{
+.auth__modal-btnLogin:hover,
+.auth__modal-btnRegister:hover{
     cursor: pointer;
     opacity: 0.8;
 }
@@ -469,7 +474,8 @@
     color: white;
 }
 
-.auth__modal-btnProceed{
+.auth__modal-btnLogin,
+.auth__modal-btnRegister{
     display: inline-block;
     padding: 10px 15px;
     background-color: black;
@@ -487,7 +493,58 @@
     padding-left: 4px;
 }
 
+/* Cart page css  */
+.cartProducts table, th, td{
+    border: 1px solid black;
+}
 
+.cartProducts__table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cartProducts__Heading{
+    font-size: 1.6rem;
+    height: 50px;
+    font-weight: 700;
+    background-color: var(--primary-color);
+}
+
+.cartProducts__item{
+    text-align: center;
+    font-size: 1.4rem;
+    padding: 0 10px;
+}
+
+.cartProducts__item td{
+    max-width: 250px;
+    padding: 0 15px;
+}
+
+
+.cartProducts__item-img{
+    max-width: 250px;
+}
+
+.cartProducts__item-quantity{
+    padding: 0 10px;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.cartProducts__item-plusIcon,
+.cartProducts__item-minusIcon{
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    padding: 4px;
+    font-size: 1.3rem;
+}
+
+.cartProducts__item-plusIcon:hover,
+.cartProducts__item-minusIcon:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
 
 
 

@@ -1,7 +1,5 @@
 namespace Shop.Models{
-    public class LoginModel{
-        public string username;
-        public string password;
-        public bool remember;
+    public class LoginModel:AuthModel{
+        public bool Remember {get; set;}
     }
 }

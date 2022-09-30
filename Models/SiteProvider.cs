@@ -74,5 +74,15 @@ namespace Shop.Models{
                 return product;
             }
         }
+
+        UserRepository user;
+        public UserRepository User{
+            get{
+                if(user is null){
+                    user = new UserRepository(Connection, dbContext);
+                }
+                return user;
+            }
+        }
     }
 }

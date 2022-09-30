@@ -1,20 +1,131 @@
+@functions{
+public string normalizePrice(string price){
+        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
+            if(x == 2){
+                price = price.Insert(i, ",");
+                i++;
+                x=-2;
+            }
+        }
+        return price;
+    }
+}
 
-<div class="content grid">
-    <table>
-        <thead>
+<div class="cartProducts grid" style="overflow-x:auto;">
+    <table class="cartProducts__table">
+        <thead class="cartProducts__Heading">
             <th>Tên sản phẩm</th>
             <th>Hình ảnh</th>
             <th>Số lượng</th>
             <th>Giá</th>
         </thead>
         <tbody>
-            <tr>
-                @foreach (Product product in ViewBag.Cart)
-                {
-                    
-                }
-                <td></td>
-            </tr>
+            @foreach (CartDetail product in ViewBag.CartDetail){
+                <tr class ="cartProducts__item">
+                        <td>@product.ProductName</td>
+                        <td><img class="cartProducts__item-img" src=/images/products/@product.ImageUrl alt="ProductImg"></td>
+                        <td>
+                            <input id="hiddenProductId" type="hidden" value=@product.ProductId>
+                            <i class="cartProducts__item-minusIcon fa-solid fa-minus"></i>
+                            <span class="cartProducts__item-quantity">@product.Quantity</span>
+                            <i class="cartProducts__item-plusIcon fa-solid fa-plus"></i>
+                        </td>
+                        <input id="hiddenProductPrice" type="hidden" value=@product.DiscountPrice>
+                        <td class="cartProducts__item-price">@normalizePrice((product.DiscountPrice * product.Quantity).ToString())</td>
+                </tr>
+            }
         </tbody>
     </table>
+
+    <script>
+        function normalizePrice(price){
+            for(var i = price.length -1, x = 0 ; i> 0; i--, x++){
+                if(x == 2){
+                    price = price.slice(0, i) + "," + price.slice(i)
+                    i++;
+                    x=-2;
+                }
+            }
+            return price;
+        }
+
+        function checkMinNumOfProduct(){
+            let numOfProductNodes = document.querySelectorAll('.cartProducts__item-quantity')
+            for(let i = 0; i < numOfProductNodes.length; i++){
+                if(parseInt(numOfProductNodes[i].textContent) < 2){
+                    parent = numOfProductNodes[i].parentNode
+                    parent.querySelector('.cartProducts__item-minusIcon').style.display = 'none'
+                }
+            }
+        }
+
+        function SendRequestEditCart(url, obj){
+            let request = new XMLHttpRequest()
+            let responeMessage = ''
+            request.open("POST", url, false)
+            request.setRequestHeader("Content-type", "application/json")
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    responeMessage = JSON.parse(this.responseText)['status']
+                }
+            }
+            request.send(JSON.stringify(obj));
+            return responeMessage
+        }
+
+        checkMinNumOfProduct()
+        var plusBtn = document.getElementsByClassName('cartProducts__item-plusIcon')
+        var minusBtn = document.getElementsByClassName('cartProducts__item-minusIcon')        
+
+        for(let i = 0; i<plusBtn.length; i++){
+            plusBtn[i].addEventListener('click', function(e){
+                let parent = plusBtn[i].parentNode
+                let grandNode = parent.parentNode
+                let productPrice = grandNode.querySelector('#hiddenProductPrice').value
+                let productId = parent.querySelector('#hiddenProductId').value
+                let numOfProductNode = parent.querySelector('.cartProducts__item-quantity')
+                let numOfProduct = parseInt(numOfProductNode.textContent)
+                let cartObj = {
+                    ProductId : productId,
+                    Quantity : numOfProduct + 1
+                }
+                let result = SendRequestEditCart("/cart/edit", cartObj)
+                if(result === 'true'){
+                    let toalNumOfProductInCartNode = document.querySelector('.barWithSearch__cart-numofProd')
+                    let toalNumOfProduct = parseInt(toalNumOfProductInCartNode.textContent)
+                    let productRowPriceNode = grandNode.querySelector('.cartProducts__item-price') 
+                    productRowPriceNode.textContent = normalizePrice(String(productPrice * (numOfProduct + 1)))
+                    toalNumOfProductInCartNode.textContent = String(toalNumOfProduct + 1)
+                    numOfProductNode.textContent = String(numOfProduct + 1)
+                    parent.querySelector('.cartProducts__item-minusIcon').style.display = 'inline-block'
+                }
+            })
+            minusBtn[i].addEventListener('click', function(e){
+                let parent = minusBtn[i].parentNode
+                let grandNode = parent.parentNode
+                let productPrice = grandNode.querySelector('#hiddenProductPrice').value
+                let productId = parent.querySelector('#hiddenProductId').value
+                let numOfProductNode = parent.querySelector('.cartProducts__item-quantity')
+                let numOfProduct = parseInt(numOfProductNode.textContent)
+                let cartObj = {
+                    ProductId : productId,
+                    Quantity : numOfProduct - 1
+                }
+                let result = SendRequestEditCart("/cart/edit", cartObj)
+                if(result === 'true'){
+                    let toalNumOfProductInCartNode = document.querySelector('.barWithSearch__cart-numofProd')
+                    let toalNumOfProduct = parseInt(toalNumOfProductInCartNode.textContent)
+                    let productRowPriceNode = grandNode.querySelector('.cartProducts__item-price') 
+                    productRowPriceNode.textContent = normalizePrice(String(productPrice * (numOfProduct - 1)))
+                    toalNumOfProductInCartNode.textContent = String(toalNumOfProduct - 1)
+                    numOfProductNode.textContent = String(numOfProduct -1)
+                    if(numOfProduct - 1 < 2){
+                        parent.querySelector('.cartProducts__item-minusIcon').style.display = 'none'
+                    }
+                }
+
+            })
+        }
+    </script>
 </div>
+

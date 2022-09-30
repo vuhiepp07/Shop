@@ -1,4 +1,5 @@
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Shop{
     public static class Helper{
@@ -13,5 +14,11 @@ namespace Shop{
             return string.Join(string.Empty, arr);
             
         }
+
+        public static byte[] Hash(string plaintext)
+		{
+            HashAlgorithm algorithm = HashAlgorithm.Create("SHA-512");
+            return algorithm.ComputeHash(Encoding.ASCII.GetBytes(plaintext));
+		}
     }
 }

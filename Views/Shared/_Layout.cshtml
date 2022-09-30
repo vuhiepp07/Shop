@@ -61,17 +61,27 @@
                     </div>  
                     <ul class="barWithSearch__link">
                         <li class="barWithSearch__cart">
-                            <i class="barWithSearch__cart-logo fa-solid fa-cart-shopping"></i>
-                            <span class="barWithSearch__cart-numofProd">3</span>
+                            <a href="/cart">
+                                <i class="barWithSearch__cart-logo fa-solid fa-cart-shopping"></i>
+                                <span class="barWithSearch__cart-numofProd">@ViewBag.CartProductsNum</span>
+                            </a>
                         </li>
-                        <li class="barWithSearch__account">
-                            <div class="account__login">
-                                <a class="account_login-link" href="#">Đăng nhập</a>
-                            </div>
-                            <div class="account__register">
-                                <a class="account_register-link" href="#">Đăng ký</a>
-                            </div>
-                        </li>
+                        @if(User.Identity.IsAuthenticated){
+                            <li class="barWithSearch__account">
+                                <img src="" alt="UserAvatar">
+                                <div>@User.Identity.Name</div>
+                            </li>
+                        }   
+                        else{
+                            <li class="barWithSearch__account">
+                                <div class="account__login">
+                                    <a class="account_login-link" href="#">Đăng nhập</a>
+                                </div>
+                                <div class="account__register">
+                                    <a class="account_register-link" href="#">Đăng ký</a>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
 
@@ -87,11 +97,11 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-input" type="text" placeholder="Nhập tài khoản/email">
+                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập tài khoản/email">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-input" type="password" placeholder="Nhập mật khẩu">
+                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu">
                     </div>
                 </div>
                 <div class="auth__modal-footer">
@@ -105,7 +115,7 @@
                         </div>
                     </div>
                     <div class="auth__modal-proceed">
-                        <div class="auth__modal-btnProceed">Đăng nhập</div>
+                        <div class="auth__modal-btnLogin">Đăng nhập</div>
                     </div>
                     <div class="auth__modal-switch">
                         <span>Bạn chưa có tài khoản?</span>
@@ -123,20 +133,20 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-input" type="text" placeholder="Nhập tài khoản/email">
+                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập tài khoản/email">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-input" type="password" placeholder="Nhập mật khẩu">
+                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-input" type="password" placeholder="Nhập lại mật khẩu">
+                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập lại mật khẩu">
                     </div>
                 </div>
                 <div class="auth__modal-footer">
                     <div class="auth__modal-proceed">
-                        <div class="auth__modal-btnProceed">Đăng ký</div>
+                        <div class="auth__modal-btnRegister">Đăng ký</div>
                     </div>
                     <div class="auth__modal-switch">
                         <span>Bạn đã có tài khoản?</span>
@@ -206,6 +216,9 @@
         var registerModal = document.querySelector('.register__modal')
         var switchToRegisterModalLink = document.querySelector('.auth__modal-switchLinkToRegister')
         var switchToLoginModalLink = document.querySelector('.auth__modal-switchLinkToLogin')
+        var btnProceedLogin = document.querySelector('.auth__modal-btnLogin') 
+        var btnProceedRegister = document.querySelector('.auth__modal-btnRegister') 
+
 
         loginBtn.addEventListener('click', function(e){
             loginModal.classList.add('modal-active')
@@ -235,6 +248,68 @@
         switchToRegisterModalLink.addEventListener('click', function(e){
             loginModal.classList.remove('modal-active')
             registerModal.classList.add('modal-active')
+        })
+
+        function SendRequestAuthentication(url, obj){
+            let request = new XMLHttpRequest()
+            let responeMessage = ''
+            request.open("POST", url, false)
+            request.setRequestHeader("Content-type", "application/json")
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    responeMessage = JSON.parse(this.responseText)['status']
+                }
+            }
+            request.send(JSON.stringify(obj));
+            return responeMessage
+        }
+
+        btnProceedLogin.addEventListener('click', function(e){
+            let username = loginModal.querySelector('.auth__modal-inputUsername').value
+            let password = loginModal.querySelector('.auth__modal-inputPassword').value
+            let remember = loginModal.querySelector('#rememberCheckbox').checked
+            let obj = {
+                Username : username,
+                Password : password,
+                Remember : remember,
+            }
+            //console.log(obj);
+            @* $.post('/auth/login', obj, (d)=>{
+                console.log(d);
+            }) *@
+            let result = SendRequestAuthentication("/auth/login", obj);
+            if(result === 'false'){
+                alert("Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại")
+            }
+            else{
+                alert("Đăng nhập thành công")
+                loginModal.classList.remove('modal-active')
+            }
+        })
+
+        btnProceedRegister.addEventListener('click', function(e){
+            let username = registerModal.querySelector('.auth__modal-inputUsername').value
+            let password = registerModal.querySelectorAll('.auth__modal-inputPassword')
+            let password1 = password[0].value
+            let password2 = password[1].value
+            if(password1 !== password2){
+                alert("Mật khẩu và mật khẩu xác nhận phải giống nhau, vui lòng nhập lại")
+            }
+            else{
+                let obj = {
+                    Username : username,
+                    Password : password1
+                }
+                let result = SendRequestAuthentication("/auth/register", obj);
+                if(result === 'false'){
+                    alert("Tên tài khoản đã tồn tại, vui lòng sử dụng tên tài khoản khác")
+                }
+                else{
+                    alert("Đăng kí tài khoản thành công, xin mời đăng nhập")
+                    registerModal.classList.remove('modal-active')
+                    loginModal.classList.add('modal-active')
+                }
+            }
         })
     </script>
 </body>

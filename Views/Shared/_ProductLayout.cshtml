@@ -83,6 +83,7 @@
                         <div class="grid__column-TwoOfTen productList__item">
                             <div class="productList__item-img" style="background-image: url(/images/products/@item.ImageUrl);">
                                 <div class="productList__item-addToCartbtn">
+                                    <input class="hiddenProductId" type="hidden" value=@item.ProductId>
                                     Add to cart
                                 </div>
                             </div>
@@ -190,6 +191,7 @@
                 <div class="grid__column-TwoOfTen productList__item">
                     <div class="productList__item-img" style="background-image: url(/images/products/${object[i]['imageUrl']});">
                         <div class="productList__item-addToCartbtn">
+                            <input class="hiddenProductId" type="hidden" value=${object[i]['productId']}>
                             Add to cart
                         </div>
                     </div>
@@ -333,7 +335,15 @@
     for(let i = 0; i<addToCartBtns.length; i++){
         addToCartBtns[i].addEventListener('click', function(e){
             e.stopPropagation()
-            alert("add to cart")
+            let productId = addToCartBtns[i].querySelector('.hiddenProductId').value;
+            let request = new XMLHttpRequest();
+            request.open("POST", `/cart/add/${productId}`, true)
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
+                }
+            }
+            request.send()
         })
     }
     
