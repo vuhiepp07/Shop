@@ -192,6 +192,7 @@
 .account_login-link, 
 .account_register-link{
     text-decoration: none;
+    color: black;
     font-size: 1.4rem;
     padding: 8px;
 }
@@ -496,7 +497,10 @@
 /* Cart page css  */
 .cartProducts table, th, td{
     border: 1px solid black;
+    border-collapse: collapse;
+
 }
+
 
 .cartProducts__table{
     width: 100%;
@@ -546,5 +550,49 @@
     cursor: pointer;
 }
 
+/* Cart action bar css  */
+
+.cart__actions{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    width: 85%;
+}
+
+.cart__action-selectProduct,
+.cart__action-deleteProduct,
+.cart__action-checkout{
+    font-size: 1.3rem;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.cart__action-selectProduct:hover,
+.cart__action-deleteProduct:hover,
+.cart__action-checkout:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.cart__action-selectProduct{
+    background-color: var(--primary-color);
+}
+
+.cart__action-modify{
+    display: flex;
+}
+
+.cart__action-deleteProduct{
+    background-color: rgb(214, 80, 80);
+}
+
+.cart__action-checkout{
+    margin-left: 10px;
+    background-color: goldenrod ;
+}
+
+.cart__action-icon{
+
+}
 
 

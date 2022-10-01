@@ -23,6 +23,7 @@ namespace Shop.Controllers{
         public IActionResult Index(){
             string cartId = CheckCartCode();
             ViewBag.CartDetail = provider.Cart.GetCarts(cartId);
+            provider.Cart.ResetCheckoutProductList(cartId);
             return View();
         }
 
@@ -50,14 +51,28 @@ namespace Shop.Controllers{
         }
 
         [HttpPost]
-        public IActionResult Delete(Cart obj){
+        public IActionResult Delete([FromBody] int[] ProductIdArr){
+            var DeleteSuccessMsg = new {status = "true"};
+            var DeleteFailedMsg = new {status = "false"};
             string cartId = Request.Cookies[cartCode];
-            return Json(provider.Cart.Delete(obj));
+            if(provider.Cart.Delete(cartId, ProductIdArr) > 0){
+                return Json(DeleteSuccessMsg);
+            }
+            return Json(DeleteFailedMsg);
         }
 
+
         [ServiceFilter(typeof(NavbarFilter))]
-        public IActionResult CheckOut(){
-            return View();
+        [HttpPost]
+        public IActionResult UpdateCheckoutProductList([FromBody] int[] ProductIdArr){
+            var SuccessMsg = new {status = "true"};
+            var FailedMsg = new {status = "false"};
+            string cartId = Request.Cookies[cartCode];
+            if(provider.Cart.UpdateCheckoutProductList(cartId, ProductIdArr) > 0){
+                return Json(SuccessMsg);
+            }
+            return Json(FailedMsg);
         }
+
     }
 }

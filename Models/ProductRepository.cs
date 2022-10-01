@@ -18,6 +18,12 @@ namespace Shop.Models{
             });
         }
 
+        public IEnumerable<Product> GetProductByIdList(int[] listId){
+            return connection.Query<Product>("Select * from Product where ProductId in @ProductIdList", new{
+                ProductIdList = listId
+            });
+        }
+
         public IEnumerable<Product> SearchProductsByName(string name){
             // var result = from product in dbContext.Product
             //                     where product.ProductName.ToLower().Contains(name.ToLower())

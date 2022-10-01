@@ -36,10 +36,31 @@ namespace Shop.Models{
             });
         }
 
-        public int Delete(Cart obj){
-            return connection.Execute("Delete * from Cart where CartId = @Id and ProductId = @ProductId", new{
-                Id = obj.CartId,
-                ProductId = obj.ProductId
+        public int UpdateCheckoutProductList(string id, int[] ProductIdArr){
+            return connection.Execute("Update Cart set isSelectedToBuy = 1 where CartId = @id and ProductId in @ProductIdArr", new{
+                Id = id,
+                ProductIdArr = ProductIdArr
+            });
+        }
+
+        public IEnumerable<CheckOutProduct> GetCheckOutProductList(string id){
+            string sql = "Select Product.ProductId, Product.ProductName, Product.DiscountPrice, Product.ImageUrl, Cart.CartId, Cart.Quantity ";
+            sql +=  "from Cart join Product on Cart.ProductId = Product.ProductId where CartId = @id";
+            return connection.Query<CheckOutProduct>(sql, new{
+                id = id
+            });
+        }
+
+        public int Delete(string id, int[] ProductIdArr){
+            return connection.Execute("Delete Cart where CartId = @Id and ProductId in @ProductIdArr", new{
+                Id = id,
+                ProductIdArr = ProductIdArr
+            });
+        }
+
+        public int ResetCheckoutProductList(string id){
+            return connection.Execute("Update Cart set isSelectedToBuy = 0 where CartId = @id", new{
+                id = id
             });
         }
     }
