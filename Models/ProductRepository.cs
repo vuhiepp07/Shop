@@ -18,6 +18,13 @@ namespace Shop.Models{
             });
         }
 
+        public IEnumerable<Product> GetProductInTheSameCategory(Product obj){
+            return connection.Query<Product>("Select * from Product where Product.CategoryId = @CategoryId and ProductId != @ProductId", new{
+                CategoryId = obj.CategoryId,
+                ProductId = obj.ProductId
+            });
+        }
+
         public IEnumerable<Product> GetProductByIdList(int[] listId){
             return connection.Query<Product>("Select * from Product where ProductId in @ProductIdList", new{
                 ProductIdList = listId

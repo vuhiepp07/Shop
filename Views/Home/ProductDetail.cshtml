@@ -1,0 +1,76 @@
+@functions{
+    public string normalizePrice(string price){
+        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
+            if(x == 2){
+                price = price.Insert(i, ",");
+                i++;
+                x=-2;
+            }
+        }
+        return price;
+    }
+}
+
+<div class="content">
+    <div class="ProductInfo grid">
+        <div>
+            <img class="ProductInfo__img" src="/images/products/@ViewBag.MainProduct.ImageUrl" alt="Product Image">
+        </div>
+        <div class="ProductInfo__detail">
+            <div class="ProductInfo__detail-name">
+                <h3 class="ProductInfo__detail-heading">Tên sản phẩm </h3>
+                @ViewBag.MainProduct.ProductName
+            </div>
+            <div class="ProductInfo__detail-description">
+                <h3 class="ProductInfo__detail-heading">Mô tả</h3>
+                @ViewBag.MainProduct.Description
+            </div>
+
+            @if(ViewBag.MainProduct.Price != ViewBag.MainProduct.DiscountPrice){
+                float discountPercent = (ViewBag.MainProduct.Price - ViewBag.MainProduct.DiscountPrice) / (ViewBag.MainProduct.Price/100);
+                <h3 class="ProductInfo__detail-heading">Khuyến mãi: @discountPercent%</h3>
+            }
+            <div class="ProductInfo__detail-price">
+            <h3 class="ProductInfo__detail-heading">Giá sản phẩm: </h3>
+                <div class="ProductInfo__detail-priceNew">
+                    @normalizePrice(ViewBag.MainProduct.DiscountPrice.ToString())₫
+                </div>
+                @if(ViewBag.MainProduct.Price != ViewBag.MainProduct.DiscountPrice){
+                    <div class="ProductInfo__detail-priceOld">
+                        @normalizePrice(ViewBag.MainProduct.Price.ToString())₫
+                    </div>
+                }
+            </div>
+            <div class="ProductInfo__AddToCart">
+                <div class="ProductInfo__AddToCartbtn">
+                    Thêm vào giỏ hàng
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="SameProductHeader">------ CÁC SẢN PHẨM TƯƠNG TỰ -----</div>
+    <div class="grid">
+        <div class="grid__full-width">
+            <div class="grid__row">
+                <partial name="_ProductListPartial"></partial>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    addtocartBtn = document.querySelector('.ProductInfo__AddToCartbtn')
+    addtocartBtn.addEventListener('click', function(e){
+        let productId = @Html.Raw(Json.Serialize(@ViewBag.MainProduct.ProductId))
+        let request = new XMLHttpRequest();
+        request.open("POST", `/cart/add/${productId}`, true)
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
+            }
+        }
+        request.send()
+    })
+</script>
+
+

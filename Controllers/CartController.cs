@@ -6,11 +6,12 @@ namespace Shop.Controllers{
     public class CartController : BaseController
     {
         private const string cartCode = "CartId";
+        private bool AccessCartLoginStatus;
         public CartController(SiteProvider provider) : base(provider)
         {
         }
 
-         private string CheckCartCode(){
+        private string CheckCartCode(){
             string? cartId = Request.Cookies[cartCode];
             if(string.IsNullOrEmpty(cartId)){
                 cartId = Helper.RandomString(64);
@@ -21,6 +22,7 @@ namespace Shop.Controllers{
 
         [ServiceFilter(typeof(NavbarFilter))]
         public IActionResult Index(){
+            AccessCartLoginStatus = User.Identity.IsAuthenticated;
             string cartId = CheckCartCode();
             ViewBag.CartDetail = provider.Cart.GetCarts(cartId);
             provider.Cart.ResetCheckoutProductList(cartId);
@@ -65,6 +67,9 @@ namespace Shop.Controllers{
         [ServiceFilter(typeof(NavbarFilter))]
         [HttpPost]
         public IActionResult UpdateCheckoutProductList([FromBody] int[] ProductIdArr){
+            if(AccessCartLoginStatus == false && User.Identity.IsAuthenticated == true){
+                
+            }
             var SuccessMsg = new {status = "true"};
             var FailedMsg = new {status = "false"};
             string cartId = Request.Cookies[cartCode];

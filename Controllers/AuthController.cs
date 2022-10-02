@@ -59,6 +59,9 @@ namespace Shop.Controllers{
             var RegisterSuccessMsg = new {status = "true"};
             var RegisterFailedMsg = new {status = "false"};
             if(provider.User.Register(obj) > 0){
+                provider.Cart.Save(new Cart{
+                    CartId = obj.UserId.ToString()
+                });
                 return Json(RegisterSuccessMsg);
             }
             return Json(RegisterFailedMsg);

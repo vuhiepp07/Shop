@@ -132,5 +132,14 @@ namespace Shop.Controllers{
             FillDataToViewBag(products);
             return View();
         }
+
+        [ServiceFilter(typeof(NavbarFilter))]
+        [Route("home/productdetail/{productId:int}")]
+        public IActionResult ProductDetail(int productId){
+            Product prod = provider.Product.GetProductById(productId);
+            ViewBag.MainProduct = prod;
+            ViewBag.Products = provider.Product.GetProductInTheSameCategory(prod);
+            return View();
+        }
     }
 }

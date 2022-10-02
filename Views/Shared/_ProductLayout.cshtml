@@ -3,7 +3,7 @@
     
 }
 @RenderBody();
-@functions{
+@* @functions{
     public string normalizePrice(string price){
         for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
             if(x == 2){
@@ -14,7 +14,7 @@
         }
         return price;
     }
-}
+} *@
 
 <div class="content">
     <div class="grid">
@@ -78,7 +78,8 @@
             <div class="grid__column-10">
                 <div class="grid__row productList">
                     <input type="hidden" value="@ViewBag.Products" id="prodList">
-                    @foreach (Product item in ViewBag.Products)
+                    <partial name="_ProductListPartial"></partial>
+                    @* @foreach (Product item in ViewBag.Products)
                     {
                         <div class="grid__column-TwoOfTen productList__item">
                             <div class="productList__item-img" style="background-image: url(/images/products/@item.ImageUrl);">
@@ -123,7 +124,7 @@
                                 }
                             </div>
                         </div>
-                    }
+                    } *@
                 </div>
             </div>
         </div>
@@ -330,21 +331,4 @@
         })
     }
 
-    @* Handling when user click on button Add to cart at some productItem in productList  *@
-    let addToCartBtns = document.querySelectorAll('.productList__item-addToCartbtn')
-    for(let i = 0; i<addToCartBtns.length; i++){
-        addToCartBtns[i].addEventListener('click', function(e){
-            e.stopPropagation()
-            let productId = addToCartBtns[i].querySelector('.hiddenProductId').value;
-            let request = new XMLHttpRequest();
-            request.open("POST", `/cart/add/${productId}`, true)
-            request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
-                }
-            }
-            request.send()
-        })
-    }
-    
 </script>
