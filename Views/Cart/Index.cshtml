@@ -219,7 +219,7 @@ public string normalizePrice(string price){
             }
             let result = SendRequestEditCart("/cart/UpdateCheckoutProductList", productIds)
             if(result === 'true'){
-                window.location.href = '/order/Index'
+                window.location.href = '/order/Create'
             }
 
         })

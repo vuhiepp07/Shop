@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model LoginModel
 <!DOCTYPE html>
 <html lang="en">
@@ -67,10 +68,28 @@
                             </a>
                         </li>
                         @if(User.Identity.IsAuthenticated){
-                            <li class="barWithSearch__account">
-                                <img src="" alt="UserAvatar">
-                                <div>@User.Identity.Name</div>
-                            </li>
+                            <div class="barWithSearch__LogedIn">
+                                <li class="barWithSearch__account">
+                                    <div class="barWithSearch__account-imgContainer">
+                                        <img class="barWithSearch__account-img" src="/images/user/@User.FindFirstValue(ClaimTypes.Uri)" alt="UserAvatar">
+                                    </div>
+                                    @if(User.FindFirstValue(ClaimTypes.NameIdentifier) == null){
+                                        <div class="barWithSearch__account-username">@User.Identity.Name</div>
+                                    }
+                                    else{
+                                        <div class="barWithSearch__account-username">@User.Identity.Name
+                                            <ul class="barWithSearch__account-menu">
+                                                <li class="barWithSearch__account-menuItem"><a href="">Thông tin</a></li>
+                                                <li class="barWithSearch__account-menuItem"><a href="/order/index">Đơn hàng đã đặt</a></li>
+                                                <li class="barWithSearch__account-menuItem"><a href="">Đổi mật khẩu</a></li>
+                                                <li class="barWithSearch__account-menuItem"><a href="/auth/logout">Đăng xuất</a></li>
+                                            </ul>
+                                        </div>
+                                    }
+                                </li>
+                                
+                            </div>
+                            
                         }   
                         else{
                             <li class="barWithSearch__account">
@@ -284,7 +303,7 @@
             else{
                 alert("Đăng nhập thành công")
                 loginModal.classList.remove('modal-active')
-                window.location.href = window.location.href
+                location.reload()
             }
         })
 

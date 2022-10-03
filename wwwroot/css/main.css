@@ -207,6 +207,96 @@
     margin-top: calc(var(--header-height) + 20px);
 }
 
+
+/* Bar with search account field when user had login css  */
+.barWithSearch__account-img{
+    width: 100%;
+    clip-path: circle();
+}
+
+.barWithSearch__account-imgContainer{
+    width: 35px;
+    height:35px;
+    display: flex;
+    align-items: center;
+}
+
+.barWithSearch__account-username{
+    font-size: 1.4rem;
+    margin-left: 4px;
+    position: relative;
+    padding: 8px;
+}
+
+.barWithSearch__account-username:hover{
+    cursor: pointer;
+}
+
+.barWithSearch__LogedIn:hover .barWithSearch__account-menu{
+    display: block;
+}
+
+.barWithSearch__account-menu::before{
+    position: absolute;
+    left: 68px;
+    top: -23px;
+    content: "";
+    border: 12px solid #d3d3d3;
+    border-color: transparent transparent white transparent;
+}
+
+.barWithSearch__account-menu::after{
+    width: 100%;
+    height: 24px;
+    position: absolute;
+    top: -23px;
+    content: "";
+    left: 0px;
+}
+
+.barWithSearch__account-menu{
+    position: absolute;
+    top: 40px;
+    width: 120px;
+    font-size: 1.3rem;
+    list-style-type: none;
+    padding: 5px;
+    right: -12px;
+    display: none;
+    background-color: white;
+    color: black;
+    border: 1px solid #d3d3d3;
+    transform-origin: calc(100% - 20px) top;
+    animation: GrowthAnimation ease-in 0.25s
+}
+
+@keyframes GrowthAnimation{
+    from{
+        opacity: 0;
+        transform: scale(0);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.barWithSearch__account-menu li:hover{
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: black;
+}
+
+.barWithSearch__account-menuItem{
+    padding: 5px 5px;
+}
+
+.barWithSearch__account-menuItem a {
+    text-decoration: none;
+    color: black;
+}
+
+
 /* Product css  */
 
 .productList,

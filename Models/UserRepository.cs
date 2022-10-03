@@ -16,10 +16,11 @@ namespace Shop.Models{
         }
 
         public int Register(User obj){
-            return connection.Execute("Insert into [User](Username, Password, Gender) values(@Username, @Password, @Gender)", new{
+            return connection.Execute("Insert into [User](Username, Password, Gender, ImageUrl) values(@Username, @Password, @Gender, @ImageUrl)", new{
                 Username = obj.Username,
                 Password = Helper.Hash(obj.Username + "^@#%!@(!&^$" + obj.Password),
-                Gender = true
+                Gender = true,
+                ImageUrl = "userDefault.png"
             });
         }
 
