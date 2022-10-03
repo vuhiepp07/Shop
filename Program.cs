@@ -9,10 +9,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Shop"));
 });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped(p => new SiteProvider(builder.Configuration, p.GetRequiredService<AppDbContext>()));
-builder.Services.AddScoped(p => new NavbarFilter(p.GetRequiredService<SiteProvider>()));
+builder.Services.AddScoped(p => new NavbarFilter(p.GetRequiredService<SiteProvider>(), new HttpContextAccessor()));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(p => {
-    p.LoginPath = "/auth/login";
     p.ExpireTimeSpan = TimeSpan.FromDays(7);
 });
 var app = builder.Build();

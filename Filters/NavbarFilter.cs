@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Shop.Models;
@@ -6,10 +8,11 @@ namespace Shop.Filters{
     public class NavbarFilter : Attribute, IActionFilter
     {
         SiteProvider provider;
-        private const string cartCode = "CartId";
+        IHttpContextAccessor accessor;
 
-        public NavbarFilter(SiteProvider provider){
+        public NavbarFilter(SiteProvider provider, IHttpContextAccessor accessor){
             this.provider = provider;
+            this.accessor = accessor;
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
@@ -25,11 +28,7 @@ namespace Shop.Filters{
                     }
                     myDict.Add(category.CategoryId, brandList);
                 }
-                string? cartId = con.Request.Cookies[cartCode];
-                if(string.IsNullOrEmpty(cartId)){
-                    cartId = Helper.RandomString(64);
-                    con.Response.Cookies.Append(cartCode, cartId);
-                }
+                string cartId = accessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 con.ViewBag.CartProductsNum = provider.Cart.CountProducts(cartId); 
                 con.ViewBag.Categories = categories;
                 con.ViewBag.BrandOfCategories = myDict;

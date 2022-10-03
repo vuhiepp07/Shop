@@ -59,20 +59,33 @@
 }
 
 <script>
+    @* Check if user is logged in or not, if not, make them login to continue proceed  *@
+    function MakeUserLogin(){
+        console.log("Bat nguoi dung dang nhap")
+        alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng")
+        var loginModal = document.querySelector('.login__modal')
+        loginModal.classList.add('modal-active')
+    }
+
     @* Handling when user click on button Add to cart at some productItem in productList  *@
     let addToCartBtns = document.querySelectorAll('.productList__item-addToCartbtn')
     for(let i = 0; i<addToCartBtns.length; i++){
         addToCartBtns[i].addEventListener('click', function(e){
             e.stopPropagation()
-            let productId = addToCartBtns[i].querySelector('.hiddenProductId').value;
-            let request = new XMLHttpRequest();
-            request.open("POST", `/cart/add/${productId}`, true)
-            request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
-                }
+            if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
+                MakeUserLogin()
             }
-            request.send()
+            else{
+                let productId = addToCartBtns[i].querySelector('.hiddenProductId').value;
+                let request = new XMLHttpRequest();
+                request.open("POST", `/cart/add/${productId}`, true)
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
+                    }
+                }
+                request.send()
+            }
         })
     }
 

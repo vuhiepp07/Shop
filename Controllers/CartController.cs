@@ -1,51 +1,44 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Filters;
 using Shop.Models;
 
 namespace Shop.Controllers{
+    [Authorize]
     public class CartController : BaseController
     {
-        private const string cartCode = "CartId";
-        private bool AccessCartLoginStatus;
         public CartController(SiteProvider provider) : base(provider)
         {
         }
 
-        private string CheckCartCode(){
-            string? cartId = Request.Cookies[cartCode];
-            if(string.IsNullOrEmpty(cartId)){
-                cartId = Helper.RandomString(64);
-                Response.Cookies.Append(cartCode, cartId);
-            }
-            return cartId;
-        }
 
         [ServiceFilter(typeof(NavbarFilter))]
         public IActionResult Index(){
-            AccessCartLoginStatus = User.Identity.IsAuthenticated;
-            string cartId = CheckCartCode();
-            ViewBag.CartDetail = provider.Cart.GetCarts(cartId);
-            provider.Cart.ResetCheckoutProductList(cartId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.CartDetail = provider.Cart.GetCarts(userId);
+            provider.Cart.ResetCheckoutProductList(userId);
             return View();
         }
 
         [HttpPost("/cart/add/{productId:int}")]
         public IActionResult Add(int productId){
-            Cart obj = new Cart{
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Cart temp = new Cart{
+                CartId = userId,
                 ProductId = productId,
-                Quantity = 1,
-                CartId = CheckCartCode()
+                Quantity = 1
             };
-            provider.Cart.Save(obj);
-            return Json(provider.Cart.CountProducts(obj.CartId));
+            provider.Cart.Save(temp);
+            return Json(provider.Cart.CountProducts(userId));
         }
 
         [HttpPost]
         public IActionResult Edit([FromBody] Cart obj){
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.CartId = userId;
             var EditSuccessMsg = new {status = "true"};
             var EditFailedMsg = new {status = "false"};
-            string cartId = Request.Cookies[cartCode];
-            obj.CartId = cartId;
             if(provider.Cart.Edit(obj) > 0){
                 return Json(EditSuccessMsg);
             }
@@ -54,10 +47,10 @@ namespace Shop.Controllers{
 
         [HttpPost]
         public IActionResult Delete([FromBody] int[] ProductIdArr){
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var DeleteSuccessMsg = new {status = "true"};
             var DeleteFailedMsg = new {status = "false"};
-            string cartId = Request.Cookies[cartCode];
-            if(provider.Cart.Delete(cartId, ProductIdArr) > 0){
+            if(provider.Cart.Delete(userId, ProductIdArr) > 0){
                 return Json(DeleteSuccessMsg);
             }
             return Json(DeleteFailedMsg);
@@ -67,13 +60,10 @@ namespace Shop.Controllers{
         [ServiceFilter(typeof(NavbarFilter))]
         [HttpPost]
         public IActionResult UpdateCheckoutProductList([FromBody] int[] ProductIdArr){
-            if(AccessCartLoginStatus == false && User.Identity.IsAuthenticated == true){
-                
-            }
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var SuccessMsg = new {status = "true"};
             var FailedMsg = new {status = "false"};
-            string cartId = Request.Cookies[cartCode];
-            if(provider.Cart.UpdateCheckoutProductList(cartId, ProductIdArr) > 0){
+            if(provider.Cart.UpdateCheckoutProductList(userId, ProductIdArr) > 0){
                 return Json(SuccessMsg);
             }
             return Json(FailedMsg);

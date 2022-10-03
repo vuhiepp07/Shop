@@ -17,6 +17,7 @@ namespace Shop.Controllers{
             var LoginSuccessMsg = new {status = "true"};
             var LoginFailedMsg = new {status = "false"};
             User user = provider.User.Login(obj);
+            
             if(user != null){
                 List<Claim> claims = new List<Claim>{
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
@@ -59,9 +60,6 @@ namespace Shop.Controllers{
             var RegisterSuccessMsg = new {status = "true"};
             var RegisterFailedMsg = new {status = "false"};
             if(provider.User.Register(obj) > 0){
-                provider.Cart.Save(new Cart{
-                    CartId = obj.UserId.ToString()
-                });
                 return Json(RegisterSuccessMsg);
             }
             return Json(RegisterFailedMsg);

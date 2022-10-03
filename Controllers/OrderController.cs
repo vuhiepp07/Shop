@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Filters;
 using Shop.Models;
@@ -12,8 +13,8 @@ namespace Shop.Controllers{
 
         [ServiceFilter(typeof(NavbarFilter))]
         public IActionResult Index(){
-            string cartId = Request.Cookies[cartCode];
-            IEnumerable<CheckOutProduct> products = provider.Cart.GetCheckOutProductList(cartId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            IEnumerable<CheckOutProduct> products = provider.Cart.GetCheckOutProductList(userId);
             ViewBag.CheckoutProducts = products;
             return View();
         }
