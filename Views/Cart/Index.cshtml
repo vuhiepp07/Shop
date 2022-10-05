@@ -1,15 +1,4 @@
-@functions{
-public string normalizePrice(string price){
-        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
-            if(x == 2){
-                price = price.Insert(i, ",");
-                i++;
-                x=-2;
-            }
-        }
-        return price;
-    }
-}
+@using Shop
 
 
 <div class="content cartProducts grid" style="overflow-x:auto;">
@@ -38,7 +27,7 @@ public string normalizePrice(string price){
                             <i class="cartProducts__item-plusIcon fa-solid fa-plus"></i>
                         </td>
                         <input id="hiddenProductPrice" type="hidden" value=@product.DiscountPrice>
-                        <td class="cartProducts__item-price">@normalizePrice((product.DiscountPrice * product.Quantity).ToString())</td>
+                        <td class="cartProducts__item-price">@Shop.Helper.normalizePrice((product.DiscountPrice * product.Quantity).ToString())đ</td>
                 </tr>
             }
         </tbody>
@@ -56,7 +45,7 @@ public string normalizePrice(string price){
             </div>
             <div class="cart__action-checkout">
                 <i class="cart__action-icon fa-solid fa-money-check-dollar"></i>
-                Thanh toán
+                Đặt mua hàng
             </div>
         </div>
         

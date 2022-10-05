@@ -1,4 +1,111 @@
-@foreach (CheckOutProduct item in ViewBag.CheckoutProducts)
-{
-    <div style="margin-top: 30px;">@item.ProductName</div>
+@using Shop
+@{
+    string[] OrderStatus = {"ĐÃ HỦY", "Đang được chuẩn bị", "Đang giao", "Đã giao hàng"};
 }
+<div class="content grid">
+    @foreach (KeyValuePair<Order, List<OrderDetail>> pair in ViewBag.OrdersDict)
+    {
+        <div class="Order__board">
+            <div class="Order__board-layout">
+                <div class="Order__board-header">
+                    <div class="Order__board-info">
+                        <div>
+                            <h4>Thời gian đặt hàng:</h4>@pair.Key.CreatedDate
+                        </div>
+                        <div>
+                            <h4>Địa chỉ giao hàng:</h4> @pair.Key.ReceiverAddress
+                        </div>
+                        <div>
+                            <h4>Thông tin liên hệ:</h4> @pair.Key.ReceiverName (@pair.Key.ReceiverPhone)
+                        </div>
+                        <div class="Order__info-status">
+                            <h4>Trạng thái đơn hàng:</h4> @OrderStatus[pair.Key.Status]
+                        </div>
+                    </div>
+                    @if(pair.Key.Status == 1){
+                        <div class="Order__cancel-btn">
+                            <span hidden class="hiddenOrderId">@pair.Key.OrderId</span>
+                            <i class="Order__cancel-btnIcon fa-solid fa-ban"></i>
+                            Hủy đơn hàng
+                        </div>
+                    }
+                </div>
+                
+                <div class="Order__board-product">
+                    <table class="cartProducts__table">
+                        <thead class="cartProducts__Heading">
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                        </thead>
+                        <tbody>
+                            @{
+                                int totalPrice = 0;
+                            }
+                            @foreach (OrderDetail detail in pair.Value){
+                                totalPrice += detail.SalePrice * detail.Quantity;
+                                <tr class ="cartProducts__item" style="line-height: 25px;">
+                                    <td>@detail.ProductId</td>
+                                    <td>@detail.ProductName</td>
+                                    <td>
+                                        <span class="cartProducts__item-quantity">@detail.Quantity</span>
+                                    </td>
+                                    <td class="cartProducts__item-price">@Shop.Helper.normalizePrice((detail.SalePrice * detail.Quantity).ToString())đ</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="Order__info-totalPrice">
+                    Tổng giá trị đơn hàng: @Shop.Helper.normalizePrice(totalPrice.ToString())đ
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+        function SendRequestEditCart(url, obj){
+            let request = new XMLHttpRequest()
+            let responeMessage = ''
+            request.open("POST", url, false)
+            request.setRequestHeader("Content-type", "application/json")
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    responeMessage = JSON.parse(this.responseText)['status']
+                }
+            }
+            request.send(JSON.stringify(obj));
+            return responeMessage
+        }
+
+    var cancelOrderBtns = document.querySelectorAll('.Order__cancel-btn')
+    for(let i = 0; i< cancelOrderBtns.length; i++){
+        cancelOrderBtns[i].addEventListener('click', function(e){
+            orderId = cancelOrderBtns[i].querySelector('.hiddenOrderId').textContent
+            if(confirm("Bạn có chắc muốn hủy đơn hàng này?")){
+                @* let request = new XMLHttpRequest();
+                request.open("POST", `/order/cancel/${orderId}`, true)
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if(this.responseText == '1'){
+                            alert("Hủy đặt hàng thành công")
+                            cancelOrderBtns[i].remove()
+                        }
+                    }
+                }
+                request.send() *@
+                let result = SendRequestEditCart("/order/cancel", orderId);
+                if(result === 'true'){
+                    alert("Hủy đặt hàng thành công")
+                    let orderStatusNode = cancelOrderBtns[i].parentNode.querySelector('.Order__info-status')
+                    orderStatusNode.innerHTML = `<h4>Trạng thái đơn hàng:</h4> ĐÃ HỦY`
+                    cancelOrderBtns[i].remove()
+                }
+            }
+        })
+    }
+    
+</script>

@@ -1,16 +1,3 @@
-@functions{
-    public string normalizePrice(string price){
-        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
-            if(x == 2){
-                price = price.Insert(i, ",");
-                i++;
-                x=-2;
-            }
-        }
-        return price;
-    }
-}
-
 @foreach (Product item in ViewBag.Products)
 {
     <div class="grid__column-TwoOfTen productList__item">
@@ -29,13 +16,13 @@
                 if(item.Price != item.DiscountPrice && item.DiscountPrice != 0){
                     <div class="productList__item-Newprice">
                         @{
-                            string Price = normalizePrice(item.DiscountPrice.ToString());
+                            string Price = Shop.Helper.normalizePrice(item.DiscountPrice.ToString());
                         }
                         <span>@Price₫</span>
                     </div>
                     <div class="productList__item-Oldprice">
                         @{
-                            string OldPrice = normalizePrice(item.Price.ToString());
+                            string OldPrice = Shop.Helper.normalizePrice(item.Price.ToString());
                         }
                         <span>@OldPrice₫</span>
                     </div>
@@ -48,7 +35,7 @@
                 else{
                     <div class="productList__item-Newprice">
                         @{
-                            string Price = normalizePrice(item.Price.ToString());
+                            string Price = Shop.Helper.normalizePrice(item.Price.ToString());
                         }
                         <span>@Price₫</span>
                     </div>

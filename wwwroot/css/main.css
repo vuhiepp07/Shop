@@ -199,7 +199,7 @@
 
 .account_login-link:hover, 
 .account_register-link:hover{
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .content{
@@ -611,12 +611,13 @@
 
 .cartProducts__item td{
     max-width: 250px;
+    min-width: 100px;
     padding: 0 15px;
 }
 
 
 .cartProducts__item-img{
-    max-width: 250px;
+    max-width: 230px;
 }
 
 .cartProducts__item-quantity{
@@ -761,6 +762,161 @@
 }
 
 .ProductInfo__AddToCart:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+/* Order products form css  */
+.orderForm{
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderForm__Info{
+    line-height: 1.6rem;
+    font-size: 1.4rem;
+}
+
+.orderForm__heading{
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.orderForm__receiverName,
+.orderForm__receiverAddress,
+.orderForm__receiverPhone,
+.orderForm__userNote{
+    font-weight: 400;
+    margin: 15px 0;
+}
+
+.orderForm__receiverName{
+}
+
+.orderForm__receiverAddress{
+
+}
+
+.orderForm__receiverPhone{
+
+}
+
+.orderForm__userNote{
+
+}
+
+.orderForm__input{
+    padding: 5px;
+    width: 300px;
+    margin-top: 4px;
+}
+
+.orderForm__AcceptCheckoutBtn{
+    background-color: goldenrod ;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.4rem;
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 4px;
+}
+
+.orderForm__AcceptCheckoutBtn:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.orderForm__totalPrice{
+    margin-top: 30px;
+    color: red;
+    font-size: 1.5rem;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* order result page css  */
+.OrderResult{
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.OrderResult__msg{
+    font-size: 2.0rem;
+    line-height: 2.6rem;
+    font-weight: 600;
+    width: 600px;
+    text-align: center;
+}
+
+.OrderResult__countDown{
+    font-size: 2.4rem;
+    margin-top: 40px;
+    font-weight: 700;
+}
+
+
+/* order/index page css  */
+.Order__board{
+    background-color: #ccc;
+    border-radius: 4px;
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.Order__board-layout{
+    width: 95%;
+}
+
+.Order__board-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Order__board-info{
+    font-size: 1.4rem;
+    margin: 20px 0 5px 0;
+}
+
+.Order__info-totalPrice{
+    font-size: 1.5rem;
+    color: red;
+    margin: 15px 10px;
+}
+
+.Order__board-info div{
+    height: 30px;
+}
+
+.Order__board-info h4{
+    display: inline-block;
+    margin: 0;
+}
+
+.Order__cancel-btn{
+    display: inline-block;
+    background-color: var(--primary-color);
+    font-size: 1.4rem;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-bottom: 50px;
+}
+
+.Order__cancel-btnIcon{
+    margin-right: 4px;
+}
+
+.Order__cancel-btn:hover{
     cursor: pointer;
     opacity: 0.8;
 }

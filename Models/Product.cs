@@ -40,5 +40,6 @@ namespace Shop.Models{
         public virtual Discount? Discount {get; set;}
 
         public virtual Cart? Cart {get; set;}
+        public virtual OrderDetail? OrderDetail {get; set;}
     }
 }

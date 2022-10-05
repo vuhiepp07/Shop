@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "TxCw8Ci7HCMLH/EUpLm0qBfJo+MuXI70FJUucAUJ26o=",
+  "Hash": "wFbaUZInkExAy7kabMzFzw6kvYe7mYOOP5warQbdGYY=",
   "Source": "Shop",
   "BasePath": "_content/Shop",
   "Mode": "Default",
@@ -40562,23 +40562,6 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\zvy9hbg9mc2bdqss9mufdy2iou19gh1puee6b7hbxnditws8l3d2nn76bs7k.png"
     },
     {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\cat.jpg",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/user/cat.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\user\\cat.jpg"
-    },
-    {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\dog.jpg",
       "SourceId": "Shop",
       "SourceType": "Discovered",
@@ -40611,6 +40594,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\user\\meo.png"
+    },
+    {
+      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\userDefault.png",
+      "SourceId": "Shop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
+      "BasePath": "_content/Shop",
+      "RelativePath": "images/user/userDefault.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\user\\userDefault.png"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\js\\main.js",

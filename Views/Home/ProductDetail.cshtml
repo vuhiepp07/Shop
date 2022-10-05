@@ -1,15 +1,4 @@
-@functions{
-    public string normalizePrice(string price){
-        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
-            if(x == 2){
-                price = price.Insert(i, ",");
-                i++;
-                x=-2;
-            }
-        }
-        return price;
-    }
-}
+@using Shop
 
 <div class="content">
     <div class="ProductInfo grid">
@@ -33,11 +22,11 @@
             <div class="ProductInfo__detail-price">
             <h3 class="ProductInfo__detail-heading">Giá sản phẩm: </h3>
                 <div class="ProductInfo__detail-priceNew">
-                    @normalizePrice(ViewBag.MainProduct.DiscountPrice.ToString())₫
+                    @Shop.Helper.normalizePrice(ViewBag.MainProduct.DiscountPrice.ToString())₫
                 </div>
                 @if(ViewBag.MainProduct.Price != ViewBag.MainProduct.DiscountPrice){
                     <div class="ProductInfo__detail-priceOld">
-                        @normalizePrice(ViewBag.MainProduct.Price.ToString())₫
+                        @Shop.Helper.normalizePrice(ViewBag.MainProduct.Price.ToString())₫
                     </div>
                 }
             </div>

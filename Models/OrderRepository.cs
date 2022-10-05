@@ -8,12 +8,22 @@ namespace Shop.Models{
         {
         }
 
-        public IEnumerable<Order> GetOrders(){
-            return  connection.Query<Order>("Select * from Order");
+        public IEnumerable<Order> GetOrders(Guid userId){
+            return  connection.Query<Order>("Select * from [Order] where UserId = @UserId", new{
+                UserId = userId
+            });
         }
 
-        public int Delete(int id){
-            return connection.Execute("Delte from Oder where OrderId = @Id", new {Id = id});
+        public int Create(Order obj){
+            string sql = "Insert into [Order](OrderId, CreatedDate, UserId, UserNote, ReceiverAddress, ReceiverName, ReceiverPhone) values ";
+            sql += "(@OrderId, @CreatedDate, @UserId, @UserNote, @ReceiverAddress, @ReceiverName, @ReceiverPhone)";
+            return connection.Execute(sql, obj);
+        }
+
+        public int Cancel(string orderId){
+            return connection.Execute("Update [Order] set Status = 0 where OrderId = @OrderId", new{
+                OrderId = orderId
+            });
         }
     }
 }

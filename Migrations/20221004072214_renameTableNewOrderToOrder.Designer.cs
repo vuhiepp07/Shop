@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Models;
 
@@ -11,9 +12,10 @@ using Shop.Models;
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221004072214_renameTableNewOrderToOrder")]
+    partial class renameTableNewOrderToOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,8 +160,15 @@ namespace Shop.Migrations
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<string>("ReceiverAddress")
                         .IsRequired()
@@ -173,6 +182,9 @@ namespace Shop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SalePrice")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -184,38 +196,14 @@ namespace Shop.Migrations
                     b.Property<string>("UserNote")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Order", (string)null);
-                });
-
-            modelBuilder.Entity("Shop.Models.OrderDetail", b =>
-                {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SalePrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetail", (string)null);
                 });
 
             modelBuilder.Entity("Shop.Models.Product", b =>
@@ -343,32 +331,21 @@ namespace Shop.Migrations
 
             modelBuilder.Entity("Shop.Models.Order", b =>
                 {
+                    b.HasOne("Shop.Models.Product", "Product")
+                        .WithOne("Order")
+                        .HasForeignKey("Shop.Models.Order", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Shop.Models.User", "User")
                         .WithMany("UserOrders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Shop.Models.OrderDetail", b =>
-                {
-                    b.HasOne("Shop.Models.Order", "Order")
-                        .WithMany("OrderDetailList")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Shop.Models.Product", "Product")
-                        .WithOne("OrderDetail")
-                        .HasForeignKey("Shop.Models.OrderDetail", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
                     b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Shop.Models.Product", b =>
@@ -419,16 +396,11 @@ namespace Shop.Migrations
                     b.Navigation("DiscountProducts");
                 });
 
-            modelBuilder.Entity("Shop.Models.Order", b =>
-                {
-                    b.Navigation("OrderDetailList");
-                });
-
             modelBuilder.Entity("Shop.Models.Product", b =>
                 {
                     b.Navigation("Cart");
 
-                    b.Navigation("OrderDetail");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Shop.Models.User", b =>

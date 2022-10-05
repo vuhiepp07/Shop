@@ -20,5 +20,16 @@ namespace Shop{
             HashAlgorithm algorithm = HashAlgorithm.Create("SHA-512");
             return algorithm.ComputeHash(Encoding.ASCII.GetBytes(plaintext));
 		}
+
+        public static string normalizePrice(string price){
+        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
+            if(x == 2){
+                price = price.Insert(i, ",");
+                i++;
+                x=-2;
+            }
+        }
+        return price;
+    }
     }
 }

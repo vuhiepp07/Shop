@@ -84,5 +84,15 @@ namespace Shop.Models{
                 return user;
             }
         }
+
+        OrderDetailRepository orderDetail;
+        public OrderDetailRepository OrderDetail{
+            get{
+                if(orderDetail is null){
+                    orderDetail = new OrderDetailRepository(Connection, dbContext);
+                }
+                return orderDetail;
+            }
+        }
     }
 }

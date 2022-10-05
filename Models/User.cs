@@ -9,5 +9,7 @@ namespace Shop.Models{
         public bool Gender {get; set;}
         public string DateOfBirth {get; set;}
         public string ImageUrl {get; set;}
+        public virtual List<Order> UserOrders {get; set;}
+
     }
 }

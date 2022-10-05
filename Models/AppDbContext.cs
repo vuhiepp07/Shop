@@ -11,6 +11,7 @@ namespace Shop.Models{
         public DbSet<Category> Category {get; set;}
         public DbSet<Discount> Discount {get; set;}
         public DbSet<Order> Order {get; set;}
+        public DbSet<OrderDetail> OrderDetail {get; set;}
         public DbSet<Product> Product {get; set;}
         public DbSet<User> User {get; set;}
         protected override void OnConfiguring(DbContextOptionsBuilder builder){
@@ -86,14 +87,25 @@ namespace Shop.Models{
 
             builder.Entity<Order>(entity =>{
                 entity.ToTable("Order");
-                entity.HasKey(p => p.OrderId);
-                entity.HasOne(p => p.Discount)
-                    .WithMany(p => p.OrderDiscounts)
-                    .HasForeignKey(p => p.DiscountId);
+                entity.HasKey(p =>  p.OrderId);
                 entity.Property(p => p.UserNote).IsRequired(false);
-                entity.Property(p => p.ReceiverName).IsRequired(false);
-                entity.Property(p => p.DiscountId).HasDefaultValue(1);
-                entity.Property(p => p.OrderId).ValueGeneratedOnAdd();
+                entity.Property(p => p.Status).HasDefaultValue(1);
+                entity.HasOne(p => p.User)
+                            .WithMany(p => p.UserOrders)
+                            .HasForeignKey(p => p.UserId);
+            });
+
+            builder.Entity<OrderDetail>(entity =>{
+                entity.ToTable("OrderDetail");
+                entity.HasKey(p =>  new{p.OrderId, p.ProductId});
+                entity.HasOne(p => p.Product)
+                                .WithOne(p => p.OrderDetail)
+                                .HasForeignKey<OrderDetail>(p => p.ProductId);
+                entity.HasOne(p => p.Order)
+                            .WithMany(p => p.OrderDetailList)
+                            .HasForeignKey(p => p.OrderId);
+                entity.HasIndex(p => p.OrderId).IsUnique(false);
+                entity.HasIndex(p => p.ProductId).IsUnique(false);
             });
 
             builder.Entity<Product>(entity => {

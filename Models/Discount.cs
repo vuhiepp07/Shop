@@ -29,7 +29,6 @@ namespace Shop.Models{
 
         //Collection navigation, lay nhung Product co Discount tuong ung
         public virtual List<Product> DiscountProducts {get; set;}
-        public virtual List<Order> OrderDiscounts {get; set;}
 
     }
 }

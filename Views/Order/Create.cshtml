@@ -1,4 +1,81 @@
-@foreach (CheckOutProduct item in ViewBag.CheckoutProducts)
-{
-    <div style="margin-top: 30px;">@item.ProductName</div>
+@model Order
+@using Shop
+
+@{
+    int sumPrice = 0;
+    foreach (CheckOutProduct product in ViewBag.CheckoutProducts)
+    {
+        sumPrice += (product.DiscountPrice * product.Quantity);
+    }
 }
+
+<div class="content grid">
+    <form action="/order/create" method="post" enctype="application/x-www-form-urlencoded">
+        <div class="orderForm">
+            <div class="orderForm__Info">
+                <div class="orderForm__heading">
+                    Thông tin đặt hàng
+                </div>
+                <input type="hidden" asp-for="CreatedDate" value=@DateTime.UtcNow.AddHours(7)>
+                <div class="orderForm__receiverName">
+                    <div>Tên người nhận: </div> 
+                    <input type="text" class="orderForm__input" required asp-for="ReceiverName">
+                </div>
+                <div class="orderForm__receiverAddress">
+                    <div>Địa chỉ người nhận:</div> 
+                    <input type="text" class="orderForm__input" required asp-for="ReceiverAddress">
+                </div>
+                <div class="orderForm__receiverPhone">
+                    <div>SĐT người nhận:</div> 
+                    <input type="text" class="orderForm__input" required asp-for="ReceiverPhone">
+                </div>
+                <div class="orderForm__userNote">
+                    <div>Ghi chú cho shipper:</div> 
+                    <input type="text" class="orderForm__input" required asp-for="UserNote">
+                </div>
+                <div class="orderForm__totalPrice">
+                    Tổng giá trị đơn hàng: @Shop.Helper.normalizePrice(sumPrice.ToString())đ
+                </div>
+            </div>
+             
+            <div class="OrderForm__Product">
+                <div class="orderForm__heading">
+                    Thông tin đơn hàng
+                </div>
+                <table class="cartProducts__table">
+                    <thead class="cartProducts__Heading">
+                        <th>Tên sản phẩm</th>
+                        <th>Hình ảnh</th>
+                        <th>Số lượng</th>
+                        <th>Giá gốc</th>
+                        <th>Giá khuyến mãi</th>
+                    </thead>
+                    <tbody>
+                        @foreach (CheckOutProduct item in ViewBag.CheckoutProducts){
+                            <tr class ="cartProducts__item">
+                                <td>@item.ProductName</td>
+                                <td><img class="cartProducts__item-img" src=/images/products/@item.ImageUrl alt="ProductImg"></td>
+                                <td>
+                                    <span class="cartProducts__item-quantity">@item.Quantity</span>
+                                </td>
+                                
+                                @if(item.Price != item.DiscountPrice){
+                                    <td class="cartProducts__item-price">@Shop.Helper.normalizePrice((item.Price * item.Quantity).ToString())đ</td>
+                                    <td class="cartProducts__item-price">@Shop.Helper.normalizePrice((item.DiscountPrice * item.Quantity).ToString())đ</td>
+                                }
+                                else{
+                                    <td class="cartProducts__item-price">@Shop.Helper.normalizePrice((item.Price * item.Quantity).ToString())đ</td>
+                                    <td class="cartProducts__item-price">Không có khuyến mãi</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div style="display: flex;">
+            <button type="submit" class="orderForm__AcceptCheckoutBtn">Đặt hàng</button>
+        </div>
+    </form>
+</div>

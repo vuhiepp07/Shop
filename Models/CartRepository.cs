@@ -44,7 +44,7 @@ namespace Shop.Models{
         }
 
         public IEnumerable<CheckOutProduct> GetCheckOutProductList(string id){
-            string sql = "Select Product.ProductId, Product.ProductName, Product.DiscountPrice, Product.ImageUrl, Cart.CartId, Cart.Quantity ";
+            string sql = "Select Product.ProductId, Product.ProductName, Product.DiscountPrice, Product.Price, Product.ImageUrl, Cart.CartId, Cart.Quantity ";
             sql +=  "from Cart join Product on Cart.ProductId = Product.ProductId where CartId = @id";
             return connection.Query<CheckOutProduct>(sql, new{
                 id = id

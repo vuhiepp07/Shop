@@ -1,6 +1,7 @@
 @{
     Layout = "_ProductLayout";
 }
+@using Shop
 
 <div class="grid__column-10">
     <div class="grid__row productList">
@@ -12,29 +13,17 @@
                 <div class="productList__item-name">
                     <span>@item.ProductName</span>
                 </div>
-                @functions{
-                    public string normalizePrice(string price){
-                        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
-                            if(x == 2){
-                                price = price.Insert(i, ",");
-                                i++;
-                                x=-2;
-                            }
-                        }
-                        return price;
-                    }
-                }
                 <div class="productList__item-Price">
                     <div class="productList__item-Newprice">
                         @{
-                            string Price = normalizePrice(item.Price.ToString());
+                            string Price = Shop.Helper.normalizePrice(item.Price.ToString());
                         }
                         <span>@Price₫</span>
                     </div>
                 @if(item.Price == item.Price){
                     <div class="productList__item-Oldprice">
                         @{
-                            string OldPrice = normalizePrice(item.Price.ToString());
+                            string OldPrice = Shop.Helper.normalizePrice(item.Price.ToString());
                         }
                         <span>@OldPrice₫</span>
                     </div>
