@@ -19,15 +19,15 @@
                 <input type="hidden" asp-for="CreatedDate" value=@DateTime.UtcNow.AddHours(7)>
                 <div class="orderForm__receiverName">
                     <div>Tên người nhận: </div> 
-                    <input type="text" class="orderForm__input" required asp-for="ReceiverName">
+                    <input type="text" class="orderForm__input" required asp-for="ReceiverName" value=@ViewBag.User.FullName>
                 </div>
                 <div class="orderForm__receiverAddress">
                     <div>Địa chỉ người nhận:</div> 
-                    <input type="text" class="orderForm__input" required asp-for="ReceiverAddress">
+                    <input type="text" class="orderForm__input" required asp-for="ReceiverAddress" value=@ViewBag.User.Address>
                 </div>
                 <div class="orderForm__receiverPhone">
                     <div>SĐT người nhận:</div> 
-                    <input type="text" class="orderForm__input" required asp-for="ReceiverPhone">
+                    <input type="text" class="orderForm__input" required asp-for="ReceiverPhone" value=@ViewBag.User.Phone>
                 </div>
                 <div class="orderForm__userNote">
                     <div>Ghi chú cho shipper:</div> 

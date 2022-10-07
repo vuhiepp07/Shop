@@ -77,6 +77,7 @@
                     responeMessage = JSON.parse(this.responseText)['status']
                 }
             }
+            console.log(typeof obj)
             request.send(JSON.stringify(obj));
             return responeMessage
         }

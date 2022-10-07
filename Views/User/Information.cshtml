@@ -1,0 +1,146 @@
+@using System.Security.Claims
+<div class="content grid">
+    <div class="user__info">
+        <div class="user__info-picturePlace">
+            <img class="user__info-img" src="/images/user/@ViewBag.User.ImageUrl" alt="Avatar">
+            <form action="/user/uploadavatar" method="post" enctype="multipart/form-data">
+                <label for="updateImg" class="user__info-imgUpdateLabel">Upload avatar</label>
+                <input onchange="this.form.submit()" style="visibility: hidden;" id="updateImg" type="file" name="f" class="user__info-imgUpdate">
+            </form>
+        </div>
+        <div class="user__info-informationPlace">
+            <div class="user__info-field">
+                <h3>Tên đầy đủ</h3>
+                <input type="text" class="info__fullName-input" readonly value=@ViewBag.User.FullName>
+            </div>
+
+            <div class="user__info-field">
+                <h3>Email</h3>
+                <input type="text" class="info__email-input" readonly value=@ViewBag.User.Email>
+
+            </div>
+
+            <div class="user__info-field">
+                <h3>Địa chỉ</h3>
+                <input type="text" class="info__address-input" readonly value=@ViewBag.User.Address>
+
+            </div>
+
+            <div class="user__info-field">
+                <h3>Số điện thoại</h3>
+                <input type="text" class="info__phone-input" readonly value=@ViewBag.User.Phone>
+
+            </div>
+
+            <div class="user__info-field">
+                <h3>Ngày sinh</h3>
+                <input type="date" class="info__dateOfBirth-input" readonly value=@ViewBag.User.DateOfBirth>
+            </div>
+
+            <div class="user__info-Gender">
+                <h3>Giới tính</h3>
+                <input class="info__Gender-input" type="radio" id="Male" readonly name="userGender" value="True">
+                <label for="Male">Nam</label><br>
+                <input class="info__Gender-input" type="radio" id="Female" readonly name="userGender" value="False">
+                <label for="Female">Nữ</label><br>
+            </div>
+
+            <div class="user__info-action">
+                <div class="info__action-Update">
+                    <i class="info__action-icon fa-solid fa-pen"></i>
+                    Cập nhật thông tin
+                </div>
+                <div class="info__action-Save">
+                    <i class="info__action-icon fa-solid fa-check"></i>
+                    Lưu thay đổi
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SendRequestEditCart(url, obj){
+        let request = new XMLHttpRequest()
+        let responeMessage = ''
+        request.open("POST", url, false)
+        request.setRequestHeader("Content-type", "application/json")
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                responeMessage = JSON.parse(this.responseText)['status']
+            }
+        }
+        request.send(JSON.stringify(obj))
+        return responeMessage
+    }
+
+    var updateInformationBtn = document.querySelector('.info__action-Update')
+    var saveInformationBtn = document.querySelector('.info__action-Save')
+    var inputFields = document.getElementsByTagName('input')
+    var fullNameInput = document.querySelector('.info__fullName-input')
+    var emailInput = document.querySelector('.info__email-input')
+    var phoneInput = document.querySelector('.info__phone-input')
+    var dateOfBirthInput = document.querySelector('.info__dateOfBirth-input')
+    var genderInputs = document.querySelectorAll('.info__Gender-input')
+    var addressInput = document.querySelector('.info__address-input')
+    for(let i = 0; i < genderInputs.length; i++){
+        if(genderInputs[i].value == @Html.Raw(Json.Serialize(@ViewBag.User.Gender.ToString()))){
+            genderInputs[i].setAttribute('checked', 'true')
+        }
+        else{
+            genderInputs[i].setAttribute('disabled', 'true')
+        }
+    }
+
+    updateInformationBtn.addEventListener('click', function(e){
+        updateInformationBtn.style.display = 'none'
+        saveInformationBtn.style.display = 'inline-block'
+        for(let i = 0; i < inputFields.length; i++){
+            inputFields[i].removeAttribute('readonly')
+        }   
+        for(let i = 0; i < genderInputs.length; i++){
+            genderInputs[i].removeAttribute('disabled')
+        }
+    })
+
+    saveInformationBtn.addEventListener('click', function(e){
+        saveInformationBtn.style.display = 'none'
+        updateInformationBtn.style.display = 'inline-block'
+        for(let i = 0; i < inputFields.length; i++){
+            inputFields[i].setAttribute('readonly', 'true')
+        }   
+        for(let i = 0; i < genderInputs.length; i++){
+            if(genderInputs[i].checked != true){
+                genderInputs[i].setAttribute('disabled', 'true')
+            }
+        }
+        let gender = true
+        if(document.querySelector('input[name="userGender"]:checked').value === 'false'){
+            gender = false
+        }
+        let obj = {
+            Email : emailInput.value,
+            FullName : fullNameInput.value,
+            Phone : phoneInput.value,
+            Gender : gender,
+            DateOfBirth : String(dateOfBirthInput.value),
+            Address : addressInput.value
+        }
+        let result = SendRequestEditCart("/user/ChangeInformation", obj)
+        if(result === 'true'){
+            alert("Cập nhật thông tin thành công")
+            if(obj.FullName != null){
+                document.querySelector('.barWithSearch__account-username').innerHTML = `${obj.FullName}
+                                            <ul class="barWithSearch__account-menu">
+                                                <li class="barWithSearch__account-menuItem"><a href="/user/information">Thông tin</a></li>
+                                                <li class="barWithSearch__account-menuItem"><a href="/order/index">Đơn hàng đã đặt</a></li>
+                                                <li class="barWithSearch__account-menuItem Account__changePassword">Đổi mật khẩu</li>
+                                                <li class="barWithSearch__account-menuItem"><a href="/auth/logout">Đăng xuất</a></li>
+                                            </ul>`
+            }
+        }
+        else{
+            alert("Có lỗi xảy ra, vui lòng F5 và thử lại")
+        }
+    })
+</script>

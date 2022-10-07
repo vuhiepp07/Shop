@@ -29,6 +29,9 @@ namespace Shop.Filters{
                     myDict.Add(category.CategoryId, brandList);
                 }
                 string cartId = accessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(accessor.HttpContext.User.Identity.IsAuthenticated){
+                    con.ViewBag.User = provider.User.GetUserInfo(Guid.Parse(accessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                }
                 con.ViewBag.CartProductsNum = provider.Cart.CountProducts(cartId); 
                 con.ViewBag.Categories = categories;
                 con.ViewBag.BrandOfCategories = myDict;

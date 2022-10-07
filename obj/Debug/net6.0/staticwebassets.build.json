@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wFbaUZInkExAy7kabMzFzw6kvYe7mYOOP5warQbdGYY=",
+  "Hash": "S5KvQ9ZgU7HAZF7XPcuyrggFlh/sweI3y/Z6aD0yVDE=",
   "Source": "Shop",
   "BasePath": "_content/Shop",
   "Mode": "Default",
@@ -40579,12 +40579,12 @@
       "OriginalItemSpec": "wwwroot\\images\\user\\dog.jpg"
     },
     {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\meo.png",
+      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\km7a0i99b0qxaxij0pblnqum6i42eh3q0i7jq9hcz9ubciopi8tf7upqh6ur.png",
       "SourceId": "Shop",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
       "BasePath": "_content/Shop",
-      "RelativePath": "images/user/meo.png",
+      "RelativePath": "images/user/km7a0i99b0qxaxij0pblnqum6i42eh3q0i7jq9hcz9ubciopi8tf7upqh6ur.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -40593,7 +40593,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\user\\meo.png"
+      "OriginalItemSpec": "wwwroot\\images\\user\\km7a0i99b0qxaxij0pblnqum6i42eh3q0i7jq9hcz9ubciopi8tf7upqh6ur.png"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\userDefault.png",
@@ -40611,6 +40611,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\user\\userDefault.png"
+    },
+    {
+      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\w24z8xe1729rkgy664fsrm2e8y967qs48i3on6hm5o8h33umjof9kaqysnso.png",
+      "SourceId": "Shop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
+      "BasePath": "_content/Shop",
+      "RelativePath": "images/user/w24z8xe1729rkgy664fsrm2e8y967qs48i3on6hm5o8h33umjof9kaqysnso.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\user\\w24z8xe1729rkgy664fsrm2e8y967qs48i3on6hm5o8h33umjof9kaqysnso.png"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\js\\main.js",

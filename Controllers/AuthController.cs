@@ -39,6 +39,9 @@ namespace Shop.Controllers{
                 if(!string.IsNullOrEmpty(user.ImageUrl)){
                     claims.Add(new Claim(ClaimTypes.Uri, user.ImageUrl));
                 }
+                if(!string.IsNullOrEmpty(user.Address)){
+                    claims.Add(new Claim(ClaimTypes.StreetAddress, user.Address));
+                }
                 ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 ClaimsPrincipal principal = new ClaimsPrincipal(identity);
                 AuthenticationProperties properties = new AuthenticationProperties{

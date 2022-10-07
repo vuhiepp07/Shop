@@ -493,6 +493,7 @@
 /* Login modal and SignUp modal css  */
 
 .auth__modal-login,
+.auth__modal-changePassword,
 .auth__modal-register{
     background-color: var(--primary-color);
     width: 400px;
@@ -523,7 +524,9 @@
 }
 
 .auth__modal-inputUsername,
-.auth__modal-inputPassword{
+.auth__modal-inputPassword,
+.auth__modal-inputOldPassword,
+.auth__modal-inputNewPassword{
     margin-left: 4px;
     padding-left: 8px;
     border: none;
@@ -565,6 +568,7 @@
 }
 
 .auth__modal-btnLogin,
+.auth__modal-btnChangePassword,
 .auth__modal-btnRegister{
     display: inline-block;
     padding: 10px 15px;
@@ -904,7 +908,7 @@
 
 .Order__cancel-btn{
     display: inline-block;
-    background-color: var(--primary-color);
+    background-color: rgb(236, 37, 37);
     font-size: 1.4rem;
     padding: 10px;
     border-radius: 4px;
@@ -919,4 +923,100 @@
 .Order__cancel-btn:hover{
     cursor: pointer;
     opacity: 0.8;
+}
+
+/* User information page css  */
+.user__info{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.user__info-picturePlace form{
+    display: inline-block;
+    width: 120px;
+    height: 22px;
+    margin-top: 30px;
+}
+
+.user__info-imgUpdateLabel{
+    border-radius: 4px;
+    text-align: center;
+    background-color: var(--primary-color);
+    line-height: 2.2rem;
+    cursor: pointer;
+    padding: 6px;
+    font-weight: 500;
+    font-size: 1.3rem;
+}
+
+.user__info-picturePlace{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user__info-img{
+    width: 250px;
+}
+
+.user__info-imgUpdate{
+    font-size: 1.3rem;
+    padding: 8px;
+    margin-top: 16px;
+    cursor: pointer;
+}
+
+.user__info-informationPlace{
+    font-size: 1.4rem;
+}
+
+.user__info-Gender,
+.user__info-field {
+    margin-top: 20px;
+}
+
+.user__info-field input{
+    width: 300px;
+    padding: 4px;
+    height: 35px;
+}
+
+.user__info-Gender input:nth-child(5){
+    margin-top: 4px;
+}
+
+.user__info-Gender h3,
+.user__info-field h3{
+    margin: 0 0 10px 0;
+}
+
+.info__action-Save,
+.info__action-Update{
+    border-radius: 4px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.user__info-imgUpdateLabel:hover,
+.info__action-Update:hover,
+.info__action-Save:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.user__info-action{
+    margin-top: 30px;
+}
+
+.info__action-Update{
+    background-color: var(--primary-color);
+}
+
+.info__action-Save{
+    background-color: yellowgreen;
+    display: none;
+}
+
+.info__action-icon{
+    padding-right: 4px;
 }

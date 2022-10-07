@@ -63,8 +63,8 @@ namespace Shop.Models{
                 entity.Property(p => p.UserId).HasDefaultValueSql("NEWID()");
                 entity.Property(p => p.ImageUrl).IsRequired(false);
                 entity.Property(p => p.Phone).IsRequired(false);
+                entity.Property(p => p.Address).IsRequired(false);
                 entity.HasIndex(p => p.Username).IsUnique(true);
-
             });
 
             builder.Entity<Cart>(entity => {

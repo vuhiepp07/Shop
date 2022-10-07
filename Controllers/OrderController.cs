@@ -60,7 +60,6 @@ namespace Shop.Controllers{
             }
         }
 
-        // [HttpPost("/order/cancel/{orderId:alpha}")]
         [HttpPost]
         public IActionResult Cancel([FromBody] string orderId){
             var SuccessMsg = new {status = "true"};
