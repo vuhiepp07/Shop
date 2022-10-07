@@ -149,7 +149,7 @@
 
 .barWithSearch__cart{
     padding: 0;
-    width: 150px;
+    width: 120px;
     text-align: center;
     position: relative;
 }
@@ -211,6 +211,7 @@
 /* Bar with search account field when user had login css  */
 .barWithSearch__account-img{
     width: 100%;
+    cursor: pointer;
     clip-path: circle();
 }
 
@@ -223,7 +224,7 @@
 
 .barWithSearch__account-username{
     font-size: 1.4rem;
-    margin-left: 4px;
+    margin:0;
     position: relative;
     padding: 8px;
 }
@@ -555,7 +556,8 @@
 .auth__modal-switchLinkToLogin:hover,
 .auth__modal-switchLinkToRegister:hover,
 .auth__modal-btnLogin:hover,
-.auth__modal-btnRegister:hover{
+.auth__modal-btnRegister:hover,
+.auth__modal-btnChangePassword:hover{
     cursor: pointer;
     opacity: 0.8;
 }
@@ -813,6 +815,7 @@
 .orderForm__input{
     padding: 5px;
     width: 300px;
+    height: 32px;
     margin-top: 4px;
 }
 

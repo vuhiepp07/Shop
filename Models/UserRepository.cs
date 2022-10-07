@@ -35,11 +35,12 @@ namespace Shop.Models{
             });
         }
 
-        public int ChangePassword(ChangePasswordModel obj){
-            return connection.Execute("Update [User] set Password = @NewPassword where Username = @Username and Password = @OldPassword", new{
+        public int ChangePassword(Guid UserId, ChangePasswordModel obj){
+            return connection.Execute("Update [User] set Password = @NewPassword where Username = @Username and Password = @OldPassword and UserId = @UserId", new{
+                UserId = UserId,
                 Username = obj.Username,
-                NewPassword = obj.NewPassword,
-                OldPassword = obj.Password
+                NewPassword = Helper.Hash(obj.Username + "^@#%!@(!&^$" + obj.NewPassword),
+                OldPassword = Helper.Hash(obj.Username + "^@#%!@(!&^$" + obj.Password),
             });
         }
 

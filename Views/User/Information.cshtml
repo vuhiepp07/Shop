@@ -5,36 +5,36 @@
             <img class="user__info-img" src="/images/user/@ViewBag.User.ImageUrl" alt="Avatar">
             <form action="/user/uploadavatar" method="post" enctype="multipart/form-data">
                 <label for="updateImg" class="user__info-imgUpdateLabel">Upload avatar</label>
-                <input onchange="this.form.submit()" style="visibility: hidden;" id="updateImg" type="file" name="f" class="user__info-imgUpdate">
+                <input accept=".jpg,.jpeg,.png" onchange="this.form.submit()" style="visibility: hidden;" id="updateImg" type="file" name="f" class="user__info-imgUpdate">
             </form>
         </div>
         <div class="user__info-informationPlace">
             <div class="user__info-field">
                 <h3>Tên đầy đủ</h3>
-                <input type="text" class="info__fullName-input" readonly value=@ViewBag.User.FullName>
+                <input type="text" class="info__fullName-input" readonly value= "@ViewBag.User.FullName.ToString()">
             </div>
 
             <div class="user__info-field">
                 <h3>Email</h3>
-                <input type="text" class="info__email-input" readonly value=@ViewBag.User.Email>
+                <input type="text" class="info__email-input" readonly value= "@ViewBag.User.Email.ToString()">
 
             </div>
 
             <div class="user__info-field">
                 <h3>Địa chỉ</h3>
-                <input type="text" class="info__address-input" readonly value=@ViewBag.User.Address>
+                <input type="text" class="info__address-input" readonly value= "@ViewBag.User.Address.ToString()">
 
             </div>
 
             <div class="user__info-field">
                 <h3>Số điện thoại</h3>
-                <input type="text" class="info__phone-input" readonly value=@ViewBag.User.Phone>
+                <input type="text" class="info__phone-input" readonly value= "@ViewBag.User.Phone.ToString()">
 
             </div>
 
             <div class="user__info-field">
                 <h3>Ngày sinh</h3>
-                <input type="date" class="info__dateOfBirth-input" readonly value=@ViewBag.User.DateOfBirth>
+                <input type="date" class="info__dateOfBirth-input" readonly value= @ViewBag.User.DateOfBirth>
             </div>
 
             <div class="user__info-Gender">
@@ -60,6 +60,18 @@
 </div>
 
 <script>
+    function normalizeName(userFullname){
+        let arr = userFullname.split(" ");
+        let result = " "
+        if(arr.length >= 2){
+            result = arr[arr.length - 2] + " " + arr[arr.length - 1]
+        }
+        else{
+            result = userFullname
+        }
+        return result
+    }
+
     function SendRequestEditCart(url, obj){
         let request = new XMLHttpRequest()
         let responeMessage = ''
@@ -130,7 +142,9 @@
         if(result === 'true'){
             alert("Cập nhật thông tin thành công")
             if(obj.FullName != null){
-                document.querySelector('.barWithSearch__account-username').innerHTML = `${obj.FullName}
+                let name = normalizeName(obj.FullName)
+                document.querySelector('.barWithSearch__account-username').innerHTML = `${name}
+                                            <i class="fa-solid fa-caret-down"></i>
                                             <ul class="barWithSearch__account-menu">
                                                 <li class="barWithSearch__account-menuItem"><a href="/user/information">Thông tin</a></li>
                                                 <li class="barWithSearch__account-menuItem"><a href="/order/index">Đơn hàng đã đặt</a></li>

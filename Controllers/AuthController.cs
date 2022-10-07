@@ -68,8 +68,15 @@ namespace Shop.Controllers{
             return Json(RegisterFailedMsg);
         }
 
-        public IActionResult ChangePassword(ChangePasswordModel obj){
-            return Json(provider.User.ChangePassword(obj));
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel obj){
+            var SuccessMsg = new {status = "true"};
+            var FailedMsg = new {status = "false"};
+            if(provider.User.ChangePassword(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), obj) > 0){
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return Json(SuccessMsg);
+            }
+            return Json(FailedMsg);
         }
 
         public IActionResult UpdateInformation(User obj){

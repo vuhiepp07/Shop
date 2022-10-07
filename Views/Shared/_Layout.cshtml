@@ -76,6 +76,8 @@
                                     </div>
                                     @if(ViewBag.User.FullName == null){
                                         <div class="barWithSearch__account-username">@User.Identity.Name
+                                            <i class="fa-solid fa-caret-down"></i>
+                                            
                                             <ul class="barWithSearch__account-menu">
                                                 <li class="barWithSearch__account-menuItem"><a href="/user/information">Thông tin</a></li>
                                                 <li class="barWithSearch__account-menuItem"><a href="/order/index">Đơn hàng đã đặt</a></li>
@@ -85,7 +87,8 @@
                                         </div>
                                     }
                                     else{
-                                        <div class="barWithSearch__account-username">@ViewBag.User.FullName
+                                        <div class="barWithSearch__account-username">@Shop.Helper.normalizeName(ViewBag.User.FullName)
+                                            <i class="fa-solid fa-caret-down"></i>
                                             <ul class="barWithSearch__account-menu">
                                                 <li class="barWithSearch__account-menuItem"><a href="/user/information">Thông tin</a></li>
                                                 <li class="barWithSearch__account-menuItem"><a href="/order/index">Đơn hàng đã đặt</a></li>
@@ -262,6 +265,20 @@
     </div>
 
     <script>
+        function SendRequestEditCart(url, obj){
+            let request = new XMLHttpRequest()
+            let responeMessage = ''
+            request.open("POST", url, false)
+            request.setRequestHeader("Content-type", "application/json")
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    responeMessage = JSON.parse(this.responseText)['status']
+                }
+            }
+            request.send(JSON.stringify(obj))
+            return responeMessage
+        }
+
         var loginBtn = document.querySelector(".account_login-link")
         var registerBtn = document.querySelector(".account_register-link")
         var allModal = document.querySelectorAll(".modal")
@@ -273,15 +290,15 @@
         var btnProceedLogin = document.querySelector('.auth__modal-btnLogin') 
         var btnProceedRegister = document.querySelector('.auth__modal-btnRegister') 
 
-
-        loginBtn.addEventListener('click', function(e){
-            loginModal.classList.add('modal-active')
-        })
-
-        registerBtn.addEventListener('click', function(e){
-            registerModal.classList.add('modal-active')
-        })
-
+        if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
+            loginBtn.addEventListener('click', function(e){
+                loginModal.classList.add('modal-active')
+            })
+            registerBtn.addEventListener('click', function(e){
+                registerModal.classList.add('modal-active')
+            })
+        }
+        
         for(let i = 0; i< modalBody.length; i++){
             modalBody[i].addEventListener('click', function(e){
                 e.stopPropagation()
@@ -355,7 +372,7 @@
                     Username : username,
                     Password : password1
                 }
-                let result = SendRequestAuthentication("/auth/register", obj);
+                let result = SendRequestAuthentication("/auth/register", obj)
                 if(result === 'false'){
                     alert("Tên tài khoản đã tồn tại, vui lòng sử dụng tên tài khoản khác")
                 }
@@ -368,11 +385,26 @@
         })
 
         @* Handling when user click on option changePassword  *@
-        var changePassWordbtn = document.querySelector('.Account__changePassword');
-        @* alert(changePassWordbtn) *@
-        var changePassWordModal = document.querySelector('.changePassword__modal');
+        var changePassWordbtn = document.querySelector('.Account__changePassword')
+        var proceedChangePasswordbtn = document.querySelector('.auth__modal-btnChangePassword')
+        var changePassWordModal = document.querySelector('.changePassword__modal')
         changePassWordbtn.addEventListener('click', function(e){
             changePassWordModal.classList.add('modal-active')
+        })
+        proceedChangePasswordbtn.addEventListener('click', function(e){
+            let obj = {
+                Username : proceedChangePasswordbtn.parentNode.parentNode.parentNode.querySelector('.auth__modal-inputUsername').value,
+                Password : document.querySelector('.auth__modal-inputOldPassword').value,
+                NewPassword : document.querySelector('.auth__modal-inputNewPassword').value
+            }
+            let result = SendRequestEditCart("/auth/changepassword", obj)
+            if(result === 'true'){
+                alert("Đổi mật khẩu thành công, vui lòng đăng nhập lại")
+                window.location.href = ("/home")
+            }
+            else{
+                alert("Đổi mật khẩu thất bại, vui lòng thử lại")
+            }
         })
     </script>
 </body>

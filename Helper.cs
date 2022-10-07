@@ -22,14 +22,24 @@ namespace Shop{
 		}
 
         public static string normalizePrice(string price){
-        for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
-            if(x == 2){
-                price = price.Insert(i, ",");
-                i++;
-                x=-2;
+            for(int i = price.Length -1, x = 0 ; i> 0; i--, x++){
+                if(x == 2){
+                    price = price.Insert(i, ",");
+                    i++;
+                    x=-2;
+                }
             }
+            return price;
         }
-        return price;
-    }
+
+        public static string normalizeName(string name){
+            string[] arr = name.Split(" ");
+            string result;
+            if(arr.Length >= 2){
+                result = arr[arr.Length - 2] + " " + arr[arr.Length - 1];
+            }
+            else result = name;
+            return result;
+        }
     }
 }
