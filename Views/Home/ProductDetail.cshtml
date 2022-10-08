@@ -41,13 +41,92 @@
     <div class="grid">
         <div class="grid__full-width">
             <div class="grid__row">
-                <partial name="_ProductListPartial"></partial>
+                
+            </div>
+            <div class="pagination">
+                <div class="pagination__loadMoreBtn">Tải thêm</div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    var productInSameCategoryField = document.querySelector('.grid__row') 
+    var loadMoreBtn = document.querySelector('.pagination__loadMoreBtn')
+    var productList = @Html.Raw(Json.Serialize(@ViewBag.Products))
+    var page = 1
+    console.log(productList)
+
+    function normalizePrice(price){
+        for(var i = price.length -1, x = 0 ; i> 0; i--, x++){
+            if(x == 2){
+                price = price.slice(0, i) + "," + price.slice(i)
+                i++;
+                x=-2;
+            }
+        }
+        return price;
+    }
+
+    function LoadProductInSameCategory(){
+        for(let i = (page - 1)*10, h = 0; h <10; h++,i++){
+            console.log(i)
+            let productPrice = String(productList[i]['price'])
+            let productPriceInString = normalizePrice(productPrice)
+            let productDiscountPrice = String(productList[i]['discountPrice'])
+            let productDiscountPriceInString = normalizePrice(productDiscountPrice)
+
+            let newHtml = `
+                <div class="grid__column-TwoOfTen productList__item">
+                    <div class="productList__item-img" style="background-image: url(/images/products/${productList[i]['imageUrl']});">
+                        <div class="productList__item-addToCartbtn">
+                            <input class="hiddenProductId" type="hidden" value=${productList[i]['productId']}>
+                            Add to cart
+                        </div>
+                    </div>
+                    <div class="productList__item-name">
+                        <span>${productList[i]['productName']}</span>
+                    </div>
+                    
+                    <div class="productList__item-Price">
+            `
+            if(productPrice != productDiscountPrice && productDiscountPrice != 0){
+                newHtml += `
+                <div class="productList__item-Newprice">
+                    <span>${productDiscountPriceInString}₫</span>
+                </div>
+                <div class="productList__item-Oldprice">
+                    <span>${productPriceInString}₫</span>
+                </div>
+                `
+            let productDiscountPercentage = ((productList[i]['price'] - productList[i]['discountPrice'])/productList[i]['price'])*100
+            newHtml += `
+                <div class="productList__item-SaleOf">
+                    <span style="line-height: 20px;" >GIẢM</span><br>
+                    <span>${productDiscountPercentage}%</span>
+                </div>
+            `
+            }
+            else{
+                newHtml += `
+                    <div class="productList__item-Newprice">
+                        <span>${productPriceInString}₫</span>
+                    </div>
+                `
+            }
+            
+            newHtml += `</div>`
+            newHtml += `</div>`
+            productInSameCategoryField.innerHTML += newHtml
+            if(i == productList.length - 1){
+                loadMoreBtn.remove()
+                console.log("luc nay het i" + i)
+                break
+            }
+        } 
+    }
+
+    LoadProductInSameCategory()
 
     @* Check if user is logged in or not, if not, make them login to continue proceed  *@
     function MakeUserLogin(){
@@ -55,7 +134,7 @@
         var loginModal = document.querySelector('.login__modal')
         loginModal.classList.add('modal-active')
     }
-
+    
     addtocartBtn = document.querySelector('.ProductInfo__AddToCartbtn')
     addtocartBtn.addEventListener('click', function(e){
         if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
@@ -72,6 +151,12 @@
             }
             request.send()
         }
+    })
+
+    @* Handling when user click on LoadMore button  *@
+    loadMoreBtn.addEventListener('click', function(e){
+        page = page + 1
+        LoadProductInSameCategory()
     })
 </script>
 

@@ -164,5 +164,7 @@ namespace Shop.Controllers{
             ViewBag.Products = provider.Product.GetProductInTheSameCategory(prod);
             return View();
         }
+
+        
     }
 }

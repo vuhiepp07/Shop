@@ -1041,11 +1041,17 @@
     border-radius: 4px;
 }
 
+.pagination__loadMoreBtn,
 .pagination__node{
     font-size: 1.4rem;
     padding: 8px 8px;
+    background-color: #ccc;
     font-weight: 500;
     border-radius: 4px;
+}
+
+.pagination__loadMoreBtn{
+    padding: 10px 16px;
 }
 
 .pagination__node a{
@@ -1055,7 +1061,9 @@
     padding: 10px 10px;
 }
 
+.pagination__loadMoreBtn:hover,
 .pagination__node:hover{
+    cursor: pointer;
     opacity: 0.8;
     background-color:var(--primary-color);
 }
