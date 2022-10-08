@@ -3,52 +3,12 @@
 }
 @using Shop
 
-<div class="grid__column-10">
-    <div class="grid__row productList">
-        @foreach (Product item in ViewBag.Products)
-        {
-            <div class="grid__column-TwoOfTen productList__item">
-                <div class="productList__item-img" style="background-image: url(./images/products/@item.ImageUrl);">
-                </div>
-                <div class="productList__item-name">
-                    <span>@item.ProductName</span>
-                </div>
-                <div class="productList__item-Price">
-                    <div class="productList__item-Newprice">
-                        @{
-                            string Price = Shop.Helper.normalizePrice(item.Price.ToString());
-                        }
-                        <span>@Price₫</span>
-                    </div>
-                @if(item.Price == item.Price){
-                    <div class="productList__item-Oldprice">
-                        @{
-                            string OldPrice = Shop.Helper.normalizePrice(item.Price.ToString());
-                        }
-                        <span>@OldPrice₫</span>
-                    </div>
-                }
-                </div>
-                @{
-                    foreach (Discount discount in ViewBag.Discounts)
-                    {
-                        string discountPercent;
-                        if(discount.DiscountId == item.ProductDiscountId){
-                            discountPercent = discount.DiscountPercentage.ToString();
-                            @* if(discount.DiscountPercentage != 0){
-                                <div class="productList__item-SaleOf">
-                                    <span>GIẢM</span><br>
-                                    <span>@discountPercent%</span>
-                                </div>
-                            } *@
-                            <div class="productList__item-SaleOf">
-                                    <span style="line-height: 20px;" >GIẢM</span><br>
-                                    <span>@discountPercent%</span>
-                            </div>
-                        }
-                    }
-                }
-            </div>
-        }
-    </div>
-</div>
+@* <script>
+    var controllerName = '@ViewContext.RouteData.Values["controller"]'
+    var actionname = '@ViewContext.RouteData.Values["action"]'
+    var categoryname = '@ViewContext.RouteData.Values["categoryname"]'
+    console.log(controllerName)
+    console.log(actionname)
+    console.log(categoryname)
+</script> *@
+

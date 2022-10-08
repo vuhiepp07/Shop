@@ -2,7 +2,7 @@
     Layout = "_Layout";
     
 }
-@RenderBody();
+@RenderBody()
 
 <div class="content">
     <div class="grid">
@@ -55,7 +55,7 @@
 
                     <h3 class="productFilter__heading" style="margin-top: 50px;">Lọc theo hãng</h3>
                     <select class="productFilter__brandFilter" name="brandSelection" id="brandSelection">
-                        <option name="brandOption" value="0">Tất cả</option>
+                        <option name="brandOption" value="0" selected>Tất cả</option>
                         @foreach(Brand brand in ViewBag.Brands){
                             <option name="brandOption" value="@brand.BrandId">@brand.BrandName</option>
                         }
@@ -67,80 +67,27 @@
                 <div class="grid__row productList">
                     <input type="hidden" value="@ViewBag.Products" id="prodList">
                     <partial name="_ProductListPartial"></partial>
-                    @* @foreach (Product item in ViewBag.Products)
-                    {
-                        <div class="grid__column-TwoOfTen productList__item">
-                            <div class="productList__item-img" style="background-image: url(/images/products/@item.ImageUrl);">
-                                <div class="productList__item-addToCartbtn">
-                                    <input class="hiddenProductId" type="hidden" value=@item.ProductId>
-                                    Add to cart
-                                </div>
-                            </div>
-                            <div class="productList__item-name">
-                                <span>@item.ProductName</span>
-                            </div>
-                            
-                            <div class="productList__item-Price">
-                                @{
-                                    if(item.Price != item.DiscountPrice && item.DiscountPrice != 0){
-                                        <div class="productList__item-Newprice">
-                                            @{
-                                                string Price = normalizePrice(item.DiscountPrice.ToString());
-                                            }
-                                            <span>@Price₫</span>
-                                        </div>
-                                        <div class="productList__item-Oldprice">
-                                            @{
-                                                string OldPrice = normalizePrice(item.Price.ToString());
-                                            }
-                                            <span>@OldPrice₫</span>
-                                        </div>
-                                        float discountPercent = (item.Price - item.DiscountPrice) / (item.Price/100);
-                                        <div class="productList__item-SaleOf">
-                                                    <span style="line-height: 20px;" >GIẢM</span><br>
-                                                    <span>@discountPercent%</span>
-                                        </div>
-                                    }
-                                    else{
-                                        <div class="productList__item-Newprice">
-                                            @{
-                                                string Price = normalizePrice(item.Price.ToString());
-                                            }
-                                            <span>@Price₫</span>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    } *@
                 </div>
+                <partial name="_PaginationPartial"></partial>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    var controllerName = '@ViewContext.RouteData.Values["controller"]'
+    @* var controllerName = '@ViewContext.RouteData.Values["controller"]'
     var actionname = '@ViewContext.RouteData.Values["action"]'
-    var categoryname = '@ViewContext.RouteData.Values["categoryname"]'
+    var categoryname = '@ViewContext.RouteData.Values["categoryname"]' *@
     var productField = document.querySelector('.productList')
 
-    @* get ProductData from viewbag to help sort product by price function *@
+    var productsWillShow = new Array()
+
+    @* get ProductData from viewbag to help sort product*@
     var productList = @Html.Raw(Json.Serialize(@ViewBag.Products))
 
-    @* Handling when user access to URL:home/Asus/Keyboard, user can not change brandFilter
-        value (From Asus to Apple or something else) in the brandFilter anymore because the brand
-        can only be Asus *@
-    if(actionname != "Index" && actionname != "Category" && actionname != "searchProduct"){
-        let brandOptions = document.querySelectorAll('[name="brandOption"]')
-        for(let i = 0; i < brandOptions.length; i++){
-            if(brandOptions[i].value == productList[0]['brandId']){
-                brandOptions[i].setAttribute('selected', 'true')
-            }
-            else{
-                brandOptions[i].setAttribute('disabled', 'true')
-            }
-        }
+    let brandOptions = document.querySelectorAll('[name="brandOption"]')
+    for(let i = 0; i < brandOptions.length; i++){
+
     }
 
     function normalizePrice(price){
@@ -225,7 +172,7 @@
     function filterProductByBrandAndPrice(){
         let priceRangeId = document.querySelector('input[name="priceRange"]:checked').value
         let brandId = document.getElementById('brandSelection').value
-        let productsWillShow = new Array()
+        productsWillShow = new Array()
         let min = 0
         let max = 0
         switch(priceRangeId){

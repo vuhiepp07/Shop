@@ -16,7 +16,7 @@ namespace Shop.Models{
             var result = from category in dbContext.Category
                             where category.CategoryName.Equals(name)
                             select category;
-            return result.First(); 
+            return result.FirstOrDefault(); 
         }
 
         public Category GetCategoryById(int id){

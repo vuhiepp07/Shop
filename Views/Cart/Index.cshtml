@@ -183,6 +183,9 @@
                         for(let i = 0; i < cartProductList.length; i++){
                             let productId = cartProductList[i].querySelector('#hiddenProductId').value
                             if(productIds.includes(productId)){
+                                let deleteNumber = parseInt(cartProductList[i].querySelector('.cartProducts__item-quantity').textContent)
+                                let numofProdNode = document.querySelector('.barWithSearch__cart-numofProd')
+                                numofProdNode.textContent = parseInt(numofProdNode.textContent) - deleteNumber
                                 cartProductList[i].remove()
                             }
                         }

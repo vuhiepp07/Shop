@@ -12,6 +12,50 @@ namespace Shop.Models{
             return connection.Query<Product>("Select * from Product");
         }
 
+        public IEnumerable<Product> GetProducts(int page, int size){
+            string sql = "Select * from Product order by ProductId offset @Index Rows fetch next @Size Rows only";
+            return connection.Query<Product>(sql, new{
+                Index = (page - 1) * size,
+                Size = size
+            });
+        }
+
+        public IEnumerable<Product> GetProductsByCategoryId(int page, int size, int catergoryId){
+            string sql = "Select * from Product where CategoryId = @categoryId order by ProductId offset @Index Rows fetch next @Size Rows only";
+            return connection.Query<Product>(sql, new{
+                categoryId = catergoryId,
+                Index = (page - 1) * size,
+                Size = size
+            });
+        }
+
+        public IEnumerable<Product> GetProductsByCategoryIdAndBrandId(int page, int size, int catergoryId, int brandId){
+            string sql = "Select * from Product where CategoryId = @categoryId and BrandId = @brandId order by ProductId offset @Index Rows fetch next @Size Rows only";
+            return connection.Query<Product>(sql, new{
+                categoryId = catergoryId,
+                brandId = brandId,
+                Index = (page - 1) * size,
+                Size = size
+            });
+        }
+
+        public int CountProductsInCategory(int categoryId){
+            return connection.ExecuteScalar<int>("select Count(*) from Product where CategoryId = @categoryId", new{
+                categoryId = categoryId
+            });
+        }
+
+        public int CountProductsInCategoryAndBrand(int categoryId, int brandId){
+            return connection.ExecuteScalar<int>("select Count(*) from Product where CategoryId = @categoryId and BrandId = @brandId", new{
+                categoryId = categoryId,
+                brandId = brandId
+            });
+        }
+
+        public int CountProducts(){
+            return connection.ExecuteScalar<int>("select Count(*) from Product");
+        }
+
         public Product GetProductById(int id){
             return connection.QuerySingleOrDefault<Product>("Select * from Product where ProductId = @Id", new{
                 Id = id

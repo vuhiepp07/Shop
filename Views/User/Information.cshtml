@@ -11,30 +11,30 @@
         <div class="user__info-informationPlace">
             <div class="user__info-field">
                 <h3>Tên đầy đủ</h3>
-                <input type="text" class="info__fullName-input" readonly value= "@ViewBag.User.FullName.ToString()">
+                <input name="user__info-input" type="text" class="info__fullName-input" readonly value= "@ViewBag.User.FullName.ToString()">
             </div>
 
             <div class="user__info-field">
                 <h3>Email</h3>
-                <input type="text" class="info__email-input" readonly value= "@ViewBag.User.Email.ToString()">
+                <input name="user__info-input" type="text" class="info__email-input" readonly value= "@ViewBag.User.Email.ToString()">
 
             </div>
 
             <div class="user__info-field">
                 <h3>Địa chỉ</h3>
-                <input type="text" class="info__address-input" readonly value= "@ViewBag.User.Address.ToString()">
+                <input name="user__info-input" type="text" class="info__address-input" readonly value= "@ViewBag.User.Address.ToString()">
 
             </div>
 
             <div class="user__info-field">
                 <h3>Số điện thoại</h3>
-                <input type="text" class="info__phone-input" readonly value= "@ViewBag.User.Phone.ToString()">
+                <input name="user__info-input" type="text" class="info__phone-input" readonly value= "@ViewBag.User.Phone.ToString()">
 
             </div>
 
             <div class="user__info-field">
                 <h3>Ngày sinh</h3>
-                <input type="date" class="info__dateOfBirth-input" readonly value= @ViewBag.User.DateOfBirth>
+                <input name="user__info-input" type="date" class="info__dateOfBirth-input" readonly value= @ViewBag.User.DateOfBirth>
             </div>
 
             <div class="user__info-Gender">
@@ -48,7 +48,7 @@
             <div class="user__info-action">
                 <div class="info__action-Update">
                     <i class="info__action-icon fa-solid fa-pen"></i>
-                    Cập nhật thông tin
+                    Thay đổi thông tin
                 </div>
                 <div class="info__action-Save">
                     <i class="info__action-icon fa-solid fa-check"></i>
@@ -88,7 +88,7 @@
 
     var updateInformationBtn = document.querySelector('.info__action-Update')
     var saveInformationBtn = document.querySelector('.info__action-Save')
-    var inputFields = document.getElementsByTagName('input')
+    var inputFields = document.querySelectorAll('input[name="user__info-input"]')
     var fullNameInput = document.querySelector('.info__fullName-input')
     var emailInput = document.querySelector('.info__email-input')
     var phoneInput = document.querySelector('.info__phone-input')
@@ -109,10 +109,13 @@
         saveInformationBtn.style.display = 'inline-block'
         for(let i = 0; i < inputFields.length; i++){
             inputFields[i].removeAttribute('readonly')
+            inputFields[i].style.backgroundColor = 'white'
+            inputFields[i].style.border = 'solid 0.2px'
         }   
         for(let i = 0; i < genderInputs.length; i++){
             genderInputs[i].removeAttribute('disabled')
         }
+
     })
 
     saveInformationBtn.addEventListener('click', function(e){
@@ -120,6 +123,8 @@
         updateInformationBtn.style.display = 'inline-block'
         for(let i = 0; i < inputFields.length; i++){
             inputFields[i].setAttribute('readonly', 'true')
+            inputFields[i].style.backgroundColor = '#ccc'
+            inputFields[i].style.border = 'none'
         }   
         for(let i = 0; i < genderInputs.length; i++){
             if(genderInputs[i].checked != true){

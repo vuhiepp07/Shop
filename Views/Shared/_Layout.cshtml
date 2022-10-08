@@ -22,7 +22,7 @@
                     {
                         <div class="navbar__category">
                             <div class="navbar__category-label">
-                                <a href="/home/category/@item.CategoryName" class="navbar__category-link">
+                                <a href="/Product/@item.CategoryName/index" class="navbar__category-link">
                                     <span navbar__category-name>@item.CategoryName</span>
                                     <i class="navbar__category-icon fa-solid fa-angle-down"></i>
                                 </a>
@@ -33,7 +33,7 @@
                                 {
                                     if(pair.Key == item.CategoryId){
                                         foreach(Brand brand in pair.Value){
-                                            <a class="navbar__category-subnav-brandLink" href="/home/@brand.BrandName/@item.CategoryName">
+                                            <a class="navbar__category-subnav-brandLink" href="/Product/@item.CategoryName/@brand.BrandName">
                                                 <li value="@brand.BrandId">@brand.BrandName</li>
                                             </a>
                                         }
@@ -385,27 +385,29 @@
         })
 
         @* Handling when user click on option changePassword  *@
-        var changePassWordbtn = document.querySelector('.Account__changePassword')
-        var proceedChangePasswordbtn = document.querySelector('.auth__modal-btnChangePassword')
-        var changePassWordModal = document.querySelector('.changePassword__modal')
-        changePassWordbtn.addEventListener('click', function(e){
-            changePassWordModal.classList.add('modal-active')
-        })
-        proceedChangePasswordbtn.addEventListener('click', function(e){
-            let obj = {
-                Username : proceedChangePasswordbtn.parentNode.parentNode.parentNode.querySelector('.auth__modal-inputUsername').value,
-                Password : document.querySelector('.auth__modal-inputOldPassword').value,
-                NewPassword : document.querySelector('.auth__modal-inputNewPassword').value
-            }
-            let result = SendRequestEditCart("/auth/changepassword", obj)
-            if(result === 'true'){
-                alert("Đổi mật khẩu thành công, vui lòng đăng nhập lại")
-                window.location.href = ("/home")
-            }
-            else{
-                alert("Đổi mật khẩu thất bại, vui lòng thử lại")
-            }
-        })
+        if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == true){
+            var changePassWordbtn = document.querySelector('.Account__changePassword')
+            var proceedChangePasswordbtn = document.querySelector('.auth__modal-btnChangePassword')
+            var changePassWordModal = document.querySelector('.changePassword__modal')
+            changePassWordbtn.addEventListener('click', function(e){
+                changePassWordModal.classList.add('modal-active')
+            })
+            proceedChangePasswordbtn.addEventListener('click', function(e){
+                let obj = {
+                    Username : proceedChangePasswordbtn.parentNode.parentNode.parentNode.querySelector('.auth__modal-inputUsername').value,
+                    Password : document.querySelector('.auth__modal-inputOldPassword').value,
+                    NewPassword : document.querySelector('.auth__modal-inputNewPassword').value
+                }
+                let result = SendRequestEditCart("/auth/changepassword", obj)
+                if(result === 'true'){
+                    alert("Đổi mật khẩu thành công, vui lòng đăng nhập lại")
+                    window.location.href = ("/home")
+                }
+                else{
+                    alert("Đổi mật khẩu thất bại, vui lòng thử lại")
+                }
+            })
+        }
     </script>
 </body>
 </html>

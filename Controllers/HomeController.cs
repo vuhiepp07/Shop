@@ -4,21 +4,33 @@ using Shop.Models;
 
 namespace Shop.Controllers{
     public class HomeController: BaseController{
+        int size = 20;
         public HomeController(SiteProvider provider) : base(provider)
         {
         }
 
+        // private void FillDataToViewBag(IEnumerable<Product> products){
+        //     HashSet<int> BrandIdList = new HashSet<int>();
+        //     HashSet<int> DiscountIdList = new HashSet<int>();
+        //     foreach (Product product in products)
+        //     {
+        //         BrandIdList.Add(product.BrandId);
+        //         DiscountIdList.Add(product.ProductDiscountId);
+        //     }
+        //     IEnumerable<Discount> discounts = provider.Discount.GetDiscountsByIdList(DiscountIdList);
+        //     IEnumerable<Brand> brands = provider.Brand.GetBrandsByIdList(BrandIdList);
+        //     ViewBag.Discounts = discounts;
+        //     ViewBag.Brands = brands;
+        //     ViewBag.Products = products;
+        // }
+
         private void FillDataToViewBag(IEnumerable<Product> products){
             HashSet<int> BrandIdList = new HashSet<int>();
-            HashSet<int> DiscountIdList = new HashSet<int>();
             foreach (Product product in products)
             {
                 BrandIdList.Add(product.BrandId);
-                DiscountIdList.Add(product.ProductDiscountId);
             }
-            IEnumerable<Discount> discounts = provider.Discount.GetDiscountsByIdList(DiscountIdList);
             IEnumerable<Brand> brands = provider.Brand.GetBrandsByIdList(BrandIdList);
-            ViewBag.Discounts = discounts;
             ViewBag.Brands = brands;
             ViewBag.Products = products;
         }
@@ -85,31 +97,42 @@ namespace Shop.Controllers{
             return products;
         }
 
+        // [ServiceFilter(typeof(NavbarFilter))]
+        // public IActionResult Index(){
+        //     IEnumerable<Product> products = provider.Product.GetProducts();
+        //     FillDataToViewBag(products);
+        //     return View();
+        // }
+
         [ServiceFilter(typeof(NavbarFilter))]
-        public IActionResult Index(){
-            IEnumerable<Product> products = provider.Product.GetProducts();
+        [Route("{controller=home}/{action=index}/{page?}")]
+        public IActionResult Index(int page = 1){
+            IEnumerable<Product> products = provider.Product.GetProducts(page, size);
             FillDataToViewBag(products);
+            int totalProduct = provider.Product.CountProducts();
+            int totalPage = totalProduct % size == 0 ? totalProduct/size : totalProduct/size +1;
+            ViewBag.totalPage = totalPage;
             return View();
         }
 
-        [ServiceFilter(typeof(NavbarFilter))]
-        [Route("/home/category/{categoryname:alpha}")]
-        public IActionResult Category(string categoryname){
-            Category category = provider.Category.GetCategoryByName(categoryname);
-            IEnumerable<Product> products = provider.Product.GetProductsByCategoryId(category.CategoryId);
-            FillDataToViewBag(products);
-            return View();
-        }
+        // [ServiceFilter(typeof(NavbarFilter))]
+        // [Route("/home/category/{categoryname:alpha}")]
+        // public IActionResult Category(string categoryname){
+        //     Category category = provider.Category.GetCategoryByName(categoryname);
+        //     IEnumerable<Product> products = provider.Product.GetProductsByCategoryId(category.CategoryId);
+        //     FillDataToViewBag(products);
+        //     return View();
+        // }
 
-        [ServiceFilter(typeof(NavbarFilter))]
-        [Route("/home/{brandname:alpha}/{categoryname:alpha}")]
-        public IActionResult Brand(string brandname, string categoryname){
-            Category category = provider.Category.GetCategoryByName(categoryname);
-            Brand brand = provider.Brand.GetBrandByName(brandname);
-            IEnumerable<Product> products = provider.Product.GetProductsByCategoryIdAndBrandId(category.CategoryId, brand.BrandId);
-            FillDataToViewBag(products);
-            return View();
-        }
+        // [ServiceFilter(typeof(NavbarFilter))]
+        // [Route("/home/{brandname:alpha}/{categoryname:alpha}")]
+        // public IActionResult Brand(string brandname, string categoryname){
+        //     Category category = provider.Category.GetCategoryByName(categoryname);
+        //     Brand brand = provider.Brand.GetBrandByName(brandname);
+        //     IEnumerable<Product> products = provider.Product.GetProductsByCategoryIdAndBrandId(category.CategoryId, brand.BrandId);
+        //     FillDataToViewBag(products);
+        //     return View();
+        // }
 
         // Filter product function in the server-size, this is not more used, filter will be handled in the front end
         [HttpPost("home/filter/{brandid:int}/{pricerangeid:int}")]

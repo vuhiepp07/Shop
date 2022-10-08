@@ -6,7 +6,7 @@
                 <input class="hiddenProductId" type="hidden" value=@item.ProductId>
                 Add to cart
             </div>
-        </div>
+        </div> 
         <div class="productList__item-name">
             <span>@item.ProductName</span>
         </div>
@@ -48,7 +48,6 @@
 <script>
     @* Check if user is logged in or not, if not, make them login to continue proceed  *@
     function MakeUserLogin(){
-        console.log("Bat nguoi dung dang nhap")
         alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng")
         var loginModal = document.querySelector('.login__modal')
         loginModal.classList.add('modal-active')
