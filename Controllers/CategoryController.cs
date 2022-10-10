@@ -21,6 +21,7 @@ namespace Shop.Controllers{
             ViewBag.Products = products;
         }
 
+        //Handling when user access to a category page which contains only products of that category
         [ServiceFilter(typeof(NavbarFilter))]
         [Route("/Product/{categoryname:alpha}/index/{page?}")]
         public IActionResult Index(string categoryname, int page = 1){
@@ -30,9 +31,12 @@ namespace Shop.Controllers{
             int totalProduct = provider.Product.CountProductsInCategory(category.CategoryId);
             int totalPage = totalProduct % size == 0 ? totalProduct/size : totalProduct/size +1;
             ViewBag.totalPage = totalPage;
+            ViewBag.Title = "Sản phẩm";
             return View();
         }
 
+        //Handling when user access to a Category/Brand page which contains only products of that category with the chosen brand
+        //For example: Laptop/Asus
         [ServiceFilter(typeof(NavbarFilter))]
         [Route("/Product/{categoryname:alpha}/{brandname:alpha}/{page?}")]
         public IActionResult Brand(string categoryname, string brandname, int page = 1){
@@ -43,6 +47,7 @@ namespace Shop.Controllers{
             int totalProduct = provider.Product.CountProductsInCategoryAndBrand(category.CategoryId, brand.BrandId);
             int totalPage = totalProduct % size == 0 ? totalProduct/size : totalProduct/size +1;
             ViewBag.totalPage = totalPage;
+            ViewBag.Title = "Sản phẩm";
             return View();
         }
     }

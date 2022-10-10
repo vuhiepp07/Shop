@@ -9,21 +9,6 @@ namespace Shop.Controllers{
         {
         }
 
-        // private void FillDataToViewBag(IEnumerable<Product> products){
-        //     HashSet<int> BrandIdList = new HashSet<int>();
-        //     HashSet<int> DiscountIdList = new HashSet<int>();
-        //     foreach (Product product in products)
-        //     {
-        //         BrandIdList.Add(product.BrandId);
-        //         DiscountIdList.Add(product.ProductDiscountId);
-        //     }
-        //     IEnumerable<Discount> discounts = provider.Discount.GetDiscountsByIdList(DiscountIdList);
-        //     IEnumerable<Brand> brands = provider.Brand.GetBrandsByIdList(BrandIdList);
-        //     ViewBag.Discounts = discounts;
-        //     ViewBag.Brands = brands;
-        //     ViewBag.Products = products;
-        // }
-
         private void FillDataToViewBag(IEnumerable<Product> products){
             HashSet<int> BrandIdList = new HashSet<int>();
             foreach (Product product in products)
@@ -97,13 +82,7 @@ namespace Shop.Controllers{
             return products;
         }
 
-        // [ServiceFilter(typeof(NavbarFilter))]
-        // public IActionResult Index(){
-        //     IEnumerable<Product> products = provider.Product.GetProducts();
-        //     FillDataToViewBag(products);
-        //     return View();
-        // }
-
+        //Return the home page with the default set of products
         [ServiceFilter(typeof(NavbarFilter))]
         [Route("{controller=home}/{action=index}/{page?}")]
         public IActionResult Index(int page = 1){
@@ -112,27 +91,9 @@ namespace Shop.Controllers{
             int totalProduct = provider.Product.CountProducts();
             int totalPage = totalProduct % size == 0 ? totalProduct/size : totalProduct/size +1;
             ViewBag.totalPage = totalPage;
+            ViewBag.Title = "Trang chủ";
             return View();
         }
-
-        // [ServiceFilter(typeof(NavbarFilter))]
-        // [Route("/home/category/{categoryname:alpha}")]
-        // public IActionResult Category(string categoryname){
-        //     Category category = provider.Category.GetCategoryByName(categoryname);
-        //     IEnumerable<Product> products = provider.Product.GetProductsByCategoryId(category.CategoryId);
-        //     FillDataToViewBag(products);
-        //     return View();
-        // }
-
-        // [ServiceFilter(typeof(NavbarFilter))]
-        // [Route("/home/{brandname:alpha}/{categoryname:alpha}")]
-        // public IActionResult Brand(string brandname, string categoryname){
-        //     Category category = provider.Category.GetCategoryByName(categoryname);
-        //     Brand brand = provider.Brand.GetBrandByName(brandname);
-        //     IEnumerable<Product> products = provider.Product.GetProductsByCategoryIdAndBrandId(category.CategoryId, brand.BrandId);
-        //     FillDataToViewBag(products);
-        //     return View();
-        // }
 
         // Filter product function in the server-size, this is not more used, filter will be handled in the front end
         [HttpPost("home/filter/{brandid:int}/{pricerangeid:int}")]
@@ -148,23 +109,25 @@ namespace Shop.Controllers{
             return Json(FilterProductByPriceRange(tempProducts, pricerangeid));
         }
 
+        //Return the searching product result page
         [ServiceFilter(typeof(NavbarFilter))]
         [HttpPost]
         public IActionResult searchProduct(string productName){
             IEnumerable<Product> products = provider.Product.SearchProductsByName(productName);
             FillDataToViewBag(products);
+            ViewBag.Title = "Kết quả tìm kiếm";
             return View();
         }
 
+        //Return the detail page of a product
         [ServiceFilter(typeof(NavbarFilter))]
         [Route("home/productdetail/{productId:int}")]
         public IActionResult ProductDetail(int productId){
             Product prod = provider.Product.GetProductById(productId);
             ViewBag.MainProduct = prod;
             ViewBag.Products = provider.Product.GetProductInTheSameCategory(prod);
+            ViewBag.Title = "Chi tiết sản phẩm";
             return View();
         }
-
-        
     }
 }

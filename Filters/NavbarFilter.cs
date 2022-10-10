@@ -5,9 +5,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Shop.Models;
 
 namespace Shop.Filters{
+    //Filter which help fill data to the navbar in every page
     public class NavbarFilter : Attribute, IActionFilter
     {
         SiteProvider provider;
+        
+        //IHttpContextAccessor variable which help to access to the User attribute which is only exist in Controllers
+        //This help us to get the information of the user and fill them to the navbar
         IHttpContextAccessor accessor;
 
         public NavbarFilter(SiteProvider provider, IHttpContextAccessor accessor){

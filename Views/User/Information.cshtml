@@ -72,20 +72,6 @@
         return result
     }
 
-    function SendRequestEditCart(url, obj){
-        let request = new XMLHttpRequest()
-        let responeMessage = ''
-        request.open("POST", url, false)
-        request.setRequestHeader("Content-type", "application/json")
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                responeMessage = JSON.parse(this.responseText)['status']
-            }
-        }
-        request.send(JSON.stringify(obj))
-        return responeMessage
-    }
-
     var updateInformationBtn = document.querySelector('.info__action-Update')
     var saveInformationBtn = document.querySelector('.info__action-Save')
     var inputFields = document.querySelectorAll('input[name="user__info-input"]')
@@ -143,7 +129,7 @@
             DateOfBirth : String(dateOfBirthInput.value),
             Address : addressInput.value
         }
-        let result = SendRequestEditCart("/user/ChangeInformation", obj)
+        let result = SendHttpPostRequest("/user/ChangeInformation", obj)
         if(result === 'true'){
             alert("Cập nhật thông tin thành công")
             if(obj.FullName != null){

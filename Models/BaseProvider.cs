@@ -2,6 +2,8 @@ using System.Data;
 using System.Data.SqlClient;
 
 namespace Shop.Models{
+    /*BaseProvider class contains AdbContext and Configuration attributes which were declared as services in program.cs file.
+    This class also create the connection to SQL server so the SiteProvider class can inherit it */
     public class BaseProvider : IDisposable
     {
         IDbConnection connection;

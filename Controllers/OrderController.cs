@@ -12,6 +12,7 @@ namespace Shop.Controllers{
         {
         }
 
+        //Return the index page in which has all the user order information
         [ServiceFilter(typeof(NavbarFilter))]
         public IActionResult Index(){
             Guid userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -22,17 +23,21 @@ namespace Shop.Controllers{
             }
             var sortedDict = from entry in mydict orderby entry.Key.CreatedDate descending select entry;
             ViewBag.OrdersDict = sortedDict;
+            ViewBag.Title = "Đơn hàng của tôi";
             return View();
         }
 
+        //Get products in the user checkout ProductList, return the view of Create order page
         [ServiceFilter(typeof(NavbarFilter))]
         public IActionResult Create(){
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             IEnumerable<CheckOutProduct> products = provider.Cart.GetCheckOutProductList(userId);
             ViewBag.CheckoutProducts = products;
+            ViewBag.Title = "Đặt mua hàng";
             return View();
         }
 
+        //Handling when user create a new order, return create order result
         [HttpPost]
         public IActionResult Create(Order obj){
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -60,15 +65,13 @@ namespace Shop.Controllers{
             }
         }
 
+        //Handling when user choose to cancel one of their orders, return cancel result
         [HttpPost]
         public IActionResult Cancel([FromBody] string orderId){
-            var SuccessMsg = new {status = "true"};
-            var FailedMsg = new {status = "false"};
             if(provider.Order.Cancel(orderId) >0){
-                return Json(SuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(FailedMsg);
-            // return Json(provider.Order.Cancel(orderId));
+            return Json(new {status = "false"});
         }
 
         public IActionResult OrderResult(){

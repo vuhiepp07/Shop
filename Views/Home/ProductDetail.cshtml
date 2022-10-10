@@ -55,86 +55,53 @@
     var loadMoreBtn = document.querySelector('.pagination__loadMoreBtn')
     var productList = @Html.Raw(Json.Serialize(@ViewBag.Products))
     var page = 1
-    console.log(productList)
 
-    function normalizePrice(price){
-        for(var i = price.length -1, x = 0 ; i> 0; i--, x++){
-            if(x == 2){
-                price = price.slice(0, i) + "," + price.slice(i)
-                i++;
-                x=-2;
-            }
+    function QueryAddToCartBtns_AndAddListener_ForThem(){
+        @* Handling when user click on button Add to cart at some productItem in productList  *@
+        let addToCartBtns = document.querySelectorAll('.productList__item-addToCartbtn')
+        for(let i = 0; i<addToCartBtns.length; i++){
+            addToCartBtns[i].addEventListener('click', function(e){
+                e.stopPropagation()
+                if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
+                    MakeUserLogin()
+                }
+                else{
+                    let productId = addToCartBtns[i].querySelector('.hiddenProductId').value;
+                    let request = new XMLHttpRequest();
+                    request.open("POST", `/cart/add/${productId}`, true)
+                    request.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            toast({
+                                title: 'Thành công',
+                                message: 'Thêm sản phẩm vào giỏ hàng thành công',
+                                type: 'success',
+                                duration: 3000
+                            })
+                            @* alert("Thêm sản phẩm vào giỏ hàng thành công") *@
+                            document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
+                        }
+                    }
+                    request.send()
+                }
+            })
         }
-        return price;
     }
 
     function LoadProductInSameCategory(){
-        for(let i = (page - 1)*10, h = 0; h <10; h++,i++){
-            console.log(i)
-            let productPrice = String(productList[i]['price'])
-            let productPriceInString = normalizePrice(productPrice)
-            let productDiscountPrice = String(productList[i]['discountPrice'])
-            let productDiscountPriceInString = normalizePrice(productDiscountPrice)
-
-            let newHtml = `
-                <div class="grid__column-TwoOfTen productList__item">
-                    <div class="productList__item-img" style="background-image: url(/images/products/${productList[i]['imageUrl']});">
-                        <div class="productList__item-addToCartbtn">
-                            <input class="hiddenProductId" type="hidden" value=${productList[i]['productId']}>
-                            Add to cart
-                        </div>
-                    </div>
-                    <div class="productList__item-name">
-                        <span>${productList[i]['productName']}</span>
-                    </div>
-                    
-                    <div class="productList__item-Price">
-            `
-            if(productPrice != productDiscountPrice && productDiscountPrice != 0){
-                newHtml += `
-                <div class="productList__item-Newprice">
-                    <span>${productDiscountPriceInString}₫</span>
-                </div>
-                <div class="productList__item-Oldprice">
-                    <span>${productPriceInString}₫</span>
-                </div>
-                `
-            let productDiscountPercentage = ((productList[i]['price'] - productList[i]['discountPrice'])/productList[i]['price'])*100
-            newHtml += `
-                <div class="productList__item-SaleOf">
-                    <span style="line-height: 20px;" >GIẢM</span><br>
-                    <span>${productDiscountPercentage}%</span>
-                </div>
-            `
-            }
-            else{
-                newHtml += `
-                    <div class="productList__item-Newprice">
-                        <span>${productPriceInString}₫</span>
-                    </div>
-                `
-            }
-            
-            newHtml += `</div>`
-            newHtml += `</div>`
-            productInSameCategoryField.innerHTML += newHtml
+        for(let i = (page - 1)*10, h = 0; h <10; h++,i++){   
+            productInSameCategoryField.innerHTML += GenerateHTMLForProductItem(productList, i)
             if(i == productList.length - 1){
                 loadMoreBtn.remove()
-                console.log("luc nay het i" + i)
                 break
             }
         } 
+        QueryAddToCartBtns_AndAddListener_ForThem()
+        QueryProductItems_AndAddClickListener_ForThem()
     }
 
     LoadProductInSameCategory()
 
     @* Check if user is logged in or not, if not, make them login to continue proceed  *@
-    function MakeUserLogin(){
-        alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng")
-        var loginModal = document.querySelector('.login__modal')
-        loginModal.classList.add('modal-active')
-    }
-    
     addtocartBtn = document.querySelector('.ProductInfo__AddToCartbtn')
     addtocartBtn.addEventListener('click', function(e){
         if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
@@ -146,6 +113,13 @@
             request.open("POST", `/cart/add/${productId}`, true)
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    toast({
+                        title: 'Thành công',
+                        message: 'Thêm sản phẩm vào giỏ hàng thành công',
+                        type: 'success',
+                        duration: 3000
+                    })
+                    @* alert("Thêm sản phẩm vào giỏ hàng thành công") *@
                     document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
                 }
             }

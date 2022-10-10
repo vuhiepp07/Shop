@@ -11,11 +11,9 @@ namespace Shop.Controllers{
         {
         }
 
+        //Handling when user login, update Claims information and return login status
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel obj){
-
-            var LoginSuccessMsg = new {status = "true"};
-            var LoginFailedMsg = new {status = "false"};
             User user = provider.User.Login(obj);
             
             if(user != null){
@@ -48,40 +46,39 @@ namespace Shop.Controllers{
                     IsPersistent = obj.Remember
                 };
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                return Json(LoginSuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(LoginFailedMsg);
+            return Json(new {status = "false"});
         }
 
+        //Handling when user choose to logout. After signout, return to Home page
         public async Task<IActionResult> Logout(){
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/");
         }
 
+        //Handling when user register for a new account, return register status
         [HttpPost]
         public IActionResult Register([FromBody] User obj){
-            var RegisterSuccessMsg = new {status = "true"};
-            var RegisterFailedMsg = new {status = "false"};
             if(provider.User.Register(obj) > 0){
-                return Json(RegisterSuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(RegisterFailedMsg);
+            return Json(new {status = "false"});
         }
 
+        //Handling when user change their password, return if it success or not
         [HttpPost]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel obj){
-            var SuccessMsg = new {status = "true"};
-            var FailedMsg = new {status = "false"};
             if(provider.User.ChangePassword(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), obj) > 0){
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return Json(SuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(FailedMsg);
+            return Json(new {status = "false"});
         }
 
+        //Update user information (Mail, Address, Phone,......)
         public IActionResult UpdateInformation(User obj){
             return Json(provider.User.UpdateInformation(obj));
         }
-
     }
 }

@@ -12,15 +12,17 @@ namespace Shop.Controllers{
         {
         }
 
-
+        //Access to user's cart pages
         [ServiceFilter(typeof(NavbarFilter))]
         public IActionResult Index(){
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewBag.CartDetail = provider.Cart.GetCarts(userId);
             provider.Cart.ResetCheckoutProductList(userId);
+            ViewBag.Title = "Giỏ hàng";
             return View();
         }
 
+        //Handling when user add products to cart
         [HttpPost("/cart/add/{productId:int}")]
         public IActionResult Add(int productId){
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -33,40 +35,36 @@ namespace Shop.Controllers{
             return Json(provider.Cart.CountProducts(userId));
         }
 
+        //Handling when user edit the number of products in their cart
         [HttpPost]
         public IActionResult Edit([FromBody] Cart obj){
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             obj.CartId = userId;
-            var EditSuccessMsg = new {status = "true"};
-            var EditFailedMsg = new {status = "false"};
             if(provider.Cart.Edit(obj) > 0){
-                return Json(EditSuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(EditFailedMsg);
+            return Json(new {status = "false"});
         }
 
+        //Handling when user delete permanently some products in their cart
         [HttpPost]
         public IActionResult Delete([FromBody] int[] ProductIdArr){
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var DeleteSuccessMsg = new {status = "true"};
-            var DeleteFailedMsg = new {status = "false"};
             if(provider.Cart.Delete(userId, ProductIdArr) > 0){
-                return Json(DeleteSuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(DeleteFailedMsg);
+            return Json(new {status = "false"});
         }
 
-
+        //When user choose to checkout, get the selected products that they want to buy finally in the cart page
         [ServiceFilter(typeof(NavbarFilter))]
         [HttpPost]
         public IActionResult UpdateCheckoutProductList([FromBody] int[] ProductIdArr){
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var SuccessMsg = new {status = "true"};
-            var FailedMsg = new {status = "false"};
             if(provider.Cart.UpdateCheckoutProductList(userId, ProductIdArr) > 0){
-                return Json(SuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(FailedMsg);
+            return Json(new {status = "false"});
         }
 
     }

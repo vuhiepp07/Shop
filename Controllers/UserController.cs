@@ -12,23 +12,25 @@ namespace Shop.Controllers{
         {
         }
 
+        //Get user information and return to view
         [ServiceFilter(typeof(NavbarFilter))]
         public IActionResult Information(){
             ViewBag.User = provider.User.GetUserInfo(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            ViewBag.Title = "Thông tin";
             return View();
         }
 
+        //Handling when user change their information
         [HttpPost]
         public IActionResult ChangeInformation([FromBody] User obj){
-            var SuccessMsg = new {status = "true"};
-            var FailedMsg = new {status = "false"};
             obj.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if(provider.User.UpdateInformation(obj) > 0){
-                return Json(SuccessMsg);
+                return Json(new {status = "true"});
             }
-            return Json(FailedMsg);
+            return Json(new {status = "false"});
         }
 
+        //Handling when user upload their avatar
         [HttpPost]
         public IActionResult UploadAvatar(IFormFile f){
             string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "user");

@@ -67,40 +67,21 @@
 </div>
 
 <script>
-        function SendRequestEditCart(url, obj){
-            let request = new XMLHttpRequest()
-            let responeMessage = ''
-            request.open("POST", url, false)
-            request.setRequestHeader("Content-type", "application/json")
-            request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    responeMessage = JSON.parse(this.responseText)['status']
-                }
-            }
-            console.log(typeof obj)
-            request.send(JSON.stringify(obj));
-            return responeMessage
-        }
 
     var cancelOrderBtns = document.querySelectorAll('.Order__cancel-btn')
     for(let i = 0; i< cancelOrderBtns.length; i++){
         cancelOrderBtns[i].addEventListener('click', function(e){
             orderId = cancelOrderBtns[i].querySelector('.hiddenOrderId').textContent
             if(confirm("Bạn có chắc muốn hủy đơn hàng này?")){
-                @* let request = new XMLHttpRequest();
-                request.open("POST", `/order/cancel/${orderId}`, true)
-                request.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        if(this.responseText == '1'){
-                            alert("Hủy đặt hàng thành công")
-                            cancelOrderBtns[i].remove()
-                        }
-                    }
-                }
-                request.send() *@
-                let result = SendRequestEditCart("/order/cancel", orderId);
+                let result = SendHttpPostRequest("/order/cancel", orderId);
                 if(result === 'true'){
-                    alert("Hủy đặt hàng thành công")
+                    toast({
+                        title: 'Thành công',
+                        message: 'Hủy đặt hàng thành công',
+                        type: 'success',
+                        duration: 3000
+                    })
+                    @* alert("Hủy đặt hàng thành công") *@
                     let orderStatusNode = cancelOrderBtns[i].parentNode.querySelector('.Order__info-status')
                     orderStatusNode.innerHTML = `<h4>Trạng thái đơn hàng:</h4> ĐÃ HỦY`
                     cancelOrderBtns[i].remove()

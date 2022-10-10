@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/normalize.min.css">
     <link rel="stylesheet" href="/css/base.css">
+    <script src="/js/main.js"></script>
+    <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/fonts/fontawesome-free-6.2.0/fontawesome-free-6.2.0-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
@@ -47,7 +49,7 @@
                 <div class="header__barWithSearch">
                     <div class="barWithSearch__logo">
                         <a href="/home">
-                            <img class="barWithSearch__logo-img" src="/images/logo/shoplogo.png" alt="Shop logo">
+                            <img class="barWithSearch__logo-img" src="/images/logo/shoplogo2.png" alt="Shop logo">
                         </a>
                     </div>
                     <div class="header__searchField">
@@ -114,11 +116,15 @@
                         }
                     </ul>
                 </div>
-
-
-
             </div>
         </header>
+
+        <div id="toast">
+            
+        </div>
+
+        
+
         <div class="modal login__modal">
             <div class="auth__modal-login modal__body">
                 <div class ="auth__modal-heading">
@@ -265,20 +271,6 @@
     </div>
 
     <script>
-        function SendRequestEditCart(url, obj){
-            let request = new XMLHttpRequest()
-            let responeMessage = ''
-            request.open("POST", url, false)
-            request.setRequestHeader("Content-type", "application/json")
-            request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    responeMessage = JSON.parse(this.responseText)['status']
-                }
-            }
-            request.send(JSON.stringify(obj))
-            return responeMessage
-        }
-
         var loginBtn = document.querySelector(".account_login-link")
         var registerBtn = document.querySelector(".account_register-link")
         var allModal = document.querySelectorAll(".modal")
@@ -321,20 +313,6 @@
             registerModal.classList.add('modal-active')
         })
 
-        function SendRequestAuthentication(url, obj){
-            let request = new XMLHttpRequest()
-            let responeMessage = ''
-            request.open("POST", url, false)
-            request.setRequestHeader("Content-type", "application/json")
-            request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    responeMessage = JSON.parse(this.responseText)['status']
-                }
-            }
-            request.send(JSON.stringify(obj));
-            return responeMessage
-        }
-
         btnProceedLogin.addEventListener('click', function(e){
             let username = loginModal.querySelector('.auth__modal-inputUsername').value
             let password = loginModal.querySelector('.auth__modal-inputPassword').value
@@ -344,16 +322,17 @@
                 Password : password,
                 Remember : remember,
             }
-            //console.log(obj);
-            @* $.post('/auth/login', obj, (d)=>{
-                console.log(d);
-            }) *@
-            let result = SendRequestAuthentication("/auth/login", obj);
+            let result = SendHttpPostRequest("/auth/login", obj);
             if(result === 'false'){
-                alert("Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại")
+                toast({
+                    title: 'Thất bại',
+                    message: 'Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại',
+                    type: 'error',
+                    duration: 3000
+                })
+                @* alert("Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại") *@
             }
             else{
-                alert("Đăng nhập thành công")
                 loginModal.classList.remove('modal-active')
                 location.reload()
             }
@@ -365,19 +344,37 @@
             let password1 = password[0].value
             let password2 = password[1].value
             if(password1 !== password2){
-                alert("Mật khẩu và mật khẩu xác nhận phải giống nhau, vui lòng nhập lại")
+                toast({
+                    title: 'Thất bại',
+                    message: 'Đăng kí thất bại, mật khẩu và mật khẩu xác nhận phải giống nhau, vui lòng nhập lại',
+                    type: 'error',
+                    duration: 3000
+                })
+                @* alert("Mật khẩu và mật khẩu xác nhận phải giống nhau, vui lòng nhập lại")  *@
             }
             else{
                 let obj = {
                     Username : username,
                     Password : password1
                 }
-                let result = SendRequestAuthentication("/auth/register", obj)
+                let result = SendHttpPostRequest("/auth/register", obj)
                 if(result === 'false'){
-                    alert("Tên tài khoản đã tồn tại, vui lòng sử dụng tên tài khoản khác")
+                    toast({
+                        title: 'Thất bại',
+                        message: 'Đăng kí thất bại, tên tài khoản đã tồn tại, vui lòng sử dụng tên tài khoản khác',
+                        type: 'error',
+                        duration: 3000
+                    })
+                    @* alert("Tên tài khoản đã tồn tại, vui lòng sử dụng tên tài khoản khác")  *@
                 }
                 else{
-                    alert("Đăng kí tài khoản thành công, xin mời đăng nhập")
+                    toast({
+                        title: 'Thành công',
+                        message: 'Đăng kí tài khoản thành công, xin mời đăng nhập',
+                        type: 'success',
+                        duration: 3000
+                    })
+                    @* alert("Đăng kí tài khoản thành công, xin mời đăng nhập") *@
                     registerModal.classList.remove('modal-active')
                     loginModal.classList.add('modal-active')
                 }
@@ -398,13 +395,28 @@
                     Password : document.querySelector('.auth__modal-inputOldPassword').value,
                     NewPassword : document.querySelector('.auth__modal-inputNewPassword').value
                 }
-                let result = SendRequestEditCart("/auth/changepassword", obj)
+                let result = SendHttpPostRequest("/auth/changepassword", obj)
                 if(result === 'true'){
-                    alert("Đổi mật khẩu thành công, vui lòng đăng nhập lại")
-                    window.location.href = ("/home")
+                    @* alert("Đổi mật khẩu thành công, vui lòng đăng nhập lại")  *@
+                    setTimeout(function(){
+                        window.location.href = ("/home")
+                    },1300)
+
+                    toast({
+                        title: 'Thành công',
+                        message: 'Đổi mật khẩu thành công, vui lòng đăng nhập lại',
+                        type: 'success',
+                        duration: 3000
+                    })
                 }
                 else{
-                    alert("Đổi mật khẩu thất bại, vui lòng thử lại")
+                    toast({
+                        title: 'Thất bại',
+                        message: 'Đổi mật khẩu thất bại, vui lòng thử lại',
+                        type: 'error',
+                        duration: 3000
+                    })
+                    @* alert("Đổi mật khẩu thất bại, vui lòng thử lại") *@
                 }
             })
         }

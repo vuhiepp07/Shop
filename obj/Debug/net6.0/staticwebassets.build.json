@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "S5KvQ9ZgU7HAZF7XPcuyrggFlh/sweI3y/Z6aD0yVDE=",
+  "Hash": "Fea9R2ARGyPlCmJEtIz+Jf0D5WRQ9gfIBPlrlqJY/ps=",
   "Source": "Shop",
   "BasePath": "_content/Shop",
   "Mode": "Default",
@@ -36089,6 +36089,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\logo\\shoplogo.png"
+    },
+    {
+      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\logo\\shoplogo2.png",
+      "SourceId": "Shop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
+      "BasePath": "_content/Shop",
+      "RelativePath": "images/logo/shoplogo2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\logo\\shoplogo2.png"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\0ddtnnqvt39jzdfk6nwzru4k7sv2qrn4ht21dtx4jf89ownfwt26au4jw0uv.png",

@@ -66,7 +66,7 @@
             <div class="grid__column-10">
                 <div class="grid__row productList">
                     <input type="hidden" value="@ViewBag.Products" id="prodList">
-                    <partial name="_ProductListPartial"></partial>
+                    @* <partial name="_ProductListPartial"></partial> *@
                 </div>
                 <partial name="_PaginationPartial"></partial>
             </div>
@@ -75,31 +75,43 @@
 </div>
 
 <script>
-    @* var controllerName = '@ViewContext.RouteData.Values["controller"]'
-    var actionname = '@ViewContext.RouteData.Values["action"]'
-    var categoryname = '@ViewContext.RouteData.Values["categoryname"]' *@
-    var productField = document.querySelector('.productList')
+    function QueryAddToCartBtns_AndAddListener_ForThem(){
+        @* Handling when user click on button Add to cart at some productItem in productList  *@
+        let addToCartBtns = document.querySelectorAll('.productList__item-addToCartbtn')
+        for(let i = 0; i<addToCartBtns.length; i++){ 
+            addToCartBtns[i].addEventListener('click', function(e){
+                e.stopPropagation()
+                if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
+                    MakeUserLogin()
+                }
+                else{
+                    let productId = addToCartBtns[i].querySelector('.hiddenProductId').value;
+                    let request = new XMLHttpRequest();
+                    request.open("POST", `/cart/add/${productId}`, true)
+                    request.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            toast({
+                                title: 'Thành công',
+                                message: 'Thêm sản phẩm vào giỏ hàng thành công',
+                                type: 'success',
+                                duration: 3000
+                            })
+                            @* alert("Thêm sản phẩm vào giỏ hàng thành công") *@
+                            document.querySelector('.barWithSearch__cart-numofProd').textContent = this.responseText
+                        }
+                    }
+                    request.send()
+                }
+            })
+        }
+    }
 
+    var productField = document.querySelector('.productList')
     var productsWillShow = new Array()
 
     @* get ProductData from viewbag to help sort product*@
     var productList = @Html.Raw(Json.Serialize(@ViewBag.Products))
-
     let brandOptions = document.querySelectorAll('[name="brandOption"]')
-    for(let i = 0; i < brandOptions.length; i++){
-
-    }
-
-    function normalizePrice(price){
-        for(var i = price.length -1, x = 0 ; i> 0; i--, x++){
-            if(x == 2){
-                price = price.slice(0, i) + "," + price.slice(i)
-                i++;
-                x=-2;
-            }
-        }
-        return price;
-    }
 
 
     function UpDateProductList(object, productField){
@@ -115,57 +127,8 @@
                 return b['discountPrice'] - a['discountPrice']
             })
         }
-        
-
         for(let i in object){
-            let productPrice = String(object[i]['price'])
-            let productPriceInString = normalizePrice(productPrice)
-            let productDiscountPrice = String(object[i]['discountPrice'])
-            let productDiscountPriceInString = normalizePrice(productDiscountPrice)
-
-            let newHtml = `
-                <div class="grid__column-TwoOfTen productList__item">
-                    <div class="productList__item-img" style="background-image: url(/images/products/${object[i]['imageUrl']});">
-                        <div class="productList__item-addToCartbtn">
-                            <input class="hiddenProductId" type="hidden" value=${object[i]['productId']}>
-                            Add to cart
-                        </div>
-                    </div>
-                    <div class="productList__item-name">
-                        <span>${object[i]['productName']}</span>
-                    </div>
-                    
-                    <div class="productList__item-Price">
-            `
-            if(productPrice != productDiscountPrice && productDiscountPrice != 0){
-                newHtml += `
-                <div class="productList__item-Newprice">
-                    <span>${productDiscountPriceInString}₫</span>
-                </div>
-                <div class="productList__item-Oldprice">
-                    <span>${productPriceInString}₫</span>
-                </div>
-                `
-            let productDiscountPercentage = ((object[i]['price'] - object[i]['discountPrice'])/object[i]['price'])*100
-            newHtml += `
-                <div class="productList__item-SaleOf">
-                    <span style="line-height: 20px;" >GIẢM</span><br>
-                    <span>${productDiscountPercentage}%</span>
-                </div>
-            `
-            }
-            else{
-                newHtml += `
-                    <div class="productList__item-Newprice">
-                        <span>${productPriceInString}₫</span>
-                    </div>
-                `
-            }
-            
-            newHtml += `</div>`
-            newHtml += `</div>`
-
-            productField.innerHTML += newHtml
+            productField.innerHTML += GenerateHTMLForProductItem(object, i)
         }
     }
 
@@ -214,14 +177,19 @@
             
         }
         UpDateProductList(productsWillShow, productField)
+        QueryAddToCartBtns_AndAddListener_ForThem()
+        QueryProductItems_AndAddClickListener_ForThem()
     }
 
-    function sendRequestUpdateProductList(url){
+    UpDateProductList(productList, productField)
+    QueryAddToCartBtns_AndAddListener_ForThem()
+    QueryProductItems_AndAddClickListener_ForThem()
+
+    @* function sendRequestUpdateProductList(url){
         let request = new XMLHttpRequest();
         request.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 productList = JSON.parse(this.responseText)
-                console.log(productList)
                 UpDateProductList(productList, productField)
             }
         }
@@ -240,7 +208,7 @@
             url = `/home/filter/${brandid}/${categoryname}`
         }
         return url += `/${priceRangeId}`
-    }
+    } *@
 
     @* Filter product by brand in all page  *@
 

@@ -52,17 +52,6 @@
     </div>
 
     <script>
-        function normalizePrice(price){
-            for(var i = price.length -1, x = 0 ; i> 0; i--, x++){
-                if(x == 2){
-                    price = price.slice(0, i) + "," + price.slice(i)
-                    i++;
-                    x=-2;
-                }
-            }
-            return price;
-        }
-
         function checkMinNumOfProduct(){
             let numOfProductNodes = document.querySelectorAll('.cartProducts__item-quantity')
             for(let i = 0; i < numOfProductNodes.length; i++){
@@ -71,20 +60,6 @@
                     parent.querySelector('.cartProducts__item-minusIcon').style.display = 'none'
                 }
             }
-        }
-
-        function SendRequestEditCart(url, obj){
-            let request = new XMLHttpRequest()
-            let responeMessage = ''
-            request.open("POST", url, false)
-            request.setRequestHeader("Content-type", "application/json")
-            request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    responeMessage = JSON.parse(this.responseText)['status']
-                }
-            }
-            request.send(JSON.stringify(obj));
-            return responeMessage
         }
 
         checkMinNumOfProduct()
@@ -105,7 +80,7 @@
                     ProductId : productId,
                     Quantity : numOfProduct + 1
                 }
-                let result = SendRequestEditCart("/cart/edit", cartObj)
+                let result = SendHttpPostRequest("/cart/edit", cartObj)
                 if(result === 'true'){
                     let toalNumOfProductInCartNode = document.querySelector('.barWithSearch__cart-numofProd')
                     let toalNumOfProduct = parseInt(toalNumOfProductInCartNode.textContent)
@@ -129,7 +104,7 @@
                     ProductId : productId,
                     Quantity : numOfProduct - 1
                 }
-                let result = SendRequestEditCart("/cart/edit", cartObj)
+                let result = SendHttpPostRequest("/cart/edit", cartObj)
                 if(result === 'true'){
                     let toalNumOfProductInCartNode = document.querySelector('.barWithSearch__cart-numofProd')
                     let toalNumOfProduct = parseInt(toalNumOfProductInCartNode.textContent)
@@ -173,11 +148,17 @@
             let productIds = getCheckedProductInCart()
             console.log(productIds)
             if(productIds.length == 0){
-                alert("Bạn chưa chọn sản phẩm nào để xóa")
+                toast({
+                    title: 'Không thể thực hiện',
+                    message: 'Bạn chưa chọn sản phẩm nào để xóa',
+                    type: 'info',
+                    duration: 3000
+                })
+                @* alert("Bạn chưa chọn sản phẩm nào để xóa") *@
             }
             else{
                 if(confirm("Bạn có chắc muốn xóa sản phẩm")){
-                    let result = SendRequestEditCart("/cart/delete", productIds)
+                    let result = SendHttpPostRequest("/cart/delete", productIds)
                     if(result === 'true'){
                         cartProductList = document.querySelectorAll('.cartProducts__item')
                         for(let i = 0; i < cartProductList.length; i++){
@@ -189,10 +170,22 @@
                                 cartProductList[i].remove()
                             }
                         }
-                        alert("Xoá sản phẩm thành công")
+                        toast({
+                            title: 'Thành công',
+                            message: 'Xóa sản phẩm thành công',
+                            type: 'success',
+                            duration: 3000
+                        })
+                        @* alert("Xoá sản phẩm thành công") *@
                     }
                     else{
-                        alert("Xoá sản phẩm thất bại")
+                        toast({
+                            title: 'Thất bại',
+                            message: 'Xóa sản phẩm thất bại',
+                            type: 'error',
+                            duration: 3000
+                        })
+                        @* alert("Xoá sản phẩm thất bại") *@
                     }
                 }
             }
@@ -209,7 +202,7 @@
                     productIds.push(productId)
                 }
             }
-            let result = SendRequestEditCart("/cart/UpdateCheckoutProductList", productIds)
+            let result = SendHttpPostRequest("/cart/UpdateCheckoutProductList", productIds)
             if(result === 'true'){
                 window.location.href = '/order/Create'
             }

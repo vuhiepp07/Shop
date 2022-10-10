@@ -1,3 +1,4 @@
+/* Website's header and navbar css  */
 .header{
     background-color: var(--primary-color);
     height: var(--header-height);
@@ -87,7 +88,7 @@
 }
 
 .barWithSearch__logo{
-    height: 100%;
+    height: 80%;
     width: 150px;
 }
 
@@ -587,6 +588,9 @@
 .auth__modal-switchLinkToRegister,
 .auth__modal-switchLinkToLogin{
     padding-left: 4px;
+    color: rgb(76, 8, 85);
+    font-size: 1.45rem;
+    text-decoration: underline;
 }
 
 /* Cart page css  */
@@ -1067,3 +1071,114 @@
     opacity: 0.8;
     background-color:var(--primary-color);
 }
+
+/* Toast message css  */
+#toast{
+    position: fixed;
+    top: 32px;
+    right: 32px;
+    z-index: 5;
+}
+
+.toast{
+    display: flex;
+    align-items: center;
+    margin-top: 24px;
+    background-color: white;
+    border-radius: 4px;
+    min-width: 380px;
+    max-width: 430px;
+    border-left: 4px solid;
+    box-shadow: 0 5px 8px rgba(0,0,0,0.08);
+    transition: all linear 0.3s;
+}
+
+@keyframes toastSlideIn{
+    from{
+        transform: translateX(calc(100% + 32px));
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut{
+    to{
+        opacity: 0;
+    }
+}
+
+.toast__close,
+.toast__icon{
+    padding: 0 16px;
+}
+
+.toast__icon{
+    font-size: 2.4rem;
+    cursor: pointer;
+}
+
+.toast__body{
+    flex-grow: 1;
+}
+
+.toast__title{
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #333;
+    padding: 0;
+    margin: 12px 0;
+}
+
+.toast__msg{
+    font-size: 1.4rem;
+    margin-top: 6px;
+    line-height: 1.7rem;
+    color: black;
+}
+
+.toast__close{
+    font-size: 2.0rem;
+    color: rgba(0,0,0,0.3);
+}
+
+.toast__close:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.toast--success{
+    border-color: green;
+}
+
+.toast--success .toast__icon{
+    color: green;
+}
+
+.toast--info{
+    border-color: blue;
+}
+
+.toast--info .toast__icon{
+    color: blue;
+    
+}
+
+.toast--error{
+    border-color: red;
+}
+
+.toast--error .toast__icon{
+    color: red;
+    
+}
+
+.toast--warning{
+    border-color: yellow;
+}
+
+.toast--warning .toast__icon{
+    color: yellow;
+}
+

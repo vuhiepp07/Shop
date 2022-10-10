@@ -1,6 +1,11 @@
 namespace Shop.Models{
     public class SiteProvider : BaseProvider
     {
+        /* Inherit dbContext and Connection to the SQL server from BaseProvider.
+        This class will contains the declaration of repository classes which will be inject to all the controller classes to help avoid
+        create the same repository variable of the same repository class from times to times in different controllers. 
+        The SqlConnection and dbContext attributes will also
+        be injected to Repository classes to help avoid create new SqlConnection to the SQL server from times to times in the Repository classes */
         public SiteProvider(IConfiguration configuration, AppDbContext dbContext) : base(configuration, dbContext)
         {
         }
