@@ -40,7 +40,12 @@ namespace Shop.Models{
         }
 
         public int Edit(Brand obj){
-            return connection.Execute("Update Brand set BrandName = @BrandName, ImageUrl = @ImageUrl, Description = @Description where BrandId = @BrandId", obj);
+            Brand result = dbContext.Brand.Where(p => p.BrandId == obj.BrandId).SingleOrDefault();
+            result.BrandName = obj.BrandName;
+            result.ImageUrl = obj.ImageUrl;
+            result.Description = obj.Description;
+            return dbContext.SaveChanges();
+            // return connection.Execute("Update Brand set BrandName = @BrandName, ImageUrl = @ImageUrl, Description = @Description where BrandId = @BrandId", obj);
         }
 
         public int Delete(int id){

@@ -5,7 +5,7 @@ using Shop.Filters;
 using Shop.Models;
 
 namespace Shop.Controllers{
-    [Authorize]
+    [Authorize(Roles = "customer")]
     public class CartController : BaseController
     {
         public CartController(SiteProvider provider) : base(provider)

@@ -85,8 +85,8 @@
                     let toalNumOfProductInCartNode = document.querySelector('.barWithSearch__cart-numofProd')
                     let toalNumOfProduct = parseInt(toalNumOfProductInCartNode.textContent)
                     let productRowPriceNode = grandNode.querySelector('.cartProducts__item-price') 
-                    productRowPriceNode.textContent = normalizePrice(String(productPrice * (numOfProduct + 1)))
-                    toalNumOfProductInCartNode.textContent = String(toalNumOfProduct + 1)
+                    productRowPriceNode.textContent = normalizePrice(String(productPrice * (numOfProduct + 1))) + "đ"
+                    toalNumOfProductInCartNode.textContent = String(toalNumOfProduct + 1) 
                     numOfProductNode.textContent = String(numOfProduct + 1)
                     parent.querySelector('.cartProducts__item-minusIcon').style.display = 'inline-block'
                 }
@@ -109,7 +109,7 @@
                     let toalNumOfProductInCartNode = document.querySelector('.barWithSearch__cart-numofProd')
                     let toalNumOfProduct = parseInt(toalNumOfProductInCartNode.textContent)
                     let productRowPriceNode = grandNode.querySelector('.cartProducts__item-price') 
-                    productRowPriceNode.textContent = normalizePrice(String(productPrice * (numOfProduct - 1)))
+                    productRowPriceNode.textContent = normalizePrice(String(productPrice * (numOfProduct - 1))) + "đ"
                     toalNumOfProductInCartNode.textContent = String(toalNumOfProduct - 1)
                     numOfProductNode.textContent = String(numOfProduct -1)
                     if(numOfProduct - 1 < 2){

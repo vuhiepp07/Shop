@@ -9,7 +9,8 @@ namespace Shop.Models{
         }
 
         public IEnumerable<Discount> GetDiscounts(){
-            return connection.Query<Discount>("Select * from Discount");
+            // return connection.Query<Discount>("Select * from Discount");
+            return dbContext.Discount.ToList();
         }
 
         public int Create(Discount obj){

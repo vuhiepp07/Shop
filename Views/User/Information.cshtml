@@ -11,30 +11,34 @@
         <div class="user__info-informationPlace">
             <div class="user__info-field">
                 <h3>Tên đầy đủ</h3>
+                @* <input name="user__info-input" type="text" class="info__fullName-input" readonly value= "@User.FindFirstValue(ClaimTypes.GivenName)">  *@
                 <input name="user__info-input" type="text" class="info__fullName-input" readonly value= "@ViewBag.User.FullName.ToString()">
             </div>
 
             <div class="user__info-field">
                 <h3>Email</h3>
                 <input name="user__info-input" type="text" class="info__email-input" readonly value= "@ViewBag.User.Email.ToString()">
-
             </div>
 
             <div class="user__info-field">
                 <h3>Địa chỉ</h3>
                 <input name="user__info-input" type="text" class="info__address-input" readonly value= "@ViewBag.User.Address.ToString()">
+                @* <input name="user__info-input" type="text" class="info__address-input" readonly value= "@User.FindFirstValue(ClaimTypes.StreetAddress)"> *@
+
 
             </div>
 
             <div class="user__info-field">
                 <h3>Số điện thoại</h3>
                 <input name="user__info-input" type="text" class="info__phone-input" readonly value= "@ViewBag.User.Phone.ToString()">
+                @* <input name="user__info-input" type="text" class="info__phone-input" readonly value= "@User.FindFirstValue(ClaimTypes.MobilePhone)"> *@
 
             </div>
 
             <div class="user__info-field">
                 <h3>Ngày sinh</h3>
-                <input name="user__info-input" type="date" class="info__dateOfBirth-input" readonly value= @ViewBag.User.DateOfBirth>
+                <input name="user__info-input" type="date" class="info__dateOfBirth-input" readonly value= @ViewBag.User.DateOfBirth>  
+                @* <input name="user__info-input" type="date" class="info__dateOfBirth-input" readonly value= "@User.FindFirstValue(ClaimTypes.DateOfBirth)"> *@
             </div>
 
             <div class="user__info-Gender">
@@ -118,7 +122,7 @@
             }
         }
         let gender = true
-        if(document.querySelector('input[name="userGender"]:checked').value === 'false'){
+        if(document.querySelector('input[name="userGender"]:checked').value === 'False'){
             gender = false
         }
         let obj = {
@@ -129,9 +133,16 @@
             DateOfBirth : String(dateOfBirthInput.value),
             Address : addressInput.value
         }
+        console.log(obj)
         let result = SendHttpPostRequest("/user/ChangeInformation", obj)
         if(result === 'true'){
-            alert("Cập nhật thông tin thành công")
+            toast({
+                title: 'Thành công',
+                message: 'Cập nhật thông tin thành công',
+                type: 'success',
+                duration: 3000
+            })
+            //alert("Cập nhật thông tin thành công")
             if(obj.FullName != null){
                 let name = normalizeName(obj.FullName)
                 document.querySelector('.barWithSearch__account-username').innerHTML = `${name}

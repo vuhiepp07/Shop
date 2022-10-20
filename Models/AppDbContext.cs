@@ -14,6 +14,7 @@ namespace Shop.Models{
         public DbSet<OrderDetail> OrderDetail {get; set;}
         public DbSet<Product> Product {get; set;}
         public DbSet<User> User {get; set;}
+        public DbSet<Role> Role {get; set;}
         protected override void OnConfiguring(DbContextOptionsBuilder builder){
             base.OnConfiguring(builder);
             builder.UseLazyLoadingProxies();
@@ -65,6 +66,14 @@ namespace Shop.Models{
                 entity.Property(p => p.Phone).IsRequired(false);
                 entity.Property(p => p.Address).IsRequired(false);
                 entity.HasIndex(p => p.Username).IsUnique(true);
+                entity.HasOne(p => p.Role)
+                    .WithMany(p => p.UsersInRole)
+                    .HasForeignKey(p => p.RoleId);
+            });
+
+            builder.Entity<Role>(entity => {
+                entity.ToTable("Role");
+                entity.HasKey(p => p.RoleId);
             });
 
             builder.Entity<Cart>(entity => {

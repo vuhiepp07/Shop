@@ -1,10 +1,12 @@
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Controllers;
 using Shop.Models;
 
 namespace Shop.Areas.Admin.Controllers{
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class ProductController : BaseController
     {
         public ProductController(SiteProvider provider) : base(provider)
@@ -60,7 +62,7 @@ namespace Shop.Areas.Admin.Controllers{
             else return Redirect("/Admin/Product/Error");
         }
 
-        [HttpPost]
+        [Route("/admin/product/delete/{productId:int}")]
         public IActionResult Delete(int productId){
             if(provider.Product.Delete(productId) > 0){
                 return Redirect("/Admin/Product");

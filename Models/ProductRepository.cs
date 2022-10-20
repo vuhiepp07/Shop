@@ -1,4 +1,6 @@
 using System.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using Dapper;
 
 namespace Shop.Models{
@@ -9,7 +11,9 @@ namespace Shop.Models{
         }
 
         public IEnumerable<Product> GetProducts(){
-            return connection.Query<Product>("Select * from Product");
+            string sql = "Select * from Product";
+            return dbContext.Product.FromSqlRaw<Product>(sql).ToList();
+            // return connection.Query<Product>("Select * from Product");
         }
 
         public IEnumerable<Product> GetProducts(int page, int size){
@@ -78,32 +82,23 @@ namespace Shop.Models{
         }
 
         public IEnumerable<Product> SearchProductsByName(string name){
-            // var result = from product in dbContext.Product
-            //                     where product.ProductName.ToLower().Contains(name.ToLower())
-            //                     select product;
-            // return result;
             return connection.Query<Product>("select * from Product where Lower(ProductName) like '%' + @Name + '%'", new{
                 Name = name.ToLower()
             });
         }
 
         public Product SearchProductByName(string name){
-            // var result = from product in dbContext.Product
-            //                     where product.ProductName.ToLower().Contains(name.ToLower())
-            //                     select product;
-            // return result;
             return connection.QuerySingleOrDefault<Product>("select * from Product where Lower(ProductName) like '%' + @Name + '%'", new{
                 Name = name.ToLower()
             });
         }
 
         public int UpdateProductPrice(Product obj){
-            return connection.Execute("Update Product set DiscountPrice = @DiscountPrice, ProductDiscountId = @DiscountId where ProductId = @Id", new{
+            return connection.Execute("UpdateProductPrice", new{
                 Id = obj.ProductId,
                 DiscountId = obj.ProductDiscountId,
                 DiscountPrice = obj.DiscountPrice
-            });
-
+            }, commandType:CommandType.StoredProcedure);
         }
 
         public IEnumerable<Product> GetProductsByCategoryIdAndBrandId(int categoryId, int brandId){

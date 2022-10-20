@@ -271,6 +271,23 @@ namespace Shop.Migrations
                     b.ToTable("Product", (string)null);
                 });
 
+            modelBuilder.Entity("Shop.Models.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Role", (string)null);
+                });
+
             modelBuilder.Entity("Shop.Models.User", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -290,23 +307,29 @@ namespace Shop.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Gender")
+                    b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -401,6 +424,17 @@ namespace Shop.Migrations
                     b.Navigation("Discount");
                 });
 
+            modelBuilder.Entity("Shop.Models.User", b =>
+                {
+                    b.HasOne("Shop.Models.Role", "Role")
+                        .WithMany("UsersInRole")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Shop.Models.Brand", b =>
                 {
                     b.Navigation("BrandCategory")
@@ -432,6 +466,11 @@ namespace Shop.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("OrderDetail");
+                });
+
+            modelBuilder.Entity("Shop.Models.Role", b =>
+                {
+                    b.Navigation("UsersInRole");
                 });
 
             modelBuilder.Entity("Shop.Models.User", b =>

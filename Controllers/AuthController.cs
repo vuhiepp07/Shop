@@ -1,12 +1,14 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Models;
 
 namespace Shop.Controllers{
     public class AuthController : BaseController
     {
+        const int MemberRoleId = 2;
         public AuthController(SiteProvider provider) : base(provider)
         {
         }
@@ -17,11 +19,14 @@ namespace Shop.Controllers{
             User user = provider.User.Login(obj);
             
             if(user != null){
+                Role userRole = provider.Role.getRoleById(user.RoleId);
                 List<Claim> claims = new List<Claim>{
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     new Claim(ClaimTypes.Gender, user.Gender.ToString()),
-                    new Claim(ClaimTypes.Name, user.Username)
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Role, userRole.RoleName)
                 };
+                
                 if(!string.IsNullOrEmpty(user.DateOfBirth)){
                     claims.Add(new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth));
                 }
@@ -60,6 +65,7 @@ namespace Shop.Controllers{
         //Handling when user register for a new account, return register status
         [HttpPost]
         public IActionResult Register([FromBody] User obj){
+            obj.RoleId = MemberRoleId;
             if(provider.User.Register(obj) > 0){
                 return Json(new {status = "true"});
             }
@@ -68,6 +74,7 @@ namespace Shop.Controllers{
 
         //Handling when user change their password, return if it success or not
         [HttpPost]
+        [Authorize(Roles = "customer")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel obj){
             if(provider.User.ChangePassword(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), obj) > 0){
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -77,6 +84,7 @@ namespace Shop.Controllers{
         }
 
         //Update user information (Mail, Address, Phone,......)
+        [Authorize(Roles = "customer")]
         public IActionResult UpdateInformation(User obj){
             return Json(provider.User.UpdateInformation(obj));
         }

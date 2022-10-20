@@ -1,6 +1,10 @@
 /* Website's header and navbar css  */
 .header{
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
+    /* background-image: linear-gradient(0, hsl(197, 83%, 55%), #971dfa); */
+    background-image: linear-gradient(0, hsl(197, 59%, 54%), #6715aa);
+    /* background-image: linear-gradient(0, hsl(305, 87%, 71%), #9f1edb); */
+
     height: var(--header-height);
     width: 100%;
     z-index: 1;
@@ -10,8 +14,9 @@
 
 .header__navbar{
     height: var(--navbar-height);
-    background-color: black;
+    background-color: rgba(51, 31, 73, 0.466);
     display: flex;
+    border-radius: 4px; 
     justify-content: space-around;
 }
 
@@ -46,7 +51,8 @@
 
 .navbar__category-subnav{
     position: absolute;
-    background-color: black;
+    /* background-color: black; */
+    background-color: rgba(51, 31, 73);
     top: 100%;
     display: none;
     color: white;
@@ -72,7 +78,7 @@
 .navbar__category-label:hover,
 .navbar__category-subnav-brandList li:hover{
     cursor: pointer;
-    background-color: rgb(46, 44, 44) ;
+    background-color: rgb(15, 11, 11) ;
 }
 
 .navbar__category:hover .navbar__category-subnav{
@@ -158,12 +164,13 @@
 .barWithSearch__cart-logo{
     font-size: 3rem;
     padding: 3px;
-    color: black;
+    color: rgb(49, 5, 70);
     position: relative;
 }
 
 .barWithSearch__cart-logo:hover{
     cursor: pointer;
+    opacity: 0.8;
 }
 
 .barWithSearch__cart-numofProd{
@@ -335,7 +342,7 @@
     height: 40px;
     display: none;
     background-color: black;
-    opacity: 0.65;
+    opacity: 0.7;
 }
 
 .productList__item-img:hover .productList__item-addToCartbtn{
@@ -403,7 +410,7 @@
 
 /* Price Filter css */
 .productFilter{
-    position: fixed;
+    /* position: fixed; */
 }
 
 .productFilter__heading{
@@ -433,7 +440,7 @@
 
 /* brandFilter css  */
 .productFilter__brandFilter{
-    width: 90%;
+    width: 60%;
     height: 30px;
     font-size: 1.3rem;
 }
@@ -442,11 +449,17 @@
     cursor: pointer;
 }
 
+.productFilter__brandFilter option:hover{
+    cursor: pointer;
+}
+
 /* footer css  */
 .footer{
-    border-top: 4px solid var(--primary-color);
+    border-top: 4px solid hsl(197, 58%, 54%);
     margin-top: 50px;
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
+    background-image: linear-gradient(180deg, hsl(197, 58%, 54%), #7125af);
+
 }
 
 .footer__information{
@@ -521,10 +534,12 @@
     padding: 10px 0;
 }
 
+.auth__modal-account,
 .auth__modal-password{
     margin-top: 15px;
 }
 
+.auth__modal-inputEmail,
 .auth__modal-inputUsername,
 .auth__modal-inputPassword,
 .auth__modal-inputOldPassword,
@@ -532,7 +547,8 @@
     margin-left: 4px;
     padding-left: 8px;
     border: none;
-    height: 28px;
+    height: 32px;
+    width: 280px;
     border-radius: 4px;
 }
 
@@ -688,7 +704,7 @@
 
 .cart__action-checkout{
     margin-left: 10px;
-    background-color: goldenrod ;
+    background-color: rgb(72, 179, 95) ;
 }
 
 .cart__action-icon{
@@ -876,7 +892,7 @@
 
 /* order/index page css  */
 .Order__board{
-    background-color: #ccc;
+    background-color: rgb(216, 216, 231);
     border-radius: 4px;
     display: flex;
     margin-top: 30px;
@@ -900,7 +916,7 @@
 
 .Order__info-totalPrice{
     font-size: 1.5rem;
-    color: red;
+    color: black;
     margin: 15px 10px;
 }
 
@@ -915,7 +931,7 @@
 
 .Order__cancel-btn{
     display: inline-block;
-    background-color: rgb(236, 37, 37);
+    background-color: rgb(231, 42, 42);
     font-size: 1.4rem;
     padding: 10px;
     border-radius: 4px;
@@ -1124,7 +1140,7 @@
 }
 
 .toast__title{
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 600;
     color: #333;
     padding: 0;
@@ -1132,8 +1148,8 @@
 }
 
 .toast__msg{
-    font-size: 1.4rem;
-    margin-top: 6px;
+    font-size: 1.5rem;
+    margin-top: 8px;
     line-height: 1.7rem;
     color: black;
 }

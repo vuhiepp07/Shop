@@ -1,0 +1,23 @@
+@model IEnumerable<Product>
+
+<table>
+    <thead>
+        <th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Hình ảnh</th>
+            <th>Xóa</th>
+        </th>
+    </thead>
+    <tbody>
+        @foreach (Product item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Price</td>
+                <td><img src="/images/products/@item.ImageUrl" style="max-width: 300px;"></td>
+                <td><a href="/admin/product/delete/@item.ProductId">Xoá</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

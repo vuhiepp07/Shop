@@ -1,5 +1,7 @@
 using System.Data;
 using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Models{
     public class UserRepository : BaseRepository
@@ -20,28 +22,34 @@ namespace Shop.Models{
         }
 
         public User Login(AuthModel obj){
-            return connection.QuerySingleOrDefault<User>("Select UserId, Username, Email, FullName, Phone, Gender, DateOfBirth, ImageUrl from [User] where Password = @Password and (Username = @Username or Email = @Username)", new{
+            return connection.QuerySingleOrDefault<User>("Login", new{
                 Username = obj.Username,
                 Password = Helper.Hash(obj.Username + "^@#%!@(!&^$" + obj.Password)
-            });
+            }, commandType: CommandType.StoredProcedure);
         }
 
         public int Register(User obj){
-            return connection.Execute("Insert into [User](Username, Password, Gender, ImageUrl) values(@Username, @Password, @Gender, @ImageUrl)", new{
+            return connection.Execute("Insert into [User](Username, Password, Gender, Email, ImageUrl, RoleId, FullName, Phone, DateOfBirth, Address) values(@Username, @Password, @Gender, @Email, @ImageUrl, @RoleId, @FullName, @Phone, @DateOfBirth, @Address)", new{
                 Username = obj.Username,
                 Password = Helper.Hash(obj.Username + "^@#%!@(!&^$" + obj.Password),
                 Gender = true,
-                ImageUrl = "userDefault.png"
+                Email = obj.Email,
+                ImageUrl = "userDefault.png",
+                RoleId = obj.RoleId,
+                FullName = "defaultname",
+                Phone = " ",
+                DateOfBirth = " ",
+                Address = " "
             });
         }
 
         public int ChangePassword(Guid UserId, ChangePasswordModel obj){
-            return connection.Execute("Update [User] set Password = @NewPassword where Username = @Username and Password = @OldPassword and UserId = @UserId", new{
+            return connection.Execute("ChangeUserPassword", new{
                 UserId = UserId,
                 Username = obj.Username,
                 NewPassword = Helper.Hash(obj.Username + "^@#%!@(!&^$" + obj.NewPassword),
                 OldPassword = Helper.Hash(obj.Username + "^@#%!@(!&^$" + obj.Password),
-            });
+            }, commandType: CommandType.StoredProcedure);
         }
 
         public int UpdateInformation(User obj){
@@ -57,10 +65,16 @@ namespace Shop.Models{
         }
 
         public int UpdateAvatarImg(Guid UserId, string ImgUrl){
-            return connection.Execute("Update [User] set ImageUrl = @ImgUrl where UserId = @Id", new{
-                Id = UserId,
-                ImgUrl = ImgUrl
-            });
+            string sql = "Update [User] set ImageUrl = @ImgUrl where UserId = @Id";
+            SqlParameter[] parameters = {
+                new SqlParameter("@ImgUrl", ImgUrl),
+                new SqlParameter("@Id", UserId)
+            };
+            return dbContext.Database.ExecuteSqlRaw(sql, parameters);
+            // return connection.Execute("Update [User] set ImageUrl = @ImgUrl where UserId = @Id", new{
+            //     Id = UserId,
+            //     ImgUrl = ImgUrl
+            // });
         }
     }
 }

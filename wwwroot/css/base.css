@@ -1,7 +1,7 @@
 :root{
     --text-color: #333 ;
     --saleOfFlag-color: red;
-    --primary-color: rgb(121, 121, 241);
+    --primary-color: rgb(169, 114, 221);
     --header-height: 120px;
     --navbar-height: 48px;
     --searchbar-height: calc(var(--header-height) - var(--navbar-height) - 10px);

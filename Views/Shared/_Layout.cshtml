@@ -76,7 +76,7 @@
                                         @* <img class="barWithSearch__account-img" src="/images/user/@User.FindFirstValue(ClaimTypes.Uri)" alt="UserAvatar"> *@
                                         <img class="barWithSearch__account-img" src="/images/user/@ViewBag.User.ImageUrl" alt="UserAvatar">
                                     </div>
-                                    @if(ViewBag.User.FullName == null){
+                                    @if(ViewBag.User.FullName == null || ViewBag.User.FullName == "defaultname"){
                                         <div class="barWithSearch__account-username">@User.Identity.Name
                                             <i class="fa-solid fa-caret-down"></i>
                                             
@@ -133,11 +133,11 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập tài khoản/email">
+                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập username" required>
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu">
+                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu" required>
                     </div>
                 </div>
                 <div class="auth__modal-footer">
@@ -147,7 +147,7 @@
                             <label class="auth__modal-rememberLabel" for="rememberCheckbox">Ghi nhớ đăng nhập</label>
                         </div>
                         <div class="auth__modal-forgetPasswordOption">
-                            <div>Quên mật khẩu?</div>
+                            @* <div>Quên mật khẩu?</div> *@
                         </div>
                     </div>
                     <div class="auth__modal-proceed">
@@ -169,15 +169,19 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập tài khoản/email">
+                        <input class="auth__modal-inputUsername" required type="text" placeholder="Nhập tài khoản">
+                    </div>
+                    <div class="auth__modal-account">
+                        <i class="auth__modal-Logo fa-solid fa-envelope"></i>
+                        <input class="auth__modal-inputEmail" required type="text" placeholder="Nhập email để nhận thông tin đơn hàng">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu">
+                        <input class="auth__modal-inputPassword" required type="password" placeholder="Nhập mật khẩu">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập lại mật khẩu">
+                        <input class="auth__modal-inputPassword" required type="password" placeholder="Nhập lại mật khẩu">
                     </div>
                 </div>
                 <div class="auth__modal-footer">
@@ -200,15 +204,15 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập tài khoản/email">
+                        <input class="auth__modal-inputUsername" required type="text" placeholder="Nhập tài khoản/email">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputOldPassword" type="password" placeholder="Nhập mật khẩu">
+                        <input class="auth__modal-inputOldPassword" required type="password" placeholder="Nhập mật khẩu">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputNewPassword" type="password" placeholder="Nhập mật khẩu mới">
+                        <input class="auth__modal-inputNewPassword" required type="password" placeholder="Nhập mật khẩu mới">
                     </div>
                 </div>
                 <div class="auth__modal-footer">
@@ -227,9 +231,7 @@
                     <div class="grid__column-3 footer__information">
                         <h3 class="footer__heading">Giới thiệu shop</h3>
                         <span class = "footer__information-describe">
-                            Trang web này được tạo nên bởi 1 sinh viên IT nhằm mô phỏng lại sự phối hợp hoạt động giữa phần FrontEnd (Giao diện người dùng) 
-                            và BackEnd (Phần xử lý logic và cơ sở dữ liệu mà người dùng không nhìn thấy được) 
-                            của một trang web bán hàng thương mại điện tử. Lưu ý: Trang web được tạo ra chỉ với mục đích luyện tập code 
+                            <b>Lưu ý:</b> Trang web này được tạo ra chỉ với mục đích luyện tập code 
                             và không có mục đích thương mại, mọi thao tác mua sản phẩm thực hiện tại trang web đều là mô phỏng và không có thật.
                         </span>
                     </div>
@@ -255,10 +257,8 @@
                     <div class="grid__column-3 footer__information">
                         <h3 class="footer__heading">Shop introduction</h3>
                         <span class = "footer__information-describe">
-                            This website was created by an Information Technology student to simulate the operation between the FrontEnd (User interface)
-                            and BackEnd (The logic and database handler which users can not see) of a typical e-commerce web application.
-                            Please notice that this is only a code practicing project, this website does not have any commercial purpose, every interaction made 
-                            by users like ordering a product or something else is just a simulation which means it's all unreal.   
+                            <b>Caution: </b>Please notice that this website is only a code practicing project, it does not have any commercial purpose, every interaction made 
+                            by users like ordering a product or something else is just a simulation which means it's all unreal.
                         </span>
                     </div>
                 </div>
@@ -317,29 +317,40 @@
             let username = loginModal.querySelector('.auth__modal-inputUsername').value
             let password = loginModal.querySelector('.auth__modal-inputPassword').value
             let remember = loginModal.querySelector('#rememberCheckbox').checked
-            let obj = {
-                Username : username,
-                Password : password,
-                Remember : remember,
-            }
-            let result = SendHttpPostRequest("/auth/login", obj);
-            if(result === 'false'){
+            if(username == "" || password == ""){
                 toast({
                     title: 'Thất bại',
                     message: 'Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại',
                     type: 'error',
                     duration: 3000
                 })
-                @* alert("Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại") *@
             }
             else{
-                loginModal.classList.remove('modal-active')
-                location.reload()
+                let obj = {
+                    Username : username,
+                    Password : password,
+                    Remember : remember,
+                }
+                let result = SendHttpPostRequest("/auth/login", obj);
+                if(result === 'false'){
+                    toast({
+                        title: 'Thất bại',
+                        message: 'Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại',
+                        type: 'error',
+                        duration: 3000
+                    })
+                    @* alert("Tài khoản mật khẩu không hợp lệ, vui lòng đăng nhập lại") *@
+                }
+                else{
+                    loginModal.classList.remove('modal-active')
+                    location.reload()
+                }
             }
         })
 
         btnProceedRegister.addEventListener('click', function(e){
             let username = registerModal.querySelector('.auth__modal-inputUsername').value
+            let email = registerModal.querySelector('.auth__modal-inputEmail').value
             let password = registerModal.querySelectorAll('.auth__modal-inputPassword')
             let password1 = password[0].value
             let password2 = password[1].value
@@ -352,10 +363,19 @@
                 })
                 @* alert("Mật khẩu và mật khẩu xác nhận phải giống nhau, vui lòng nhập lại")  *@
             }
+            else if(username == "" || password1 == "" || email == ""){
+                toast({
+                    title: 'Thất bại',
+                    message: 'Đăng kí thất bại, không được bỏ trống mật bất cứ thông tin nào, vui lòng nhập lại',
+                    type: 'error',
+                    duration: 3000
+                })
+            }
             else{
                 let obj = {
                     Username : username,
-                    Password : password1
+                    Password : password1,
+                    Email : email
                 }
                 let result = SendHttpPostRequest("/auth/register", obj)
                 if(result === 'false'){

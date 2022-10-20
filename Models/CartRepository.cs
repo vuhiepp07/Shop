@@ -1,5 +1,7 @@
 using System.Data;
+using Microsoft.Data.SqlClient;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Models{
     public class CartRepository : BaseRepository
@@ -29,11 +31,17 @@ namespace Shop.Models{
         }
 
         public int Edit(Cart obj){
-            return connection.Execute("Update Cart set Quantity = @Quantity where CartId = @Id and ProductId = @ProductId", new{
+            // return connection.Execute("Update Cart set Quantity = @Quantity where CartId = @Id and ProductId = @ProductId", new{
+            //     Quantity = obj.Quantity,
+            //     Id = obj.CartId,
+            //     ProductId = obj.ProductId
+            // });
+
+            return connection.Execute("EditCart", new{
                 Quantity = obj.Quantity,
                 Id = obj.CartId,
                 ProductId = obj.ProductId
-            });
+            }, commandType:CommandType.StoredProcedure);
         }
 
         public int UpdateCheckoutProductList(string id, int[] ProductIdArr){
@@ -45,17 +53,22 @@ namespace Shop.Models{
 
         public IEnumerable<CheckOutProduct> GetCheckOutProductList(string id){
             string sql = "Select Product.ProductId, Product.ProductName, Product.DiscountPrice, Product.Price, Product.ImageUrl, Cart.CartId, Cart.Quantity ";
-            sql +=  "from Cart join Product on Cart.ProductId = Product.ProductId where CartId = @id";
+            sql +=  "from Cart join Product on Cart.ProductId = Product.ProductId where CartId = @id and isSelectedToBuy = 1";
             return connection.Query<CheckOutProduct>(sql, new{
                 id = id
             });
         }
 
         public int Delete(string id, int[] ProductIdArr){
-            return connection.Execute("Delete Cart where CartId = @Id and ProductId in @ProductIdArr", new{
-                Id = id,
-                ProductIdArr = ProductIdArr
-            });
+            var result = from cart in dbContext.Cart
+                        where cart.CartId == id && ProductIdArr.Contains(cart.ProductId)
+                        select cart;
+            dbContext.Cart.RemoveRange(result);
+            return dbContext.SaveChanges();
+            // return connection.Execute("Delete Cart where CartId = @Id and ProductId in @ProductIdArr", new{
+            //     Id = id,
+            //     ProductIdArr = ProductIdArr
+            // });
         }
 
         public int ResetCheckoutProductList(string id){

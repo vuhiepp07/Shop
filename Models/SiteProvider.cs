@@ -19,6 +19,16 @@ namespace Shop.Models{
             }
         }
 
+        RoleRepository role;
+        public RoleRepository Role{
+            get{
+                if(role is null){
+                    role = new RoleRepository(Connection, dbContext);
+                }
+                return role;
+            }
+        }
+
         BrandCategoryRepository brandCategory;
         public BrandCategoryRepository BrandCategory{
             get{
