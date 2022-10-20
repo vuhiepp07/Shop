@@ -10,7 +10,7 @@
 }
 
 <div class="content grid">
-    <form action="/order/create" method="post" enctype="application/x-www-form-urlencoded">
+    <form action="/order/create" method="post" enctype="application/x-www-form-urlencoded" required>
         <div class="orderForm">
             <div class="orderForm__Info">
                 <div class="orderForm__heading">
@@ -19,19 +19,19 @@
                 <input type="hidden" asp-for="CreatedDate" value=@DateTime.UtcNow.AddHours(7)>
                 <div class="orderForm__receiverName">
                     <div>Tên người nhận: </div> 
-                    <input type="text" class="orderForm__input" required name="ReceiverName" value= "@ViewBag.User.FullName.ToString()">
+                    <input type="text" class="orderForm__input" name="ReceiverName" value="@ViewBag.User.FullName.ToString()" required/>
                 </div>
                 <div class="orderForm__receiverAddress">
                     <div>Địa chỉ người nhận:</div> 
-                    <input type="text" class="orderForm__input" required name="ReceiverAddress" value= "@ViewBag.User.Address.ToString()">
+                    <input type="text" class="orderForm__input" name="ReceiverAddress" value= "@ViewBag.User.Address.ToString()" required/>
                 </div>
                 <div class="orderForm__receiverPhone">
                     <div>SĐT người nhận:</div> 
-                    <input type="text" class="orderForm__input" required name="ReceiverPhone" value= "@ViewBag.User.Phone.ToString()">
+                    <input type="text" class="orderForm__input" name="ReceiverPhone" value= "@ViewBag.User.Phone.ToString()" required/>
                 </div>
                 <div class="orderForm__userNote">
                     <div>Ghi chú cho shipper:</div> 
-                    <input type="text" class="orderForm__input" name="UserNote">
+                    <input type="text" class="orderForm__input" name="UserNote"/>
                 </div>
                 <div class="orderForm__totalPrice">
                     Tổng giá trị đơn hàng: @Shop.Helper.normalizePrice(sumPrice.ToString())đ

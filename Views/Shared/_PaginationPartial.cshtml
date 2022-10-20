@@ -4,9 +4,9 @@
     string actionString = "";
     string controller = ViewContext.RouteData.Values["controller"].ToString();
     string action = ViewContext.RouteData.Values["action"].ToString();
-    if(controller.ToLower() == "home"  && action.ToLower() == "index"){
+    if(controller.ToLower() == "home"  && (action.ToLower() == "index")){
         controllerString = "home";
-        actionString = "index";
+        actionString = action.ToLower();
     }
     else if(controller.ToLower() == "category"){
         controllerString = "Product/"+ ViewContext.RouteData.Values["categoryname"].ToString();

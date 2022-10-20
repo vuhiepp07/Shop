@@ -113,8 +113,14 @@ namespace Shop.Controllers{
         [ServiceFilter(typeof(NavbarFilter))]
         [HttpPost]
         public IActionResult searchProduct(string productName){
+            if(string.IsNullOrEmpty(productName)){
+                return Redirect("/");
+            }
             IEnumerable<Product> products = provider.Product.SearchProductsByName(productName);
             FillDataToViewBag(products);
+            int totalProduct = products.Count();
+            int totalPage = totalProduct % size == 0 ? totalProduct/size : totalProduct/size +1;
+            ViewBag.totalPage = totalPage;
             ViewBag.Title = "Kết quả tìm kiếm";
             return View();
         }

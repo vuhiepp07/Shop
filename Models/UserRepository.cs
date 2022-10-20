@@ -37,9 +37,9 @@ namespace Shop.Models{
                 ImageUrl = "userDefault.png",
                 RoleId = obj.RoleId,
                 FullName = "defaultname",
-                Phone = " ",
-                DateOfBirth = " ",
-                Address = " "
+                Phone = "",
+                DateOfBirth = "",
+                Address = ""
             });
         }
 

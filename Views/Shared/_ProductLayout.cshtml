@@ -68,7 +68,9 @@
                     <input type="hidden" value="@ViewBag.Products" id="prodList">
                     @* <partial name="_ProductListPartial"></partial> *@
                 </div>
-                <partial name="_PaginationPartial"></partial>
+                @if(ViewContext.RouteData.Values["action"].ToString() != "searchProduct"){
+                    <partial name="_PaginationPartial"></partial>
+                }
             </div>
         </div>
     </div>

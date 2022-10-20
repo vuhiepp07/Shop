@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AilwdKOBwVHG+/j5EJT5vc2GOWl4TJYrIguGSy43htEJnwHNuJ1/8kfeD7Wiws13jF8/4bSyo4jrRy1iYdXNHA==",
+  "dgSpecHash": "GHojxl5hZ0dWlPxM7l3ATskRw/apCFy971qSDOjglTWR+32hL2t7d0nGp5jUgHCkmxPv2g58Q0o+IfGKZGur9A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\VuHiep\\Desktop\\New Shop\\Shop\\Shop.csproj",
+  "projectFilePath": "D:\\Code\\Shop\\Shop.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VuHiep\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\VuHiep\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
