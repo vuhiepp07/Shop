@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/normalize.min.css">
+    <link rel="icon" href="/images/logo/logo4.jpg" type="image/x-icon"/>
     <link rel="stylesheet" href="/css/base.css">
     <script src="/js/main.js"></script>
     <title>@ViewBag.Title</title>
@@ -15,7 +16,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <title>VuHiep</title>
 </head>
+
 <body>
+    <div class="screenNotEnoughWidthNoti" style="font-size: 2.8rem; text-align:center; margin-top: 200px; line-height: 3.0rem; display: none;">
+        <div>Trang web chưa hỗ trợ ipad và các thiết bị di động, vui lòng sử dụng máy tính để truy cập</div>
+    </div>
     <div class="app">
         <header class="header">
             <div class="grid">
@@ -64,10 +69,8 @@
                     </div>  
                     <ul class="barWithSearch__link">
                         <li class="barWithSearch__cart">
-                            <a href="/cart">
                                 <i class="barWithSearch__cart-logo fa-solid fa-cart-shopping"></i>
                                 <span class="barWithSearch__cart-numofProd">@ViewBag.CartProductsNum</span>
-                            </a>
                         </li>
                         @if(User.Identity.IsAuthenticated){
                             <div class="barWithSearch__LogedIn">
@@ -281,6 +284,40 @@
         var switchToLoginModalLink = document.querySelector('.auth__modal-switchLinkToLogin')
         var btnProceedLogin = document.querySelector('.auth__modal-btnLogin') 
         var btnProceedRegister = document.querySelector('.auth__modal-btnRegister') 
+        var cartBtn = document.querySelector('.barWithSearch__cart-logo')
+        var appNode = document.querySelector('.app')
+        var screenNotEnoughWidthNotiNode = document.querySelector('.screenNotEnoughWidthNoti')
+        if(document.documentElement.clientWidth < 1200){
+            appNode.style.display = 'none'
+            screenNotEnoughWidthNotiNode.style.display = 'block'
+        }
+
+        window.addEventListener('resize', function(event) {
+            let screenwidth = document.documentElement.clientWidth
+            if(screenwidth < 1200){
+                appNode.style.display = 'none'
+                screenNotEnoughWidthNotiNode.style.display = 'block'
+            }
+            else if(screenwidth > 1200){
+                appNode.style.display = 'block'
+                screenNotEnoughWidthNotiNode.style.display = 'none'
+            }
+        }, true);
+
+        @* Handling when user click on cart icon  *@
+        cartBtn.addEventListener('click', function(e){
+            if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
+                toast({
+                    title: 'Không thể truy cập giỏ hàng',
+                    message: 'Vui lòng đăng nhập để truy cập vào giỏ hàng',
+                    type: 'info',
+                    duration: 3000
+                })
+            }
+            else{
+                window.location = "/cart"
+            }
+        })
 
         if(@Html.Raw(Json.Serialize(@User.Identity.IsAuthenticated)) == false){
             loginBtn.addEventListener('click', function(e){
