@@ -136,11 +136,11 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập username" required>
+                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập username">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu" required>
+                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu">
                     </div>
                 </div>
                 <div class="auth__modal-footer">
@@ -150,7 +150,7 @@
                             <label class="auth__modal-rememberLabel" for="rememberCheckbox">Ghi nhớ đăng nhập</label>
                         </div>
                         <div class="auth__modal-forgetPasswordOption">
-                            @* <div>Quên mật khẩu?</div> *@
+                            <div>Quên mật khẩu?</div>
                         </div>
                     </div>
                     <div class="auth__modal-proceed">
@@ -172,19 +172,19 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-inputUsername" required type="text" placeholder="Nhập tài khoản">
+                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập tài khoản">
                     </div>
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-envelope"></i>
-                        <input class="auth__modal-inputEmail" required type="text" placeholder="Nhập email để nhận thông tin đơn hàng">
+                        <input class="auth__modal-inputEmail" type="text" placeholder="Nhập email để nhận thông tin đơn hàng">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputPassword" required type="password" placeholder="Nhập mật khẩu">
+                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập mật khẩu">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputPassword" required type="password" placeholder="Nhập lại mật khẩu">
+                        <input class="auth__modal-inputPassword" type="password" placeholder="Nhập lại mật khẩu">
                     </div>
                 </div>
                 <div class="auth__modal-footer">
@@ -207,20 +207,43 @@
                 <div class="auth__modal-inputField">
                     <div class="auth__modal-account">
                         <i class="auth__modal-Logo fa-solid fa-user"></i>
-                        <input class="auth__modal-inputUsername" required type="text" placeholder="Nhập tài khoản/email">
+                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập username">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputOldPassword" required type="password" placeholder="Nhập mật khẩu">
+                        <input class="auth__modal-inputOldPassword" type="password" placeholder="Nhập mật khẩu">
                     </div>
                     <div class="auth__modal-password">
                         <i class="auth__modal-Logo fa-solid fa-lock"></i>
-                        <input class="auth__modal-inputNewPassword" required type="password" placeholder="Nhập mật khẩu mới">
+                        <input class="auth__modal-inputNewPassword" type="password" placeholder="Nhập mật khẩu mới">
                     </div>
                 </div>
                 <div class="auth__modal-footer">
                     <div class="auth__modal-proceed">
                         <div class="auth__modal-btnChangePassword">Lưu thay đổi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal forgetPassword__modal">
+            <div class="auth__modal-forgetPassword modal__body">
+                <div class = "auth__modal-heading">
+                    Quên mật khẩu
+                </div>
+                <div class="auth__modal-inputField">
+                    <div class="auth__modal-account">
+                        <i class="auth__modal-Logo fa-solid fa-user"></i>
+                        <input class="auth__modal-inputUsername" type="text" placeholder="Nhập username">
+                    </div>
+                    <div class="auth__modal-account">
+                        <i class="auth__modal-Logo fa-solid fa-envelope"></i>
+                        <input class="auth__modal-inputEmail" type="text" placeholder="Nhập email của tài khoản">
+                    </div>
+                </div>
+                <div class="auth__modal-footer">
+                    <div class="auth__modal-proceed">
+                        <div class="auth__modal-btnGetPassword">Gửi mật khẩu reset đến email</div>
                     </div>
                 </div>
             </div>
@@ -274,16 +297,19 @@
     </div>
 
     <script>
+        var forgetPasswordBtn = document.querySelector('.auth__modal-forgetPasswordOption');
         var loginBtn = document.querySelector(".account_login-link")
         var registerBtn = document.querySelector(".account_register-link")
         var allModal = document.querySelectorAll(".modal")
         var modalBody = document.querySelectorAll(".modal__body")
+        var forgetPasswordModal = document.querySelector('.forgetPassword__modal')
         var loginModal = document.querySelector('.login__modal')
         var registerModal = document.querySelector('.register__modal')
         var switchToRegisterModalLink = document.querySelector('.auth__modal-switchLinkToRegister')
         var switchToLoginModalLink = document.querySelector('.auth__modal-switchLinkToLogin')
         var btnProceedLogin = document.querySelector('.auth__modal-btnLogin') 
         var btnProceedRegister = document.querySelector('.auth__modal-btnRegister') 
+        var btnProceedGetBackPassword = document.querySelector('.auth__modal-btnGetPassword')
         var cartBtn = document.querySelector('.barWithSearch__cart-logo')
         var appNode = document.querySelector('.app')
         var screenNotEnoughWidthNotiNode = document.querySelector('.screenNotEnoughWidthNoti')
@@ -292,6 +318,48 @@
             screenNotEnoughWidthNotiNode.style.display = 'block'
         }
 
+        @* Handling when user forget their account password  *@
+        forgetPasswordBtn.addEventListener('click', function(e){
+            forgetPasswordModal.classList.add('modal-active')
+            loginModal.classList.remove('modal-active')
+        })
+
+        @* Handling when user submit forgetPassword form  *@
+        btnProceedGetBackPassword.addEventListener('click', function(e){
+            let obj = {
+                Username: forgetPasswordModal.querySelector('.auth__modal-inputUsername').value,
+                Email: forgetPasswordModal.querySelector('.auth__modal-inputEmail').value
+            }
+            let result = SendHttpPostRequest("/auth/ResetPassword", obj)
+            if(result == 'true'){
+                toast({
+                    title: 'Thành công',
+                    message: 'Mật khẩu đã được reset và gửi đến email của bạn, vui lòng đăng nhập bằng mật khẩu mới và tiến hành đổi mật khẩu',
+                    type: 'success',
+                    duration: 3000
+                })
+                forgetPasswordModal.classList.remove('modal-active')
+                loginModal.classList.add('modal-active')
+            }
+            else if(result == 'false'){
+                toast({
+                    title: 'Thất bại',
+                    message: 'Username hoặc email không chính xác, vui lòng kiếm tra lại',
+                    type: 'error',
+                    duration: 3000
+                })
+            }
+            else{
+                toast({
+                    title: 'Đã có lỗi xảy ra',
+                    message: result,
+                    type: 'error',
+                    duration: 10000
+                })
+            }
+        })
+
+        @* Handling when screen resized *@
         window.addEventListener('resize', function(event) {
             let screenwidth = document.documentElement.clientWidth
             if(screenwidth < 1200){

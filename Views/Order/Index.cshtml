@@ -77,11 +77,30 @@
                 if(result === 'true'){
                     toast({
                         title: 'Thành công',
-                        message: 'Hủy đặt hàng thành công',
+                        message: 'Hủy đặt hàng thành công, thông tin đơn hàng bị hủy sẽ được gửi đến email của bạn.',
                         type: 'success',
                         duration: 3000
                     })
                     @* alert("Hủy đặt hàng thành công") *@
+                    let orderStatusNode = cancelOrderBtns[i].parentNode.querySelector('.Order__info-status')
+                    orderStatusNode.innerHTML = `<h4>Trạng thái đơn hàng:</h4> ĐÃ HỦY`
+                    cancelOrderBtns[i].remove()
+                }
+                else if(result == 'false'){
+                    toast({
+                        title: 'Thất bại',
+                        message: 'Đã có lỗi xảy ra, hủy đơn hàng thất bại, vui lòng thử lại.',
+                        type: 'error',
+                        duration: 3000
+                    })
+                }
+                else{
+                    toast({
+                        title: 'Thành công',
+                        message: result,
+                        type: 'success',
+                        duration: 10000
+                    })
                     let orderStatusNode = cancelOrderBtns[i].parentNode.querySelector('.Order__info-status')
                     orderStatusNode.innerHTML = `<h4>Trạng thái đơn hàng:</h4> ĐÃ HỦY`
                     cancelOrderBtns[i].remove()

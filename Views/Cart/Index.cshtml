@@ -202,11 +202,20 @@
                     productIds.push(productId)
                 }
             }
-            let result = SendHttpPostRequest("/cart/UpdateCheckoutProductList", productIds)
-            if(result === 'true'){
-                window.location.href = '/order/Create'
+            if(productIds.length == 0){
+                toast({
+                    title: 'Không thể đặt mua hàng',
+                    message: 'Giỏ hàng không có sản phẩm, vui lòng thêm sản phẩm vào giỏ hàng để có thể đặt hàng',
+                    type: 'info',
+                    duration: 3000
+                })
             }
-
+            else{
+                let result = SendHttpPostRequest("/cart/UpdateCheckoutProductList", productIds)
+                if(result === 'true'){
+                    window.location.href = '/order/Create'
+                }
+            }
         })
     </script>
 </div>

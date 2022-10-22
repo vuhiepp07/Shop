@@ -42,25 +42,25 @@ namespace Shop.Controllers{
             return View();
         }
 
-        public int SendEmails(EmailMessage obj){
-            IConfiguration section = configuration.GetSection("Mails:Gmail");
-            using (SmtpClient client = new SmtpClient(section.GetValue<string>("Host"), section.GetValue<int>("Port")){
-                Credentials = new NetworkCredential(section.GetValue<string>("Email"), section.GetValue<string>("Password")), EnableSsl = true
-            }){
-                try{
-                    MailMessage message = new MailMessage(new MailAddress(section.GetValue<string>("Email"),"TheShop"), new MailAddress(obj.EmailTo)){
-                        IsBodyHtml = true,
-                        Subject = obj.Subject,
-                        Body = obj.Content
-                    };
-                    client.Send(message);
-                    return 1;
-                }
-                catch(Exception ex){
-                    return 0;
-                }
-            }
-        }
+        // public int SendEmails(EmailMessage obj){
+        //     IConfiguration section = configuration.GetSection("Mails:Gmail");
+        //     using (SmtpClient client = new SmtpClient(section.GetValue<string>("Host"), section.GetValue<int>("Port")){
+        //         Credentials = new NetworkCredential(section.GetValue<string>("Email"), section.GetValue<string>("Password")), EnableSsl = true
+        //     }){
+        //         try{
+        //             MailMessage message = new MailMessage(new MailAddress(section.GetValue<string>("Email"),"TheShop"), new MailAddress(obj.EmailTo)){
+        //                 IsBodyHtml = true,
+        //                 Subject = obj.Subject,
+        //                 Body = obj.Content
+        //             };
+        //             client.Send(message);
+        //             return 1;
+        //         }
+        //         catch(Exception ex){
+        //             return 0;
+        //         }
+        //     }
+        // }
 
         private string customizeEmailBody(bool order, IEnumerable<OrderDetail> products, Order obj){
             string bodyMsg = "";
@@ -133,15 +133,20 @@ namespace Shop.Controllers{
             if(provider.Cart.Delete(userId, ProductIdArr.ToArray<int>()) > 0){
                 IEnumerable<OrderDetail> orderDetails = provider.Order.GetOrderDetail(obj.OrderId);
                 string bodyMsg = customizeEmailBody(true, orderDetails, obj);
-                int sendEmailResult = SendEmails( new EmailMessage{
+                string sendEmailResult = Helper.SendEmails( new EmailMessage{
                     Subject = "Đặt hàng thành công",
                     EmailTo = User.FindFirstValue(ClaimTypes.Email),
                     Content = bodyMsg
-                });
-                return View("OrderResult", "Bạn đã đặt hàng thành công. Hệ thống sẽ gửi thông tin đơn hàng đến email của bạn ngay lập tức. Bạn có thể kiểm tra đơn hàng đã đặt trong menu cá nhân để kiểm tra tình trạng đơn hàng. Bạn sẽ được chuyển hướng về trang chủ sau 5 giây.");
+                }, configuration);
+                if(sendEmailResult == "Send mail success"){
+                    return View("OrderResult", "Bạn đã đặt hàng thành công. Hệ thống sẽ gửi thông tin đơn hàng đến email của bạn ngay lập tức. Bạn có thể kiểm tra đơn hàng đã đặt trong menu cá nhân để kiểm tra tình trạng đơn hàng. Bạn sẽ được chuyển hướng về trang chủ sau 7 giây.");
+                }
+                else{
+                    return View("OrderResult", $"Bạn đã đặt hàng thành công. Hệ thống gửi mail đang gặp trục trặc lỗi 'Vượt quá giới hạn mail có thể gửi trong ngày' nên không thể gửi mail đến bạn. Bạn có thể kiểm tra đơn hàng đã đặt trong menu cá nhân để kiểm tra tình trạng đơn hàng. Bạn sẽ được chuyển hướng về trang chủ sau 7 giây.");
+                }
             }
             else{
-                return View("OrderResult", "Đặt hàng thất bại, vui lòng vào giỏ hàng và thử lại. Bạn sẽ được chuyển đến trang chủ sau 5 giây");
+                return View("OrderResult", "Đặt hàng thất bại, vui lòng vào giỏ hàng và thử lại. Bạn sẽ được chuyển đến trang chủ sau 7 giây");
             }
         }
 
@@ -152,12 +157,17 @@ namespace Shop.Controllers{
                 Order obj = provider.Order.GetOrderById(orderId);
                 IEnumerable<OrderDetail> products = provider.Order.GetOrderDetail(orderId);
                 string bodyMsg = customizeEmailBody(false, products, obj);
-                int sendEmailResult = SendEmails( new EmailMessage{
+                string sendEmailResult = Helper.SendEmails(new EmailMessage{
                     Subject = "Hủy đặt hàng",
                     EmailTo = User.FindFirstValue(ClaimTypes.Email),
                     Content = bodyMsg
-                });
-                return Json(new {status = "true"});
+                }, configuration);
+                if(sendEmailResult == "Send mail success"){
+                    return Json(new {status = "true"});
+                }
+                else{
+                    return Json(new {status = $"Hệ thống gửi mail đang gặp trục trặc, lỗi 'Vượt quá giới hạn mail có thể gửi trong ngày' nên không thể gửi mail thông tin hủy đơn hàng đến bạn. Tuy nhiên đơn hàng của bạn đã được hủy thành công."});
+                }
             }
             return Json(new {status = "false"});
         }

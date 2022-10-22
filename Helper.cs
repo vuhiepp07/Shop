@@ -1,5 +1,8 @@
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using Shop.Models;
 
 namespace Shop{
     public static class Helper{
@@ -13,6 +16,26 @@ namespace Shop{
             }
             return string.Join(string.Empty, arr);
             
+        }
+
+        public static string SendEmails(EmailMessage obj, IConfiguration configuration){
+            IConfiguration section = configuration.GetSection("Mails:Gmail");
+            using (SmtpClient client = new SmtpClient(section.GetValue<string>("Host"), section.GetValue<int>("Port")){
+                Credentials = new NetworkCredential(section.GetValue<string>("Email"), section.GetValue<string>("Password")), EnableSsl = true
+            }){
+                try{
+                    MailMessage message = new MailMessage(new MailAddress(section.GetValue<string>("Email"),"TheShop"), new MailAddress(obj.EmailTo)){
+                        IsBodyHtml = true,
+                        Subject = obj.Subject,
+                        Body = obj.Content
+                    };
+                    client.Send(message);
+                    return "Send mail success";
+                }
+                catch(Exception ex){
+                    return ex.Message;
+                }
+            }
         }
 
         public static byte[] Hash(string plaintext)

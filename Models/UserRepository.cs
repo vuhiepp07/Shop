@@ -43,6 +43,19 @@ namespace Shop.Models{
             });
         }
 
+        public string ResetPassword(AuthModel obj){
+            string randomStr = Helper.RandomString(8);
+            int dbResult = connection.Execute("Update [User] set Password = @ResetPassword where Username = @Username and Email = @Email", new{
+                ResetPassword = Helper.Hash(obj.Username + "^@#%!@(!&^$" + randomStr),
+                Username = obj.Username,
+                Email = obj.Email
+            });
+            if(dbResult > 0){
+                return randomStr;
+            }
+            return "failed";
+        }
+
         public int ChangePassword(Guid UserId, ChangePasswordModel obj){
             return connection.Execute("ChangeUserPassword", new{
                 UserId = UserId,

@@ -362,7 +362,7 @@
     top: 0;
     right: 0;
     width: 36px;
-    height: 36px;
+    height: 40px;
     font-weight: 500;
 }
 
@@ -371,7 +371,7 @@
     position: absolute;
     border-width: 0 18px 4px;
     left: 0;
-    top: 35px;
+    top: 40px;
     border-style: solid;
     border-color: transparent var(--saleOfFlag-color) transparent var(--saleOfFlag-color) ;
 }
@@ -509,6 +509,7 @@
 
 .auth__modal-login,
 .auth__modal-changePassword,
+.auth__modal-forgetPassword,
 .auth__modal-register{
     background-color: var(--primary-color);
     width: 400px;
@@ -574,7 +575,8 @@
 .auth__modal-switchLinkToRegister:hover,
 .auth__modal-btnLogin:hover,
 .auth__modal-btnRegister:hover,
-.auth__modal-btnChangePassword:hover{
+.auth__modal-btnChangePassword:hover,
+.auth__modal-btnGetPassword:hover{
     cursor: pointer;
     opacity: 0.8;
 }
@@ -588,7 +590,8 @@
 
 .auth__modal-btnLogin,
 .auth__modal-btnChangePassword,
-.auth__modal-btnRegister{
+.auth__modal-btnRegister,
+.auth__modal-btnGetPassword{
     display: inline-block;
     padding: 10px 15px;
     background-color: black;
