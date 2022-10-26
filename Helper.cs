@@ -18,13 +18,13 @@ namespace Shop{
             
         }
 
-        public static string SendEmails(EmailMessage obj, IConfiguration configuration){
+        public static string SendEmails(MailSender sender, EmailMessage obj, IConfiguration configuration){
             IConfiguration section = configuration.GetSection("Mails:Gmail");
             using (SmtpClient client = new SmtpClient(section.GetValue<string>("Host"), section.GetValue<int>("Port")){
-                Credentials = new NetworkCredential(section.GetValue<string>("Email"), section.GetValue<string>("Password")), EnableSsl = true
+                Credentials = new NetworkCredential(sender.usr, sender.pss), EnableSsl = true
             }){
                 try{
-                    MailMessage message = new MailMessage(new MailAddress(section.GetValue<string>("Email"),"TheShop"), new MailAddress(obj.EmailTo)){
+                    MailMessage message = new MailMessage(new MailAddress(sender.usr,"TheShop"), new MailAddress(obj.EmailTo)){
                         IsBodyHtml = true,
                         Subject = obj.Subject,
                         Body = obj.Content

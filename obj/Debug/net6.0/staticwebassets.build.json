@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G26wrtnIvUjcMsBxV9JrgC2L3q4pdbYHMv5f59eE1VE=",
+  "Hash": "tpq1fHOiPUCImTTAM2HoSXmxEh9DNEUbfVNmsptyqAo=",
   "Source": "Shop",
   "BasePath": "_content/Shop",
   "Mode": "Default",
@@ -36074,23 +36074,6 @@
       "OriginalItemSpec": "wwwroot\\images\\brands\\rshymj0lcptkej4z9495qwdlp2tz1r7rmdeyj4o60dptxie3wlqda4mihzapqg3cwi64ugq2bcjmoqogvubmz0b29w8r62e3st9bw613a7osz86zgekwzty1ewua.png"
     },
     {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\logo\\logo4.jpg",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/logo/logo4.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\logo\\logo4.jpg"
-    },
-    {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\logo\\shoplogo2.png",
       "SourceId": "Shop",
       "SourceType": "Discovered",
@@ -36958,23 +36941,6 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\7uw4hl3l0fexmgz03s3b074bf8u6b49nb0ev436qbekcvj6zl46qj8022d5m.png"
     },
     {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\7v9oky8bbj8964spg8t5ypgr2mf2bc79nkf4cvn4d9lk1rp2eg4vyi8uotk.webp",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/products/7v9oky8bbj8964spg8t5ypgr2mf2bc79nkf4cvn4d9lk1rp2eg4vyi8uotk.webp",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\7v9oky8bbj8964spg8t5ypgr2mf2bc79nkf4cvn4d9lk1rp2eg4vyi8uotk.webp"
-    },
-    {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\7zn8pxgf5jr4wa7tqi12x7d1m0rt6j46tpnpi9lp9p4fcqm3h6k0q8dwwtu1.png",
       "SourceId": "Shop",
       "SourceType": "Discovered",
@@ -37349,23 +37315,6 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\c7qw0an4er9qr6s0ov0z40neb03f4eg5qudaecplbrugnrv7yb44c50mxu1z.png"
     },
     {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\ca2esoxtx2xxejqvptoeb7eh4f2gli9ayvbrd95ug4hlsllzk03myfls6m2s.gif",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/products/ca2esoxtx2xxejqvptoeb7eh4f2gli9ayvbrd95ug4hlsllzk03myfls6m2s.gif",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\ca2esoxtx2xxejqvptoeb7eh4f2gli9ayvbrd95ug4hlsllzk03myfls6m2s.gif"
-    },
-    {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\cezq2e57h0z3t5edjgjs0esdnlrmu1onkzwn0udrppwxqs4dfhajiy1ahkgl.png",
       "SourceId": "Shop",
       "SourceType": "Discovered",
@@ -37585,23 +37534,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\f1pm7v0w5vlwidijyxmp7bx4zodd46lvj6yxr54ufv5dsz4gg1hxdpq73tpl.jpg"
-    },
-    {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\fgfg47u4ms45rm466f1ze4f7udod0gx06xrq8i51bxqw2ik4zi426jx7ktax.gif",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/products/fgfg47u4ms45rm466f1ze4f7udod0gx06xrq8i51bxqw2ik4zi426jx7ktax.gif",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\fgfg47u4ms45rm466f1ze4f7udod0gx06xrq8i51bxqw2ik4zi426jx7ktax.gif"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\fggpywum8xwdkvny39ra2djltwnlngxe0s3x4i295k9oqvh9z437ckl4m03j.png",
@@ -38114,12 +38046,12 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\jjcw73tkkit9tln65g1q3po8x5n5qb6wn0ss7js7wjv8i4bih6rczbv1g2j6.jpg"
     },
     {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\k5iyvd4h5m1hd2kcihnzxb3fw1ke1mqmbkey6kjlsg7cs8h8mxad7pxz3tg1.png",
+      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\k5iyvd4h5m1hd2kcihnzxb3fw1ke1mqmbkey6kjlsg7cs8h8mxad7pxz3tg1.jpg",
       "SourceId": "Shop",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
       "BasePath": "_content/Shop",
-      "RelativePath": "images/products/k5iyvd4h5m1hd2kcihnzxb3fw1ke1mqmbkey6kjlsg7cs8h8mxad7pxz3tg1.png",
+      "RelativePath": "images/products/k5iyvd4h5m1hd2kcihnzxb3fw1ke1mqmbkey6kjlsg7cs8h8mxad7pxz3tg1.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -38128,7 +38060,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\k5iyvd4h5m1hd2kcihnzxb3fw1ke1mqmbkey6kjlsg7cs8h8mxad7pxz3tg1.png"
+      "OriginalItemSpec": "wwwroot\\images\\products\\k5iyvd4h5m1hd2kcihnzxb3fw1ke1mqmbkey6kjlsg7cs8h8mxad7pxz3tg1.jpg"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\kf6cp8i5eb4z77691t70q9wioeaxnnabun3ks9hznnl6ur37jxoh9i0a5anx.png",
@@ -38401,23 +38333,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\ngfh189851ok92lhxnj1fgjp4h5f5apehc49b3vvnro0b4c8aqqjsyl6r2k7.jpg"
-    },
-    {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\numvb5z8vgfjonnvi0i9povao7g4cndqifd7dwe2t3xwv0dczhat8ujnxkj.webp",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/products/numvb5z8vgfjonnvi0i9povao7g4cndqifd7dwe2t3xwv0dczhat8ujnxkj.webp",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\numvb5z8vgfjonnvi0i9povao7g4cndqifd7dwe2t3xwv0dczhat8ujnxkj.webp"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\o0ndyk9zhwzloa8l55fy1ryyv8tsqvb6vg7zp344nu3bqp303utnw1wxypxt.png",
@@ -39321,23 +39236,6 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\wb0zdd47nmmgm0p97ya07b3hx4kwobik0bxosw2u5t6dpuqz9u7jj62zkapt.png"
     },
     {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\wkodmdacvaey92qbzggtgh1mzu7vcllubdlcpedsrnw98fwomhpm7e76z1kh.gif",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/products/wkodmdacvaey92qbzggtgh1mzu7vcllubdlcpedsrnw98fwomhpm7e76z1kh.gif",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\wkodmdacvaey92qbzggtgh1mzu7vcllubdlcpedsrnw98fwomhpm7e76z1kh.gif"
-    },
-    {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\products\\wkuv2wywl8reg1nqovxjtzw8gfmcaps4f42m4kjvgwlqv81gy6dz6s6b7amr.png",
       "SourceId": "Shop",
       "SourceType": "Discovered",
@@ -39812,40 +39710,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\zvy9hbg9mc2bdqss9mufdy2iou19gh1puee6b7hbxnditws8l3d2nn76bs7k.png"
-    },
-    {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\7gswbx5v32i6zjghrd6b5l7eye3jqmio3ywhpxd5vx7azg1ztr4dyh9c8ddv.jpg",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/user/7gswbx5v32i6zjghrd6b5l7eye3jqmio3ywhpxd5vx7azg1ztr4dyh9c8ddv.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\user\\7gswbx5v32i6zjghrd6b5l7eye3jqmio3ywhpxd5vx7azg1ztr4dyh9c8ddv.jpg"
-    },
-    {
-      "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\mvz5s10mhnprcn2ufgcsm8f68ucprrecz2yx1fmkkrjbe6hrifzjcm48q1hc.png",
-      "SourceId": "Shop",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Code\\Shop\\wwwroot\\",
-      "BasePath": "_content/Shop",
-      "RelativePath": "images/user/mvz5s10mhnprcn2ufgcsm8f68ucprrecz2yx1fmkkrjbe6hrifzjcm48q1hc.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\user\\mvz5s10mhnprcn2ufgcsm8f68ucprrecz2yx1fmkkrjbe6hrifzjcm48q1hc.png"
     },
     {
       "Identity": "D:\\Code\\Shop\\wwwroot\\images\\user\\userDefault.png",

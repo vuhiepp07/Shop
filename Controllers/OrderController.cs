@@ -133,7 +133,7 @@ namespace Shop.Controllers{
             if(provider.Cart.Delete(userId, ProductIdArr.ToArray<int>()) > 0){
                 IEnumerable<OrderDetail> orderDetails = provider.Order.GetOrderDetail(obj.OrderId);
                 string bodyMsg = customizeEmailBody(true, orderDetails, obj);
-                string sendEmailResult = Helper.SendEmails( new EmailMessage{
+                string sendEmailResult = Helper.SendEmails(provider.Mail.GetMailSender() ,new EmailMessage{
                     Subject = "Đặt hàng thành công",
                     EmailTo = User.FindFirstValue(ClaimTypes.Email),
                     Content = bodyMsg
@@ -157,7 +157,7 @@ namespace Shop.Controllers{
                 Order obj = provider.Order.GetOrderById(orderId);
                 IEnumerable<OrderDetail> products = provider.Order.GetOrderDetail(orderId);
                 string bodyMsg = customizeEmailBody(false, products, obj);
-                string sendEmailResult = Helper.SendEmails(new EmailMessage{
+                string sendEmailResult = Helper.SendEmails(provider.Mail.GetMailSender(), new EmailMessage{
                     Subject = "Hủy đặt hàng",
                     EmailTo = User.FindFirstValue(ClaimTypes.Email),
                     Content = bodyMsg

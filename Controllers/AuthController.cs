@@ -93,7 +93,7 @@ namespace Shop.Controllers{
                 string bodyMsg = "";
                 bodyMsg += "<h2>Hệ thống vừa thực hiện reset mật khẩu của bạn theo yêu cầu</h2>";
                 bodyMsg += $"<div>Mật khẩu mới của bạn là: <b>{resetResult}</b> vui lòng đăng nhập bằng mật khẩu mới, bạn có thể thực hiện đổi mật khẩu theo mong muốn trong option <b>Đổi mật khẩu</b> của trang web.</div>";
-                string sendEmailResult = Helper.SendEmails(new EmailMessage{
+                string sendEmailResult = Helper.SendEmails(provider.Mail.GetMailSender(), new EmailMessage{
                     Subject = "Reset mật khẩu thành công",
                     EmailTo = obj.Email,
                     Content = bodyMsg

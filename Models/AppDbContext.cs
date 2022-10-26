@@ -15,6 +15,7 @@ namespace Shop.Models{
         public DbSet<Product> Product {get; set;}
         public DbSet<User> User {get; set;}
         public DbSet<Role> Role {get; set;}
+        public DbSet<MailSender> MailSender {get; set;}
         protected override void OnConfiguring(DbContextOptionsBuilder builder){
             base.OnConfiguring(builder);
             builder.UseLazyLoadingProxies();
@@ -22,6 +23,11 @@ namespace Shop.Models{
 
         protected override void OnModelCreating(ModelBuilder builder){
             base.OnModelCreating(builder);
+            builder.Entity<MailSender>(entity =>{
+                entity.ToTable("MailSender");
+                entity.HasKey(p => p.usr);
+            });
+
             builder.Entity<Category>(entity => {
                 entity.ToTable("Category");
                 entity.HasKey(p=> p.CategoryId);

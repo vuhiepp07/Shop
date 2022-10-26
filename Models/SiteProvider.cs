@@ -9,6 +9,16 @@ namespace Shop.Models{
         public SiteProvider(IConfiguration configuration, AppDbContext dbContext) : base(configuration, dbContext)
         {
         }
+
+        MailSenderRepository mail;
+        public MailSenderRepository Mail{
+            get{
+                if(mail is null){
+                    mail = new MailSenderRepository(Connection, dbContext);
+                }
+                return mail;
+            }
+        }
         BrandRepository brand;
         public BrandRepository Brand{
             get{

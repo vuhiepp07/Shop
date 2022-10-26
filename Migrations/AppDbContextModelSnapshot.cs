@@ -153,6 +153,20 @@ namespace Shop.Migrations
                     b.ToTable("Discount", (string)null);
                 });
 
+            modelBuilder.Entity("Shop.Models.MailSender", b =>
+                {
+                    b.Property<string>("usr")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("pss")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("usr");
+
+                    b.ToTable("MailSender", (string)null);
+                });
+
             modelBuilder.Entity("Shop.Models.Order", b =>
                 {
                     b.Property<string>("OrderId")
