@@ -111,7 +111,7 @@ namespace Shop.Controllers{
 
         //Return the searching product result page
         [ServiceFilter(typeof(NavbarFilter))]
-        [HttpPost]
+        [HttpGet]
         public IActionResult searchProduct(string productName){
             if(string.IsNullOrEmpty(productName)){
                 return Redirect("/");
